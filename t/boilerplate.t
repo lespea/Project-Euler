@@ -2,10 +2,24 @@
 
 use strict;
 use warnings;
-use Test::More tests => 3;
+use autodie;
+use Test::More;
+
+use constant PROBLEM_PATH => 'lib/Project/Euler/Problem/';
+
+
+my @files;
+opendir (my $dir, PROBLEM_PATH);
+while (( my $filename = readdir($dir) )) {
+    push @files, $filename  if  $filename =~ / \A p \d+ \.pm \z /xmsi;
+}
+
+plan tests => (scalar @files * 1) + 3;
+diag('Making sure no default boilercode or template code was left behind');
+
 
 sub not_in_file_ok {
-    my ($filename, %regex) = @_;
+    my ($type, $filename, %regex) = @_;
     open( my $fh, '<', $filename )
         or die "couldn't open $filename for reading: $!";
 
@@ -20,30 +34,35 @@ sub not_in_file_ok {
     }
 
     if (%violated) {
-        fail("$filename contains boilerplate text");
+        fail("$filename contains $type text");
         diag "$_ appears on lines @{$violated{$_}}" for keys %violated;
     } else {
-        pass("$filename contains no boilerplate text");
+        pass("$filename contains no $type text");
     }
 }
 
-sub module_boilerplate_ok {
-    my ($module) = @_;
-    not_in_file_ok($module =>
-        'the great new $MODULENAME'   => qr/ - The great new /,
-        'boilerplate description'     => qr/Quick summary of what the module/,
-        'stub function definition'    => qr/function[12]/,
-    );
-}
 
 
-not_in_file_ok(README =>
+
+
+not_in_file_ok('boilerplate', README =>
 "The README is used..."       => qr/The README is used/,
 "'version information here'"  => qr/to provide version information/,
 );
 
-not_in_file_ok(Changes =>
+not_in_file_ok('boilerplate', Changes =>
 "placeholder date/time"       => qr(Date/time)
 );
 
-module_boilerplate_ok('lib/Project/Euler.pm');
+not_in_file_ok('boilerplate', 'lib/Project/Euler.pm' =>
+    'the great new $MODULENAME'   => qr/ - The great new /,
+    'boilerplate description'     => qr/Quick summary of what the module/,
+    'stub function definition'    => qr/function[12]/,
+);
+
+
+for  my $module_name  (@files) {
+    not_in_file_ok('template', PROBLEM_PATH . $module_name =>
+        '### TEMPLATE ###'   => qr/### TEMPLATE ###/,
+    );
+}
