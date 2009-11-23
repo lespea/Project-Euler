@@ -18,19 +18,14 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
+This is the base class which will eventually be responsible for displaying the
+interface to interact with the solutions implemented so far
 
     use Project::Euler;
 
-    my $foo = Project::Euler->new();
-    ...
-
 =head1 EXPORT
 
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
+#  Todo:  implement interface functions
 
 =head1 FUNCTIONS
 
@@ -41,12 +36,6 @@ if you don't export anything, such as for a purely object-oriented module.
 sub function1 {
 }
 
-=head2 function2
-
-=cut
-
-sub function2 {
-}
 
 =head1 AUTHOR
 
