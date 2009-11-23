@@ -4,6 +4,7 @@ use Modern::Perl;
 use Moose::Role;
 use Moose::Util::TypeConstraints;
 
+use Carp;
 use DateTime;
 use DateTime::Format::Natural;
 
@@ -44,31 +45,29 @@ We also tell Moose how to coerce a given string into a DateTime object
 
 =cut
 
-subtype 'Base::prob_num' (
-    => as Int,
-    => message { "$_ is not an integer greater than 0" },
+subtype 'Base::prob_num'
+    => as 'Int'
+    => message { "$_ is not an integer greater than 0" }
     => where {
         $_ > 0;
-    },
-);
+    };
 
-subtype 'Base::prob_name' (
-    => as Str,
-    => message { "$_ must be a a string between 10 and 80 characters long" },
+subtype 'Base::prob_name'
+    => as 'Str'
+    => message { "$_ must be a a string between 10 and 80 characters long" }
     => where {
         len $_ > 10  and  len $_ < 80;
-    },
-);
+    };
 
 
 my $en_parser = DateTime::Format::Natural->new(
     lang      => 'en',
     time_zone => 'UTC',
 );
-coerce 'DateTime' (
-    => from 'Str',
-    => via { $en_parser->parse_datetime($_) },
-);
+class_type 'DateTime';
+coerce 'DateTime'
+    => from 'Str'
+    => via { $en_parser->parse_datetime($_) };
 
 
 
@@ -99,7 +98,6 @@ has 'problem_number' => (
     isa        => 'Base::prob_num',
     required   => 1,
     lazy_build => 1,
-    builder    => '_build_problem_number',
     init_arg   => undef,
 );
 requires '_build_problem_number';
@@ -109,7 +107,6 @@ has 'problem_name' => (
     isa        => 'Base::prob_name',
     required   => 1,
     lazy_build => 1,
-    builder    => '_build_problem_name',
     init_arg   => undef,
 );
 requires '_build_problem_name';
@@ -119,7 +116,6 @@ has 'problem_date' => (
     isa        => 'Base::prob_date',
     required   => 1,
     lazy_build => 1,
-    builder    => '_build_problem_date',
     init_arg   => undef,
 );
 requires '_build_problem_date';
@@ -130,7 +126,6 @@ has 'problem_desc' => (
     coerce     => 1,
     required   => 1,
     lazy_build => 1,
-    builder    => '_build_problem_desc',
     init_arg   => undef,
 );
 requires '_build_problem_desc';
@@ -141,7 +136,6 @@ has 'default_input' => (
     isa        => 'str',
     required   => 1,
     lazy_build => 1,
-    builder    => '_build_default_input',
     init_arg   => undef,
 );
 requires '_build_default_input';
@@ -151,7 +145,6 @@ has 'default_answer' => (
     isa        => 'str',
     required   => 1,
     lazy_build => 1,
-    builder    => '_build_default_answer',
     init_arg   => undef,
 );
 requires '_build_default_answer';
@@ -161,7 +154,7 @@ has 'has_input' => (
     is       => 'ro',
     isa      => 'Boolean',
     required => 1,
-    default  => 1
+    default  => 1,
     init_arg => undef,
 );
 
@@ -169,7 +162,7 @@ has 'use_defaults' => (
     is       => 'rw',
     isa      => 'Boolean',
     required => 1,
-    default  => 1
+    default  => 1,
 );
 
 
@@ -207,7 +200,7 @@ requires '_solve_problem';
 
 =head1 PROVIDED FUNCTIONS
 
-=head2 SOLVE
+=head2 solve
 
 This is the function that should be called to solve the problem.  Depending on
 the object attributes that are set, it uses either the default or provided
@@ -270,30 +263,7 @@ automatically be notified of progress on your bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Project::Euler
-
-
-You can also look for information at:
-
-=over 4
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Project-Euler>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/Project-Euler>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/Project-Euler>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/Project-Euler/>
-
-=back
+    perldoc Project::Euler::Base
 
 
 =head1 ACKNOWLEDGEMENTS
