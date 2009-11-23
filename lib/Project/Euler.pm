@@ -5,7 +5,7 @@ use strict;
 
 =head1 NAME
 
-Project::Euler - The great new Project::Euler!
+Project::Euler - Solutions for projecteuler.net
 
 =head1 VERSION
 
@@ -29,11 +29,12 @@ interface to interact with the solutions implemented so far
 
 =head1 FUNCTIONS
 
-=head2 function1
+=head2 show_solutions
 
 =cut
 
-sub function1 {
+sub show_solutions {
+    print "There aren't any yet!\n";
 }
 
 
