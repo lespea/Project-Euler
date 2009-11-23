@@ -1,15 +1,17 @@
 Project-Euler
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
 
-A README file is required for CPAN modules since CPAN extracts the README
-file from a module distribution so that people browsing the archive
-can use it to get an idea of the module's uses. It is usually a good idea
-to provide version information here so that people can decide whether
-fixes for the module are worth downloading.
+This module is intended to provide solutions to the Project Euler problems
+(http://projecteuler.net) using modern perl best practices and object
+oriented programming.  For this reason I will be making heavy use of the
+Moose module(s) to wrap the solutions into objects.
+
+Eventually I plan on making a GUI front-end (most likely using PL/TKk to make it easy to use and debug.
+
+
+This will be my first module I upload to CPAN and, sadly, the first time I'll make extensive use of tests so I have a lot of ground to cover in order to make this happen.
+
+
 
 
 INSTALLATION
