@@ -6,10 +6,13 @@ This module is intended to provide solutions to the Project Euler problems
 oriented programming.  For this reason I will be making heavy use of the
 Moose module(s) to wrap the solutions into objects.
 
-Eventually I plan on making a GUI front-end (most likely using PL/TKk to make it easy to use and debug.
+Eventually I plan on making a GUI front-end (most likely using PL/TKk to make
+it easy to use and debug.
 
 
-This will be my first module I upload to CPAN and, sadly, the first time I'll make extensive use of tests so I have a lot of ground to cover in order to make this happen.
+This will be my first module I upload to CPAN and, sadly, the first time I'll
+make extensive use of tests so I have a lot of ground to cover in order to make
+this happen.
 
 
 
