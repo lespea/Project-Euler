@@ -15,7 +15,7 @@ while (( my $filename = readdir($dir) )) {
 }
 
 plan tests => (scalar @files * 1) + 3;
-diag('Making sure no default boilercode or template code was left behind');
+diag('Check for default boilercode or template code');
 
 
 sub not_in_file_ok {
