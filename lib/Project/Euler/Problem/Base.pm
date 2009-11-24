@@ -7,6 +7,9 @@ use Moose::Util::TypeConstraints;
 use Carp;
 use DateTime;
 use DateTime::Format::Natural;
+use Readonly;
+
+Readonly::Scalar my $BASE_URL => q{http://projecteuler.net/index.php?section=problems&id=};
 
 
 =head1 NAME
@@ -38,12 +41,20 @@ different method names/conventions
 Create the subtypes that we will use to validate the arguments defined by the
 extending classes
 
+    Base::link      = _ \A \Qhttp://projecteuler.net/index.php?section=problems&id=\E \d+ \z _xms
     Base::prob_num  = int > 0
     Base::prob_name = str -> 10 < len < 80
 
 We also tell Moose how to coerce a given string into a DateTime object
 
 =cut
+
+subtype 'Base::link'
+    => as 'Str'
+    => message { "$_ is not a a valid link" }
+    => where {
+        $_ =~ m{ \A \Q$BASE_URL\E \d+ \z }xms;
+    };
 
 subtype 'Base::prob_num'
     => as 'Int'
@@ -56,7 +67,7 @@ subtype 'Base::prob_name'
     => as 'Str'
     => message { "$_ must be a a string between 10 and 80 characters long" }
     => where {
-        len $_ > 10  and  len $_ < 80;
+        length $_ > 10  and  length $_ < 80;
     };
 
 
@@ -82,6 +93,7 @@ so nobody creating an instance of the problem can over-write the values.
     problem_name   ( prob_name )  # Short name given by the module author
     problem_date   ( DateTime  )  # Date posted on projecteuler.net
     problem_desc   ( str       )  # Description posted on projecteuler.net
+    problem_link   ( URL       )  # URL to the problem's homepage
 
     default_input  ( str       )  # Default input posted on projecteuler.net
     default_answer ( str       )  # Default answer to the default input
@@ -90,6 +102,9 @@ so nobody creating an instance of the problem can over-write the values.
     use_defaults   ( boolean   )  # Use the default inputs
 
     custom_input   ( str       )  # User provided input to the problem
+
+    solve_status   ( boolean   )  # True means it was valid
+    solve_answer   ( str       )  # Last answer provided
 
 =cut
 
@@ -113,7 +128,8 @@ requires '_build_problem_name';
 
 has 'problem_date' => (
     is         => 'ro',
-    isa        => 'Base::prob_date',
+    isa        => 'DateTime',
+    coerce     => 1,
     required   => 1,
     lazy_build => 1,
     init_arg   => undef,
@@ -122,18 +138,33 @@ requires '_build_problem_date';
 
 has 'problem_desc' => (
     is         => 'ro',
-    isa        => 'DateTime',
-    coerce     => 1,
+    isa        => 'Str',
     required   => 1,
     lazy_build => 1,
     init_arg   => undef,
 );
 requires '_build_problem_desc';
 
+has 'problem_link_base' => (
+    is         => 'ro',
+    isa        => 'Str',
+    required   => 1,
+    lazy       => 1,
+    init_arg   => undef,
+    default    => $BASE_URL,
+);
+
+has 'problem_link' => (
+    is         => 'ro',
+    isa        => 'Base::link',
+    required   => 1,
+    lazy_build => 1,
+    init_arg   => undef,
+);
 
 has 'default_input' => (
     is         => 'ro',
-    isa        => 'str',
+    isa        => 'Str',
     required   => 1,
     lazy_build => 1,
     init_arg   => undef,
@@ -142,7 +173,7 @@ requires '_build_default_input';
 
 has 'default_answer' => (
     is         => 'ro',
-    isa        => 'str',
+    isa        => 'Str',
     required   => 1,
     lazy_build => 1,
     init_arg   => undef,
@@ -152,7 +183,7 @@ requires '_build_default_answer';
 
 has 'has_input' => (
     is       => 'ro',
-    isa      => 'Boolean',
+    isa      => 'Bool',
     required => 1,
     default  => 1,
     init_arg => undef,
@@ -160,7 +191,7 @@ has 'has_input' => (
 
 has 'use_defaults' => (
     is       => 'rw',
-    isa      => 'Boolean',
+    isa      => 'Bool',
     required => 1,
     default  => 1,
 );
@@ -168,10 +199,9 @@ has 'use_defaults' => (
 
 has 'help_message' => (
     is         => 'ro',
-    isa        => 'str',
+    isa        => 'Str',
     required   => 1,
     lazy_build => 1,
-    builder    => '_build_help_message',
     init_arg   => undef,
 );
 requires '_build_help_message';
@@ -179,10 +209,26 @@ requires '_build_help_message';
 
 has 'custom_input'  => (
     is         => 'rw',
-    isa        => 'str',
+    isa        => 'Str',
     required   => 0,
-    trigger    => \&_check_input,
+    trigger    => sub {return sub { $_->[0]->_check_input() }},
 );
+
+
+has 'solve_status'  => (
+    is         => 'ro',
+    isa        => 'Maybe[Bool]',
+    writer     => '_set_solved_status',
+    required   => 0,
+);
+
+has 'solve_answer'  => (
+    is         => 'ro',
+    isa        => 'Maybe[Str]',
+    writer     => '_set_solved_answer',
+    required   => 0,
+);
+
 
 
 
@@ -215,6 +261,13 @@ inputs if they are required and returns the answer as a string
 
 =cut
 
+sub _build_problem_link {
+    my ($self) = @_;
+    return $BASE_URL . $self->problem_number;
+}
+
+
+
 sub solve {
     my ($self) = @_;
     my $answer;
@@ -237,10 +290,15 @@ sub solve {
         }
     }
     else {
-        $answer = $self->_solve_problem;
+        $answer = $self->_solve_problem( );
     }
 
-    return $answer;
+    my $correct =  $self->use_defaults  ?  $answer eq $self->default_answer  :  undef;
+
+    $self->_set_solved_answer($answer);
+    $self->_set_solved_status($correct);
+
+    return wantarray  ?  ($correct, $answer, $self->default_answer // q{})  :  [$correct, $answer, $self->default_answer // q{}];
 }
 
 
