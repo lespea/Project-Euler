@@ -3,6 +3,10 @@ MANIFEST
 Makefile.PL
 README
 lib/Project/Euler.pm
+lib/Project/Euler/Problem/Base.pm
+lib/Project/Euler/Problem/problem_template.pm
 t/00-load.t
+t/01-base.t
+t/boilerplate.t
 t/pod-coverage.t
 t/pod.t
