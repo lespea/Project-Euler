@@ -34,6 +34,7 @@ This module is used to solve problem # located on projecteuer.net  ### TEMPLATE 
 =head1 SETUP
 
 =head2 Problem Number
+
     0 ### TEMPLATE ###
 
 =cut
@@ -45,6 +46,7 @@ sub _build_problem_number {
 
 
 =head2 Problem Name
+
     Template Name  ### TEMPLATE ###
 
 =cut
@@ -56,6 +58,7 @@ sub _build_problem_name {
 
 
 =head2 Problem Date
+
     2012-12-21  ### TEMPLATE ###
 
 =cut
@@ -66,7 +69,8 @@ sub _build_problem_date {
 
 
 =head2 Problem Desc
-    Template description that must be changed  ### TEMPLATE ###
+
+Template description that must be changed  ### TEMPLATE ###
 
 =cut
 
@@ -79,6 +83,7 @@ __END_DESC
 
 
 =head2 Default Input
+
     None obviously  ### TEMPLATE ###
 
 =cut
@@ -89,6 +94,7 @@ sub _build_default_input {
 
 
 =head2 Default Answer
+
     42  ### TEMPLATE ###
 
 =cut
@@ -99,6 +105,7 @@ sub _build_default_answer {
 
 
 =head2 Has Input?
+
     No  ### TEMPLATE ###
 
 =cut
@@ -107,13 +114,14 @@ sub _build_default_answer {
 
 
 =head2 Help Message
-    None at this time  ### TEMPLATE ###
+
+None at this time  ### TEMPLATE ###
 
 =cut
 
 sub _build_help_message {
     return <<'__END_HELP';  ### TEMPLATE ###
-    Please override this message!
+Please override this message!
 __END_HELP
 }
 
@@ -122,7 +130,9 @@ __END_HELP
 =head1 FUNCTIONS
 
 =head2 Validate Input (internal function)
+
 The input must must be formatted like this:
+
     well not like template code!  ### TEMPLATE ###
 
 =cut
@@ -138,6 +148,7 @@ sub _check_input {
 
 
 =head2 Solve the problem (internal function)
+
 Put your logic in here please  ### TEMPLATE ###
 
 =cut
