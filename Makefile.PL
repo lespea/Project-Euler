@@ -16,10 +16,11 @@ requires    'Moose::Util::TypeConstraints';
 requires    'DateTime';
 requires    'DateTime::Format::Natural';
 
-test_requires  'Test::More'  => '0.42';
+test_requires  'Test::More'      => '0.42';
+test_requires  'Test::Exception';
 
 perl_version '5.010';
 version '0.10';
 
-#auto_install;
+auto_install;
 WriteAll;
