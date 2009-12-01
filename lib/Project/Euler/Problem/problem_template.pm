@@ -15,11 +15,11 @@ Project::Euler::Problem::P - Solutions for problem  projecteuler.net  ### TEMPLA
 
 =head1 VERSION
 
-Version 0.01
+Version v0.1.0
 
 =cut
 
-our $VERSION = '0.01';
+use version 0.77; our $VERSION = qv("v0.1.0");
 
 
 =head1 SYNOPSIS

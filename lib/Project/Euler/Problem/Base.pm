@@ -18,11 +18,11 @@ Project::Euler::Problem::Base - Abstract class that the problems will extend fro
 
 =head1 VERSION
 
-Version 0.01
+Version v0.2.0
 
 =cut
 
-our $VERSION = '0.01';
+use version 0.77; our $VERSION = qv("v0.2.0");
 
 
 =head1 SYNOPSIS
@@ -41,9 +41,9 @@ different method names/conventions
 Create the subtypes that we will use to validate the arguments defined by the
 extending classes
 
-    Base::link      = _ \A \Qhttp://projecteuler.net/index.php?section=problems&id=\E \d+ \z _xms
+    Base::link      = $link =~ m_ \A \Qhttp://projecteuler.net/index.php?section=problems&id=\E \d+ \z _xms
     Base::prob_num  = int > 0
-    Base::prob_name = str -> 10 < len < 80
+    Base::prob_name = str  &&  10 < len < 80
 
 We also tell Moose how to coerce a given string into a DateTime object
 
@@ -78,7 +78,7 @@ my $en_parser = DateTime::Format::Natural->new(
 class_type 'DateTime';
 coerce 'DateTime'
     => from 'Str'
-    => via { $en_parser->parse_datetime($_) };
+    => via { my $datetime = $en_parser->parse_datetime($_);  $en_parser->success  ?  $datetime  :  undef };
 
 
 
@@ -102,6 +102,7 @@ so nobody creating an instance of the problem can over-write the values.
     use_defaults   ( boolean   )  # Use the default inputs
 
     custom_input   ( str       )  # User provided input to the problem
+    custom_answer  ( str       )  # User provided answer to the problem
 
     solve_status   ( boolean   )  # True means it was valid
     solve_answer   ( str       )  # Last answer provided
@@ -211,7 +212,16 @@ has 'custom_input'  => (
     is         => 'rw',
     isa        => 'Str',
     required   => 0,
-    trigger    => sub {return sub { $_->[0]->_check_input() }},
+    trigger    => \&_check_input_stub,
+);
+sub _check_input_stub {
+    $_[0]->_check_input(@_);
+}
+
+has 'custom_answer'  => (
+    is         => 'rw',
+    isa        => 'Str',
+    required   => 0,
 );
 
 
@@ -226,6 +236,13 @@ has 'solve_answer'  => (
     is         => 'ro',
     isa        => 'Maybe[Str]',
     writer     => '_set_solved_answer',
+    required   => 0,
+);
+
+has 'solve_wanted'  => (
+    is         => 'ro',
+    isa        => 'Maybe[Str]',
+    writer     => '_set_solved_wanted',
     required   => 0,
 );
 
@@ -244,6 +261,14 @@ requires '_solve_problem';
 
 
 
+#  Internal function
+sub _build_problem_link {
+    my ($self) = @_;
+    return $BASE_URL . $self->problem_number;
+}
+
+
+
 =head1 PROVIDED FUNCTIONS
 
 =head2 solve
@@ -255,50 +280,86 @@ inputs if they are required and returns the answer as a string
     my $problem_1  = Project::Euler::Problem::P001->new();
     my $def_answer = $problem_1->solve;
 
-    $problem_1->custom_input => (42);
-    $problem_1->use_defaults => (0);
+    $problem_1->custom_input  => (42);
+    $problem_1->custom_answer => (42);
+    $problem_1->use_defaults  => (21);
     my $custom_answer = $problem_1->solve;
 
 =cut
-
-sub _build_problem_link {
-    my ($self) = @_;
-    return $BASE_URL . $self->problem_number;
-}
-
-
 
 sub solve {
     my ($self) = @_;
     my $answer;
 
+    #  There may be parameters to pass so get determine what they are and pass
+    #  them
     if ( $self->has_input ) {
+        #  Use the module_provided defaults (ie pass nothing)
         if ( $self->use_defaults ) {
-            $answer = $self->_solve_problem( $self->default_input );
+            $answer = $self->_solve_problem;
         }
+        #  Pass the user input to the subroutine
+        elsif (defined $self->custom_input) {
+            $answer = $self->_solve_problem( $self->custom_input );
+        }
+        #  The user tried to use a cutsom input string to
+        #  solve the problem but hasn't defined it yet!
         else {
-            my $custom_arg = $self->custom_input;
-
-            #  Make sure the user didn't try to use a cutsom input string to
-            #  solve the problem if it hasn't yet been defined!
-            if  (!defined $custom_arg) {
-                croak q{You tried to use custom inputs to solve the problem but it has not been set yet}
-            }
-            else {
-                $answer = $self->_solve_problem( $custom_arg );
-            }
+            croak q{You tried to use custom inputs to solve the problem but it has not been set yet}
         }
+    }
+
+    #  There are no paramaters to pass!
+    else {
+        $answer = $self->_solve_problem;
+    }
+
+
+    #  Determine if the given answer was correct :: use 0 rather than undef
+    my $wanted  =  $self->use_defaults  ?  $self->default_answer  :  $self->custom_answer;
+
+    $answer //= q{};  $wanted //= q{};
+
+    my $status  =  $answer eq $wanted;
+
+    #  Save the answer, wanted, and status
+    $self->_set_solved_answer($answer);
+    $self->_set_solved_wanted($wanted);
+    $self->_set_solved_status($status);
+
+    #  Return either the status, answer, and wanted or, if the user just
+    #  expects a scalar, the found answer
+    return wantarray  ?  ($status, $answer, $wanted)  :  $answer;
+}
+
+
+
+
+=head2 last_run_message
+
+This function simply returns a nice, readable status message that tells you the
+outcome of the last run of the module.  This is way the array won't have to be
+parsed every time to determine the various states that are saved.
+
+    my $problem_1  = Project::Euler::Problem::P001->new();
+    $problem_1->solve;
+    my $message = $problem_1->last_run_message;
+
+=cut
+
+sub last_run_message {
+    my ($self) = @_;
+    my ($answer, $wanted, $status) =
+        @{$self}{qw/ solved_answer  solved_wanted  solved_status /};
+
+    if (!defined $status) {
+        return q{It appears that the problem has yet to be solved once.};
     }
     else {
-        $answer = $self->_solve_problem( );
+        return printf(q{The last run was%s succesfull!  The answer expected was '%s' %s the answer returned was '%s'},
+            $status ? q{} : 'not', $wanted, $status ? 'and' : 'but', $answer
+        );
     }
-
-    my $correct =  $self->use_defaults  ?  $answer eq $self->default_answer  :  undef;
-
-    $self->_set_solved_answer($answer);
-    $self->_set_solved_status($correct);
-
-    return wantarray  ?  ($correct, $answer, $self->default_answer // q{})  :  [$correct, $answer, $self->default_answer // q{}];
 }
 
 
