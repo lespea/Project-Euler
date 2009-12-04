@@ -15,7 +15,7 @@ while (( my $filename = readdir($dir) )) {
 }
 
 plan tests => (scalar @files * 1) + 2;
-diag( "Testing Project::Euler $Project::Euler::VERSION, Perl $], $^X" );
+diag( "Testing Project::Euler, Perl $], $^X" );
 
 
 use_ok( 'Project::Euler' );
