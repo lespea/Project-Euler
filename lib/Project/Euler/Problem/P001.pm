@@ -62,13 +62,19 @@ has 'multi_nums' => (
     isa      => 'ArrayRef[Int]',
     required => 1,
     default  => sub { return [3, 5] },
-    trigger  => sub {
-        my ($self, $new, $old) = @_;
-        $self->multi_nums = [sort {$a <=> $b} @$new];
-    },
 );
+around 'multi_nums' => sub {
+    my ($func, $self, $args) = @_;
 
-=head1 SETUP 
+    if  (ref $args) {
+        $self->$func( [sort {$a <=> $b} @$args] );
+    }
+    else {
+        $self->$func();
+    }
+};
+
+=head1 SETUP
 
 =head2 Problem Number
 
