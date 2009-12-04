@@ -15,6 +15,7 @@ while (( my $filename = readdir($dir) )) {
 }
 
 plan tests => (scalar @files * (2 + 7 + 2));
+diag( 'Checking all of the modules for correct compilation' );
 
 
 #  Make sure all of the defined problems load okay
