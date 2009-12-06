@@ -6,8 +6,9 @@ use MooseX::Method::Signatures;
 
 use Carp;
 use Readonly;
+use List::MoreUtils qw/ any all /;
 
-with Project::Euler::Lib::Common;
+with 'Project::Euler::Lib::Common';
 
 
 =head1 NAME
@@ -40,21 +41,20 @@ optionally all) numbers in an array
 
 The variables that the library needs to solve the problem
 
-    multi_nums (Array[PosInts]) # Numbers to modulo with
+    multi_nums (ArrayRef[PosInts]) # Numbers to modulo with
     check_all  (Boolean)        # Ensure all numbers are divisible instead of just one
 
 =cut
 
 has 'multi_nums' => (
     is          => 'rw',
-    isa         => 'Array[Lib::PosInt]',
+    isa         => 'ArrayRef[Lib::PosInt]',
     required    => 1,
-    lazy_build  => 1,
 );
 
 has 'check_all' => (
     is          => 'rw',
-    isa         => 'Boolean',
+    isa         => 'Bool',
     required    => 1,
     default     => 0,
 );
@@ -68,7 +68,7 @@ has 'check_all' => (
 Function that returns a Boolean if the given number passes the checks
 
     my $check = Project::Euler::Lib::MultipleCheck->new(
-        multi_nums => [3, 5];
+        multi_nums => [3, 5],
         check_all  => 0,
     );
 
@@ -88,7 +88,7 @@ Function that returns a Boolean if the given number passes the checks
 =cut
 
 
-method check (Lib::PosInt $num) {
+method check (Int $num where {$_ > 0}) {
     my $multi_nums = $self->multi_nums;
     return  $self->check_all  ?  all {($num % $_) == 0} @$multi_nums
                               :  any {($num % $_) == 0} @$multi_nums
