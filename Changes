@@ -6,3 +6,5 @@ Revision history for Project-Euler
 0.10    2009-11-23
         Got the base class functionality down
 
+0.11    2009-12-06
+        First problem is 100% complete (with all the tests done as well)
