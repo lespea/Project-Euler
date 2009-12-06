@@ -42,8 +42,9 @@ Create the subtypes that we will use to validate the arguments defined by the
 extending classes
 
     Base::link      = $link =~ m_ \A \Qhttp://projecteuler.net/index.php?section=problems&id=\E \d+ \z _xms
-    Base::prob_num  = int > 0
     Base::prob_name = str  &&  10 < len < 80
+
+    Common::PosInt  = int > 0
 
 We also tell Moose how to coerce a given string into a DateTime object
 
@@ -65,13 +66,6 @@ subtype 'Common::PosInt'
     }
 ;
 
-subtype 'Base::prob_num'
-    => as 'Int'
-    => message { "$_ is not an integer greater than 0" }
-    => where {
-        $_ > 0;
-    }
-;
 
 subtype 'Base::prob_name'
     => as 'Str'
@@ -122,7 +116,7 @@ so nobody creating an instance of the problem can over-write the values.
 
 has 'problem_number' => (
     is         => 'ro',
-    isa        => 'Base::prob_num',
+    isa        => 'Common::PosInt',
     required   => 1,
     lazy_build => 1,
     init_arg   => undef,
