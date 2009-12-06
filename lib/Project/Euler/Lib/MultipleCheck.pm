@@ -1,10 +1,13 @@
 package Project::Euler::Lib::MultipleCheck;
 
 use Modern::Perl;
+use Moose;
 use Moose::Util::TypeConstraints;
 
 use Carp;
 use Readonly;
+
+with Project::Euler::Lib::Common;
 
 
 =head1 NAME
@@ -30,62 +33,6 @@ optionally all) numbers in an array
         multi_nums => [2, 3, 5],
         check_all  => 0,  # could omit this if you wanted to
     );
-
-
-=head1 SUBTYPES
-
-Create the subtypes that we will use to validate the arguments defined by the
-extending classes
-
-    Base::link      = $link =~ m_ \A \Qhttp://projecteuler.net/index.php?section=problems&id=\E \d+ \z _xms
-    Base::prob_num  = int > 0
-    Base::prob_name = str  &&  10 < len < 80
-
-We also tell Moose how to coerce a given string into a DateTime object
-
-=cut
-
-subtype 'Base::link'
-    => as 'Str'
-    => message { "$_ is not a a valid link" }
-    => where {
-        $_ =~ m{ \A \Q$BASE_URL\E \d+ \z }xms;
-    }
-;
-
-subtype 'Common::PosInt'
-    => as 'Int'
-    => message { sprintf('%s is not greater than 0', $_ // 'undefined') }
-    => where {
-        $_ > 0;
-    }
-;
-
-subtype 'Base::prob_num'
-    => as 'Int'
-    => message { "$_ is not an integer greater than 0" }
-    => where {
-        $_ > 0;
-    }
-;
-
-subtype 'Base::prob_name'
-    => as 'Str'
-    => message { "$_ must be a a string between 10 and 80 characters long" }
-    => where {
-        length $_ > 10  and  length $_ < 80;
-    }
-;
-
-
-my $en_parser = DateTime::Format::Natural->new(
-    lang      => 'en',
-    time_zone => 'UTC',
-);
-class_type 'DateTime';
-coerce 'DateTime'
-    => from 'Str'
-    => via { my $datetime = $en_parser->parse_datetime($_);  $en_parser->success  ?  $datetime  :  undef };
 
 
 
@@ -389,7 +336,7 @@ automatically be notified of progress on your bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Project::Euler::Base
+    perldoc Project::Euler::Lib::MultipleCheck
 
 
 =head1 ACKNOWLEDGEMENTS
@@ -408,5 +355,5 @@ See http://dev.perl.org/licenses/ for more information.
 
 =cut
 
-no Moose::Role;
-1; # End of Project::Euler
+no Moose;
+1; # End of Project::Euler::Lib::MultipleCheck
