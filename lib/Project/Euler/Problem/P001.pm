@@ -143,22 +143,22 @@ sub _build_default_input {
 
 =head2 Default Answer
 
-    23
+    233168
 
 =cut
 
 sub _build_default_answer {
-    return '23';
+    return '233168';
 }
 
 
 =head2 Has Input?
 
-    Yes
+    No
 
 =cut
 
-#has '+has_input' => (default => 0);
+has '+has_input' => (default => 0);
 
 
 =head2 Help Message
