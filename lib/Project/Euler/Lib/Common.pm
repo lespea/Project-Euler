@@ -34,7 +34,7 @@ Create the subtypes that we will use by the other libraries
 
 =cut
 
-subtype 'Common::PosInt'
+subtype 'Lib::PosInt'
     => as 'Int'
     => message { sprintf('%s is not greater than 0', $_ // 'undefined') }
     => where {
