@@ -54,21 +54,32 @@ subtype 'Base::link'
     => message { "$_ is not a a valid link" }
     => where {
         $_ =~ m{ \A \Q$BASE_URL\E \d+ \z }xms;
-    };
+    }
+;
+
+subtype 'Common::PosInt'
+    => as 'Int'
+    => message { sprintf('%s is not greater than 0', $_ // 'undefined') }
+    => where {
+        $_ > 0;
+    }
+;
 
 subtype 'Base::prob_num'
     => as 'Int'
     => message { "$_ is not an integer greater than 0" }
     => where {
         $_ > 0;
-    };
+    }
+;
 
 subtype 'Base::prob_name'
     => as 'Str'
     => message { "$_ must be a a string between 10 and 80 characters long" }
     => where {
         length $_ > 10  and  length $_ < 80;
-    };
+    }
+;
 
 
 my $en_parser = DateTime::Format::Natural->new(
@@ -225,21 +236,21 @@ has 'custom_answer'  => (
 );
 
 
-has 'solve_status'  => (
+has 'solved_status'  => (
     is         => 'ro',
     isa        => 'Maybe[Bool]',
     writer     => '_set_solved_status',
     required   => 0,
 );
 
-has 'solve_answer'  => (
+has 'solved_answer'  => (
     is         => 'ro',
     isa        => 'Maybe[Str]',
     writer     => '_set_solved_answer',
     required   => 0,
 );
 
-has 'solve_wanted'  => (
+has 'solved_wanted'  => (
     is         => 'ro',
     isa        => 'Maybe[Str]',
     writer     => '_set_solved_wanted',
@@ -335,7 +346,7 @@ sub solve {
 
 
 
-=head2 last_run_message
+=head2 status
 
 This function simply returns a nice, readable status message that tells you the
 outcome of the last run of the module.  This is way the array won't have to be
@@ -347,7 +358,7 @@ parsed every time to determine the various states that are saved.
 
 =cut
 
-sub last_run_message {
+sub status {
     my ($self) = @_;
     my ($answer, $wanted, $status) =
         @{$self}{qw/ solved_answer  solved_wanted  solved_status /};
