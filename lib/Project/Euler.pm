@@ -9,7 +9,7 @@ Project::Euler - Solutions for projecteuler.net
 
 =head1 VERSION
 
-Version 0.01
+Version 0.1.1
 
 =cut
 
