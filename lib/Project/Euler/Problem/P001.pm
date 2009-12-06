@@ -43,9 +43,10 @@ The cap of the range of numbers to text
 
 has 'max_number' => (
     is       => 'rw',
-    isa      => 'Int',
+    isa      => 'Common::PosInt',
     required => 1,
-    default  => 10,
+    default  => sub{return $_[0]->default_input},
+	lazy     => 1,
 );
 
 
@@ -189,8 +190,8 @@ The input must must be formatted like this:
 sub _check_input {
       my ( $self, $input, $old_input ) = @_;
 
-      if ($input !~ /\D/) {
-          croak sprintf(q{Your input, '%s', must be all digits}, $input);
+      if ($input !~ /\D/ or $input >= 1) {
+          croak sprintf(q{Your input, '%s', must be all digits and greater than or equal to 1}, $input);
       }
 }
 
