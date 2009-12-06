@@ -130,9 +130,9 @@ for  my $module  ($t_in, $t_inc, $t_nin) {
     my ($status, $answer, $wanted) = $module->solve;
     my $short_answer               = $module->solve;
 
-    my $last_answer = $module->solve_answer;
-    my $last_wanted = $module->solve_wanted;
-    my $last_status = $module->solve_status;
+    my $last_answer = $module->solved_answer;
+    my $last_wanted = $module->solved_wanted;
+    my $last_status = $module->solved_status;
 
     # TESTS -> 6
     is( $status, $last_status,  'Status returned and object status should be equal'            );
@@ -159,9 +159,9 @@ for  my $module  ($t_in, $t_inc, $t_nin) {
 
     my ($status, $answer, $wanted) = $t_inc->solve;
 
-    my $last_answer = $t_inc->solve_answer;
-    my $last_wanted = $t_inc->solve_wanted;
-    my $last_status = $t_inc->solve_status;
+    my $last_answer = $t_inc->solved_answer;
+    my $last_wanted = $t_inc->solved_wanted;
+    my $last_status = $t_inc->solved_status;
 
     is  ( $status, $last_status,  'Status returned and object status should be equal'       );
     is  ( $wanted, $last_wanted,  'Status returned and object status should be equal'       );
