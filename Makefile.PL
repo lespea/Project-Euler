@@ -14,6 +14,7 @@ requires    'version' => '0.77';
 requires    'Moose';
 requires    'Moose::Role';
 requires    'Moose::Util::TypeConstraints';
+requires    'MooseX::Method::Signatures';
 
 requires    'DateTime';
 requires    'DateTime::Format::Natural';
