@@ -40,6 +40,7 @@ subtype 'Lib::PosInt'
     => where {
         $_ > 0;
     }
+;
 
 
 =head1 AUTHOR
