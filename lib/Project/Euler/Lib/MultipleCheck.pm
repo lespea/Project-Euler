@@ -38,168 +38,26 @@ optionally all) numbers in an array
 
 =head1 VARIABLES
 
-These are the base variables that every module should have.  Because each
-extending module will be changing these values, we will force them to create
-functions which will set the attributes.  We also declare the init_arg as undef
-so nobody creating an instance of the problem can over-write the values.
+The variables that the library needs to solve the problem
 
-    problem_number ( prob_num  )  # Problem number on projecteuler.net
-    problem_name   ( prob_name )  # Short name given by the module author
-    problem_date   ( DateTime  )  # Date posted on projecteuler.net
-    problem_desc   ( str       )  # Description posted on projecteuler.net
-    problem_link   ( URL       )  # URL to the problem's homepage
-
-    default_input  ( str       )  # Default input posted on projecteuler.net
-    default_answer ( str       )  # Default answer to the default input
-
-    has_input      ( boolean   )  # Some problems might not have so this lets us disable it
-    use_defaults   ( boolean   )  # Use the default inputs
-
-    custom_input   ( str       )  # User provided input to the problem
-    custom_answer  ( str       )  # User provided answer to the problem
-
-    solve_status   ( boolean   )  # True means it was valid
-    solve_answer   ( str       )  # Last answer provided
+    multi_nums (Array[PosInts]) # Numbers to modulo with
+    check_all  (Boolean)        # Ensure all numbers are divisible instead of just one
 
 =cut
 
-has 'problem_number' => (
-    is         => 'ro',
-    isa        => 'Base::prob_num',
-    required   => 1,
-    lazy_build => 1,
-    init_arg   => undef,
-);
-requires '_build_problem_number';
-
-has 'problem_name' => (
-    is         => 'ro',
-    isa        => 'Base::prob_name',
-    required   => 1,
-    lazy_build => 1,
-    init_arg   => undef,
-);
-requires '_build_problem_name';
-
-has 'problem_date' => (
-    is         => 'ro',
-    isa        => 'DateTime',
-    coerce     => 1,
-    required   => 1,
-    lazy_build => 1,
-    init_arg   => undef,
-);
-requires '_build_problem_date';
-
-has 'problem_desc' => (
-    is         => 'ro',
-    isa        => 'Str',
-    required   => 1,
-    lazy_build => 1,
-    init_arg   => undef,
-);
-requires '_build_problem_desc';
-
-has 'problem_link_base' => (
-    is         => 'ro',
-    isa        => 'Str',
-    required   => 1,
-    lazy       => 1,
-    init_arg   => undef,
-    default    => $BASE_URL,
+has 'multi_nums' => (
+    is          => 'rw',
+    isa         => 'Array[Lib::PosInt]',
+    required    => 1,
+    lazy_build  => 1,
 );
 
-has 'problem_link' => (
-    is         => 'ro',
-    isa        => 'Base::link',
-    required   => 1,
-    lazy_build => 1,
-    init_arg   => undef,
+has 'check_all' => (
+    is          => 'rw',
+    isa         => 'Boolean',
+    required    => 1,
+    default     => 0,
 );
-
-has 'default_input' => (
-    is         => 'ro',
-    isa        => 'Str',
-    required   => 1,
-    lazy_build => 1,
-    init_arg   => undef,
-);
-requires '_build_default_input';
-
-has 'default_answer' => (
-    is         => 'ro',
-    isa        => 'Str',
-    required   => 1,
-    lazy_build => 1,
-    init_arg   => undef,
-);
-requires '_build_default_answer';
-
-
-has 'has_input' => (
-    is       => 'ro',
-    isa      => 'Bool',
-    required => 1,
-    default  => 1,
-    init_arg => undef,
-);
-
-has 'use_defaults' => (
-    is       => 'rw',
-    isa      => 'Bool',
-    required => 1,
-    default  => 1,
-);
-
-
-has 'help_message' => (
-    is         => 'ro',
-    isa        => 'Str',
-    required   => 1,
-    lazy_build => 1,
-    init_arg   => undef,
-);
-requires '_build_help_message';
-
-
-has 'custom_input'  => (
-    is         => 'rw',
-    isa        => 'Str',
-    required   => 0,
-    trigger    => \&_check_input_stub,
-);
-sub _check_input_stub {
-    $_[0]->_check_input(@_);
-}
-
-has 'custom_answer'  => (
-    is         => 'rw',
-    isa        => 'Str',
-    required   => 0,
-);
-
-
-has 'solved_status'  => (
-    is         => 'ro',
-    isa        => 'Maybe[Bool]',
-    writer     => '_set_solved_status',
-    required   => 0,
-);
-
-has 'solved_answer'  => (
-    is         => 'ro',
-    isa        => 'Maybe[Str]',
-    writer     => '_set_solved_answer',
-    required   => 0,
-);
-
-has 'solved_wanted'  => (
-    is         => 'ro',
-    isa        => 'Maybe[Str]',
-    writer     => '_set_solved_wanted',
-    required   => 0,
-);
-
 
 
 
