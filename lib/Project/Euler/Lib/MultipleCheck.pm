@@ -22,13 +22,14 @@ use version 0.77; our $VERSION = qv("v0.1.0");
 
 =head1 SYNOPSIS
 
-To ensure that each problem class performs a minimum set of functions, this
-class will define the basic subroutines and variables that every object must
-implement.  This will make wrapping a gui around them much simpler in the
-future while also eliminating a lot of confustion that could arise from having
-different method names/conventions
+Module that is used to determine if a number is a multiple of any (or
+optionally all) numbers in an array
 
-    with Project::Euler::Problem::Base;
+    use Project::Euler::Lib::MultipleCheck;
+    my $multi_check = Project::Euler::Lib::MultipleCheck->new(
+        multi_nums => [2, 3, 5],
+        check_all  => 0,  # could omit this if you wanted to
+    );
 
 
 =head1 SUBTYPES
