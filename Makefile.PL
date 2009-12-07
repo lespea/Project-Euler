@@ -20,6 +20,7 @@ requires    'MooseX::Method::Signatures';
 requires    'DateTime';
 requires    'DateTime::Format::DateParse';
 requires    'List::MoreUtils';
+requires    'Math::Big' => '1.12';
 
 test_requires  'Test::More'      => '0.42';
 test_requires  'Test::Exception';
