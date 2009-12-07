@@ -104,19 +104,14 @@ A L<< DateTime >> object parsed using L<< DateTime::Format::Natural >>
 
 =cut
 
-use DateTime::Format::Natural;
 use DateTime;
+use DateTime::Format::DateParse;
 
-my $en_parser = DateTime::Format::Natural->new(
-    lang      => 'en',
-    time_zone => 'UTC',
-);
 class_type MyDateTime, { class => 'DateTime' };
 coerce MyDateTime,
     from Str,
     via {
-        my $datetime = $en_parser->parse_datetime($_);
-        $en_parser->success  ?  $datetime  :  undef
+        DateTime::Format::DateParse->parse_datetime( $_ );
     };
 
 =head1 AUTHOR
