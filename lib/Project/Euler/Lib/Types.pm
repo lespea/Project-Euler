@@ -6,8 +6,8 @@ use Modern::Perl;
 # predeclare our own types
 use MooseX::Types
     -declare => [qw/
-        PosInt      ArrayPosInt
-        NegInt      ArrayNegInt
+        PosInt      PosIntArray
+        NegInt      NegIntArray
         MyDateTime
 /];
 
