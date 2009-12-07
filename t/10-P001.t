@@ -85,7 +85,7 @@ my @nok_tests = (
 
 my $sum;
 for  my $test_array  (grep {scalar @$_ > 0} (\@ok_tests, \@nok_tests)) {
-    ($sum += (scalar @$_ - 1) * 2)  for  @$test_array;
+    ($sum += (scalar @$_ - 1) * 4)  for  @$test_array;
 }
 
 plan tests => 2 + $sum;
@@ -119,15 +119,27 @@ for  my $test  (@ok_tests) {
     for  my $tests  (@$test) {
         my ($in, $out) = @$tests;
 
-        $problem->max_number($in);
+        $problem->custom_input($in);
         $problem->custom_answer($out);
 
-        my $answer = $problem->solve();
+
+        #  Test the module by passing an argument
+        my $answer = $problem->solve($in);
         my $status = $problem->solved_status();
 
-        ok($status, sprintf('Status should be okay for input %s => %d -> %d',
+        ok($status, sprintf('Arg: Status should be okay for input %s => %d -> %d',
                 $divs, $in, $out));
-        is($out, $answer, sprintf('Bad return answer for %s => %d -> %d',
+        is($out, $answer, sprintf('Arg: Bad return answer for %s => %d -> %d',
+                $divs, $in, $out));
+
+
+        #  Test the module by using custom_input
+        $answer = $problem->solve();
+        $status = $problem->solved_status();
+
+        ok($status, sprintf('Cus_Input: Status should be okay for input %s => %d -> %d',
+                $divs, $in, $out));
+        is($out, $answer, sprintf('Cus_Input: Bad return answer for %s => %d -> %d',
                 $divs, $in, $out));
     }
 }
