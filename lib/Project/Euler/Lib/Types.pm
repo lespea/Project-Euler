@@ -116,7 +116,7 @@ coerce MyDateTime,
 
 =head1 AUTHOR
 
-Adam Lesperance, C<< <lespea at gmail.com> >>
+Adam Lesperance, C<< <lespea at cpan.org> >>
 
 =head1 BUGS
 

@@ -4,7 +4,7 @@ name            'Project-Euler';
 abstract_from   'lib/Project/Euler.pm';
 license_from    'lib/Project/Euler.pm';
 version_from    'lib/Project/Euler.pm';
-author          q{Adam Lesperance <lespea@gmail.com>};
+author_from     'lib/Project/Euler.pm';
 
 
 #  Basic perl features
