@@ -8,7 +8,7 @@ use Carp;
 use Readonly;
 use List::MoreUtils qw/ any all /;
 
-use Project::Euler::Lib::Types qw/ PosInt  ArrayPosInt /;
+use Project::Euler::Lib::Types qw/ PosInt  PosIntArray /;
 
 
 =head1 NAME
@@ -48,7 +48,7 @@ The variables that the library needs to solve the problem
 
 has 'multi_nums' => (
     is          => 'rw',
-    isa         => ArrayPosInt,
+    isa         => PosIntArray,
     required    => 1,
 );
 
