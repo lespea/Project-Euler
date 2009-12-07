@@ -5,6 +5,7 @@ use Modern::Perl;
 use Moose;
 
 with 'Project::Euler::Problem::Base';
+use Project::Euler::Lib::Types  qw/ PosInt  PosIntArray /;
 
 use List::Util  qw/ sum /;
 
@@ -43,7 +44,7 @@ The cap of the range of numbers to text
 
 has 'max_number' => (
     is       => 'rw',
-    isa      => 'Common::PosInt',
+    isa      => PosInt,
     required => 1,
     default  => sub{return $_[0]->default_input},
 	lazy     => 1,
@@ -60,7 +61,7 @@ An array of numbers that are used to filter out the integers to sum
 
 has 'multi_nums' => (
     is       => 'rw',
-    isa      => 'ArrayRef[Int]',
+    isa      => PosIntArray,
     required => 1,
     default  => sub { return [3, 5] },
 );
