@@ -46,8 +46,6 @@ extending classes
     Base::link      = $link =~ m_ \A \Qhttp://projecteuler.net/index.php?section=problems&id=\E \d+ \z _xms
     Base::prob_name = str  &&  10 < len < 80
 
-    Common::PosInt  = int > 0
-
 We also tell Moose how to coerce a given string into a DateTime object
 
 =cut
@@ -59,15 +57,6 @@ subtype 'Base::link'
         $_ =~ m{ \A \Q$BASE_URL\E \d+ \z }xms;
     }
 ;
-
-subtype 'Common::PosInt'
-    => as 'Int'
-    => message { sprintf('%s is not greater than 0', $_ // 'undefined') }
-    => where {
-        $_ > 0;
-    }
-;
-
 
 subtype 'Base::prob_name'
     => as 'Str'
@@ -87,23 +76,23 @@ extending module will be changing these values, we will force them to create
 functions which will set the attributes.  We also declare the init_arg as undef
 so nobody creating an instance of the problem can over-write the values.
 
-    problem_number ( prob_num  )  # Problem number on projecteuler.net
-    problem_name   ( prob_name )  # Short name given by the module author
-    problem_date   ( DateTime  )  # Date posted on projecteuler.net
-    problem_desc   ( str       )  # Description posted on projecteuler.net
-    problem_link   ( URL       )  # URL to the problem's homepage
+    problem_number ( PosInt     ) # Problem number on projecteuler.net
+    problem_name   ( prob_name  ) # Short name given by the module author
+    problem_date   ( MyDateTime ) # Date posted on projecteuler.net
+    problem_desc   ( str        ) # Description posted on projecteuler.net
+    problem_link   ( URL        ) # URL to the problem's homepage
 
-    default_input  ( str       )  # Default input posted on projecteuler.net
-    default_answer ( str       )  # Default answer to the default input
+    default_input  ( str        ) # Default input posted on projecteuler.net
+    default_answer ( str        ) # Default answer to the default input
 
-    has_input      ( boolean   )  # Some problems might not have so this lets us disable it
-    use_defaults   ( boolean   )  # Use the default inputs
+    has_input      ( boolean    ) # Some problems might not have so this lets us disable it
+    use_defaults   ( boolean    ) # Use the default inputs
 
-    custom_input   ( str       )  # User provided input to the problem
-    custom_answer  ( str       )  # User provided answer to the problem
+    custom_input   ( str        ) # User provided input to the problem
+    custom_answer  ( str        ) # User provided answer to the problem
 
-    solve_status   ( boolean   )  # True means it was valid
-    solve_answer   ( str       )  # Last answer provided
+    solve_status   ( boolean    ) # True means it was valid
+    solve_answer   ( str        ) # Last answer provided
 
 =cut
 
