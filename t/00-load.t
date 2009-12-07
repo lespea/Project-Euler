@@ -3,7 +3,9 @@
 use strict;
 use warnings;
 use autodie;
-use Test::More;
+use Test::Most;
+
+bail_on_fail;
 
 use constant PROBLEM_PATH => 'lib/Project/Euler/Problem/';
 

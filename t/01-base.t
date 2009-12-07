@@ -79,7 +79,7 @@ package test;
 
 use strict;
 use warnings;
-use Test::More;
+use Test::Most;
 use Test::Exception;
 
 use Readonly;
@@ -91,6 +91,8 @@ Readonly::Scalar my $CUSTOM_ANSWER => $CUSTOM_INPUT / 2;
 
 plan tests => 7 + (7 * 2) + (3 * 6) + 2 + 5;
 diag( 'Base class is functioning correctly' );
+
+die_on_fail;
 
 # TESTS -> 7
 my $t_in  = new_ok( 'base_test_input'   );
