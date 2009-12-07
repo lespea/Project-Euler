@@ -13,11 +13,13 @@ requires    'version' => '0.77';
 
 requires    'Moose';
 requires    'Moose::Role';
+requires    'MooseX::Types';
 requires    'Moose::Util::TypeConstraints';
 requires    'MooseX::Method::Signatures';
 
 requires    'DateTime';
 requires    'DateTime::Format::Natural';
+requires    'List::MoreUtils';
 
 test_requires  'Test::More'      => '0.42';
 test_requires  'Test::Exception';
