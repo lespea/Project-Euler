@@ -1,4 +1,3 @@
-.Makefile.PL.swp
 Changes
 inc/Module/AutoInstall.pm
 inc/Module/Install.pm
@@ -14,8 +13,6 @@ inc/Module/Install/WriteAll.pm
 lib/Project/Euler.pm
 lib/Project/Euler/Lib/MultipleCheck.pm
 lib/Project/Euler/Lib/Types.pm
-lib/Project/Euler/Problem/.P001.pm.swp
-lib/Project/Euler/Problem/.P002.pm.swp
 lib/Project/Euler/Problem/Base.pm
 lib/Project/Euler/Problem/P001.pm
 lib/Project/Euler/Problem/P002.pm
@@ -24,10 +21,6 @@ Makefile.PL
 MANIFEST			This list of files
 META.yml
 README
-t/.02-problems.t.swp
-t/.10-P001.t.swo
-t/.10-P001.t.swp
-t/.10-P002.t.swp
 t/00-load.t
 t/01-base.t
 t/02-problems.t
