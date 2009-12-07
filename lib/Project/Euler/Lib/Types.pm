@@ -87,13 +87,13 @@ subtype NegIntArray, as ArrayRef[NegInt];
 
 =head2 MyDateTime
 
-An integer less than 0
+A L<< DateTime >> object parsed using L<< DateTime::Format::Natural >>
 
-    my $en_parser = L<< DateTime::Format::Natural >>->new(
+    my $en_parser = DateTime::Format::Natural->new(
         lang      => 'en',
         time_zone => 'UTC',
     );
-    class_type MyDateTime, { class => 'L<< DateTime >>' };
+    class_type MyDateTime, { class => 'DateTime' };
     coerce MyDateTime,
         from Str,
         via {
