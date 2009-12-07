@@ -24,6 +24,7 @@ sub qc {
 
 
 my @ok_tests = (
+#  0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765
     [
         undef,
         [0,      0],
@@ -42,9 +43,50 @@ my @ok_tests = (
         [300,  188],
         [400,  188],
         [500,  188],
-        [1000, 188],
-
+        [1000, 798],
         [4_000_000, 4613732],
+    ],
+#  0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765
+    [
+        [3],
+        [0,      0],
+        [1,      0],
+        [2,      0],
+        [3,      0],
+        [4,      3],
+        [5,      3],
+        [10,     3],
+        [20,     3],
+        [30,    24],
+        [40,    24],
+        [50,    24],
+        [100,   24],
+        [200,  168],
+        [300,  168],
+        [400,  168],
+        [500,  168],
+        [1000,1155],
+    ],
+#  0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765
+    [
+        [2, 3],
+        [0,      0],
+        [1,      0],
+        [2,      0],
+        [3,      0],
+        [4,      0],
+        [5,      0],
+        [10,     0],
+        [20,     0],
+        [30,     0],
+        [40,     0],
+        [50,     0],
+        [100,    0],
+        [200,  144],
+        [300,  144],
+        [400,  144],
+        [500,  144],
+        [1000, 144],
     ]
 );
 
@@ -52,9 +94,9 @@ my @nok_tests = (
 );
 
 
-my $sum;
+my $sum = 0;
 for  my $test_array  (grep {scalar @$_ > 0} (\@ok_tests, \@nok_tests)) {
-    ($sum += scalar @$_ * 2 - 1)  for  @$test_array;
+    ($sum += (scalar @$_ - 1) * 4)  for  @$test_array;
 }
 
 plan tests => 2 + $sum;
@@ -88,15 +130,26 @@ for  my $test  (@ok_tests) {
     for  my $tests  (@$test) {
         my ($in, $out) = @$tests;
 
-        $problem->max_number($in);
+        $problem->custom_input($in);
         $problem->custom_answer($out);
 
-        my $answer = $problem->solve();
+        #  Test the module by passing an argument
+        my $answer = $problem->solve($in);
         my $status = $problem->solved_status();
 
-        ok($status, sprintf('Status should be okay for input %s => %d -> %d',
+        ok($status, sprintf('Arg: Status should be okay for input %s => %d -> %d',
                 $divs, $in, $out));
-        is($out, $answer, sprintf('Bad return answer for %s => %d -> %d',
+        is($answer, $answer, sprintf('Arg: Bad return answer for %s => %d -> %d',
+                $divs, $in, $out));
+
+
+        #  Test the module by using custom_input
+        $answer = $problem->solve();
+        $status = $problem->solved_status();
+
+        ok($status, sprintf('Cus_Input: Status should be okay for input %s => %d -> %d',
+                $divs, $in, $out));
+        is($answer, $out, sprintf('Cus_Input: Bad return answer for %s => %d -> %d',
                 $divs, $in, $out));
     }
 }
