@@ -32,6 +32,7 @@ t/.10-P001.t.swp
 t/00-load.t
 t/01-base.t
 t/02-problems.t
+t/03-types.t
 t/10-P001.t
 t/97-boilerplate.t
 t/98-pod.t
