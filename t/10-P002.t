@@ -54,7 +54,7 @@ my @nok_tests = (
 
 my $sum;
 for  my $test_array  (grep {scalar @$_ > 0} (\@ok_tests, \@nok_tests)) {
-    ($sum += scalar @$_ * 2)  for  @$test_array;
+    ($sum += scalar @$_ * 2 - 1)  for  @$test_array;
 }
 
 plan tests => 2 + $sum;
