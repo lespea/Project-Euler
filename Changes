@@ -1,13 +1,16 @@
 Revision history for Project-Euler
 
-0.01    2009-11-22
-        First version, released on an unsuspecting world.
+0.1.3    2009-12-07
+        Second problem is complete
+
+0.1.2    2009-12-06
+        Use custom types definitions now
+
+0.1.1    2009-12-06
+        First problem is complete (with all the tests done as well)
 
 0.1.0    2009-11-23
         Got the base class functionality down
 
-0.1.1    2009-12-06
-        First problem is 100% complete (with all the tests done as well)
-
-0.1.2    2009-12-06
-        Use custom types definitions now
+0.0.1    2009-11-22
+        First version, released on an unsuspecting world.
