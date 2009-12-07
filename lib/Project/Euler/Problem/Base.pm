@@ -275,8 +275,10 @@ inputs if they are required and returns the answer as a string
 =cut
 
 sub solve {
-    my ($self) = @_;
+    my ($self, $cust_input) = @_;
     my $answer;
+
+    $cust_input //= $self->custom_input;
 
     #  There may be parameters to pass so get determine what they are and pass
     #  them
@@ -286,8 +288,8 @@ sub solve {
             $answer = $self->_solve_problem;
         }
         #  Pass the user input to the subroutine
-        elsif (defined $self->custom_input) {
-            $answer = $self->_solve_problem( $self->custom_input );
+        elsif (defined $cust_input) {
+            $answer = $self->_solve_problem( $cust_input );
         }
         #  The user tried to use a cutsom input string to
         #  solve the problem but hasn't defined it yet!
