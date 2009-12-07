@@ -4,6 +4,8 @@ use Modern::Perl;
 use Moose::Role;
 use Moose::Util::TypeConstraints;
 
+use Project::Euler::Lib::Types  qw/ PosInt  MyDateTime /;
+
 use Carp;
 use DateTime;
 use DateTime::Format::Natural;
@@ -76,15 +78,6 @@ subtype 'Base::prob_name'
 ;
 
 
-my $en_parser = DateTime::Format::Natural->new(
-    lang      => 'en',
-    time_zone => 'UTC',
-);
-class_type 'DateTime';
-coerce 'DateTime'
-    => from 'Str'
-    => via { my $datetime = $en_parser->parse_datetime($_);  $en_parser->success  ?  $datetime  :  undef };
-
 
 
 =head1 VARIABLES
@@ -116,7 +109,7 @@ so nobody creating an instance of the problem can over-write the values.
 
 has 'problem_number' => (
     is         => 'ro',
-    isa        => 'Common::PosInt',
+    isa        => PosInt,
     required   => 1,
     lazy_build => 1,
     init_arg   => undef,
@@ -134,7 +127,7 @@ requires '_build_problem_name';
 
 has 'problem_date' => (
     is         => 'ro',
-    isa        => 'DateTime',
+    isa        => MyDateTime,
     coerce     => 1,
     required   => 1,
     lazy_build => 1,
