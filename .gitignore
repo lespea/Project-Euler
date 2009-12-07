@@ -1,4 +1,5 @@
 *.swp
+*.swo
 blib*
 inc*
 Makefile
