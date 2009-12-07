@@ -18,7 +18,7 @@ requires    'Moose::Util::TypeConstraints';
 requires    'MooseX::Method::Signatures';
 
 requires    'DateTime';
-requires    'DateTime::Format::Natural';
+requires    'DateTime::Format::DateParse';
 requires    'List::MoreUtils';
 
 test_requires  'Test::More'      => '0.42';
