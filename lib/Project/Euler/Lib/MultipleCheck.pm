@@ -8,7 +8,7 @@ use Carp;
 use Readonly;
 use List::MoreUtils qw/ any all /;
 
-with 'Project::Euler::Lib::Common';
+use Project::Euler::Lib::Types qw/ PosInt  ArrayPosInt /;
 
 
 =head1 NAME
@@ -48,7 +48,7 @@ The variables that the library needs to solve the problem
 
 has 'multi_nums' => (
     is          => 'rw',
-    isa         => 'ArrayRef[Lib::PosInt]',
+    isa         => ArrayPosInt,
     required    => 1,
 );
 
@@ -88,7 +88,7 @@ Function that returns a Boolean if the given number passes the checks
 =cut
 
 
-method check (Int $num where {$_ > 0}) {
+method check (PosInt $num) {
     my $multi_nums = $self->multi_nums;
     return  $self->check_all  ?  all {($num % $_) == 0} @$multi_nums
                               :  any {($num % $_) == 0} @$multi_nums
