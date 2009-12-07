@@ -6,8 +6,14 @@ use Moose;
 
 with 'Project::Euler::Problem::Base';
 use Project::Euler::Lib::Types  qw/ PosInt  PosIntArray /;
+use Project::Euler::Lib::MultipleCheck;
 
-use List::Util  qw/ sum /;
+use List::Util qw/ sum /;
+
+my $multiple_check = Project::Euler::Lib::MultipleCheck->new(
+    multi_nums => [3, 5],
+    check_all  => 0,
+);
 
 
 =head1 NAME
@@ -33,23 +39,6 @@ numbers is stored in C<< $self->multi_nums >>.
 
 
 =head1 Problem Attributes
-
-=head2 Maximum Number
-
-The cap of the range of numbers to text
-
-    Default: 1_000
-
-=cut
-
-has 'max_number' => (
-    is       => 'rw',
-    isa      => PosInt,
-    required => 1,
-    default  => sub{return $_[0]->default_input},
-	lazy     => 1,
-);
-
 
 =head2 Multiple Numbers
 
@@ -132,13 +121,12 @@ __END_DESC
 
 =head2 Default Input
 
-The default input automatically gets applied to C<< $self->max_number >> (it
-overrides the value if set while building the module)
+The maximum value: 1,000
 
 =cut
 
 sub _build_default_input {
-    return q{1000};
+    return 1_000;
 }
 
 
@@ -155,11 +143,11 @@ sub _build_default_answer {
 
 =head2 Has Input?
 
-    No
+    Yes
 
 =cut
 
-has '+has_input' => (default => 0);
+#has '+has_input' => (default => 0);
 
 
 =head2 Help Message
@@ -184,15 +172,15 @@ __END_HELP
 
 The input must must be formatted like this:
 
-    All digits
+    A positve integer
 
 =cut
 
 sub _check_input {
       my ( $self, $input, $old_input ) = @_;
 
-      if ($input !~ /\D/ or $input >= 1) {
-          croak sprintf(q{Your input, '%s', must be all digits and greater than or equal to 1}, $input);
+      if ($input !~ /\D/ or $input < 1) {
+          croak sprintf(q{Your input, '%s', must be all digits and >= 1}, $input);
       }
 }
 
@@ -200,34 +188,31 @@ sub _check_input {
 
 =head2 Solve the problem (internal function)
 
-Loop through the range and if the current value is divisible by any of the
-multi numbers than add it to a running sum.  Afterwards simply return the
-calculated sum.
+Tell the multiple_check object what the current multi_nums is.  Then loop from
+the first multi_num to the max_number (- 1) and filter all numbers that retrun
+false.  Finally use the List::More util 'sum' to return the sum of the filtered
+numbers.  If nothing was found return 0 rather than undef!
 
 =cut
 
 sub _solve_problem {
-    my ($self) = @_;
+    my ($self, $max) = @_;
 
-    #  Initialize the sum and save the multi_nums se we don't have to look it
-    #  up every single time
-    my $sum  = 0;
-    my $nums = $self->multi_nums;
+    #  If the user didn't give us a max, then use the default_input
+    $max //= $self->default_input;
 
-    #  Loop through all of the numbers in the range and if the current num is
-    #  divisible by anything in multi_nums then add it to the sum
-    NUMBER:
-    for  my $num  ($nums->[0] .. ($self->max_number - 1)) {
-        for  my $div_num  (@$nums) {
-            if ($num % $div_num  ==  0) {
-                $sum += $num;
-                next NUMBER;
-            }
-        }
-    }
+    #  Decrement the max since it's an 'upto' limit
+    $max--;
 
-    #  Return the calculated sum
-    return $sum;
+    #  Tell the checker object the numbers to filter on
+    $multiple_check->multi_nums($self->multi_nums);
+
+    #  Sum the filtered numbers.  Since we know the list is sorted, we start at
+    #  the first multi_num since anything less than that cannot possible return
+    #  true.
+    return sum(grep {$multiple_check->check($_)}
+               $self->multi_nums->[0] .. $max
+           )  //  0;
 }
 
 
