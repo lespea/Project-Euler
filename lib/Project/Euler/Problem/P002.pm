@@ -5,7 +5,18 @@ use Modern::Perl;
 use Moose;
 
 with 'Project::Euler::Problem::Base';
+use Project::Euler::Lib::Types  qw/ PosInt  PosIntArray /;
 
+use Math::Big 1.12  qw/ fibonacci /;
+use Project::Euler::Lib::MultipleCheck;
+
+
+use List::Util qw/ sum /;
+
+my $multiple_check = Project::Euler::Lib::MultipleCheck->new(
+    multi_nums => [2],
+    check_all  => 1,
+);
 
 
 
@@ -31,23 +42,6 @@ and sums all of them that are even (or as implemented here, divisible by every
 multi_nums)
 
 =head1 Problem Attributes
-
-=head2 Maximum Number
-
-The number all the fib numbers must be under
-
-    Default: 4_000_000
-
-=cut
-
-has 'max_number' => (
-    is       => 'rw',
-    isa      => PosInt,
-    required => 1,
-    default  => sub{return $_[0]->default_input},
-    lazy     => 1,
-);
-
 
 =head2 Multiple Numbers
 
@@ -136,7 +130,7 @@ __END_DESC
 
 =head2 Default Input
 
-    4_000_000
+    Max number to go up to: 4_000_000
 
 =cut
 
@@ -158,11 +152,11 @@ sub _build_default_answer {
 
 =head2 Has Input?
 
-    No
+    Yes
 
 =cut
 
-has '+has_input' => (default => 0);
+#has '+has_input' => (default => 0);
 
 
 =head2 Help Message
@@ -194,7 +188,7 @@ The input must must be formatted like this:
 sub _check_input {
       my ( $self, $input, $old_input ) = @_;
 
-      if ($input !~ /\D/ or $input >= 1) {
+      if ($input !~ /\D/ or $input < 1) {
           croak sprintf(q{Your input, '%s', must be all digits and >= 1}, $input);
       }
 }
@@ -203,12 +197,30 @@ sub _check_input {
 
 =head2 Solve the problem (internal function)
 
-Put your logic in here please  ### TEMPLATE ###
+Use Math::Big to find all of the fib numbers, filter them, then find the sum
 
 =cut
 
 sub _solve_problem {
-    return 1;  ### TEMPLATE ###
+    my ($self, $max) = @_;
+
+    #  If the user didn't give us a max, then use the default_input
+    $max //= $self->default_input;
+
+    #  Tell the checker object the numbers to filter on
+    $multiple_check->multi_nums($self->multi_nums);
+
+    my $sum = 0;
+    my $num = 1;
+
+    my $ans = fibonacci($num++)->numify;
+
+    while ($ans < $max) {
+        $sum += $ans  if  $multiple_check->check($ans);
+        $ans = fibonacci($num++)->numify;
+    }
+
+    return $sum;
 }
 
 
