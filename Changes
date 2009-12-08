@@ -1,6 +1,7 @@
 Revision history for Project-Euler
 
 0.1.4   12/08/2009 01:36:22 AM (CST)
+    *   Updated POD documentation of the main class
     *   Removed template file from P:E:P
     *   Replaced template file with base file in load_test
     *   Removed many of the duplicate problem tests which were covered in the
