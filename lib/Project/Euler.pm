@@ -18,10 +18,41 @@ use version 0.77; our $VERSION = qv("v0.1.4");
 
 =head1 SYNOPSIS
 
-This is the base class which will eventually be responsible for displaying the
-interface to interact with the solutions implemented so far
-
     use Project::Euler;
+
+=head1 DESCRIPTION
+
+This is the base class which will eventually be responsible for displaying the
+interface to interact with the solutions implemented so far.
+
+For now, you will have to manually import the problem_solutions and solve them manually.
+
+    use Project::Euler::Problem::P001;
+    my $problem1 = Project::Euler::Problem::P001->new;
+
+    $problem1->solve;
+    print $problem1->status;
+
+While not the most elegant solution, it will have to do for now.
+
+=head1 PROBLEMS
+
+These problems are fully implemented so far:
+
+L<< Project::Euler::Problem::P001 >>
+
+L<< Project::Euler::Problem::P002 >>
+
+using the base class:  L<< Project::Euler::Problem::Base >>
+
+
+=head1 LIBRARIES
+
+These libraries are used by the problem_solutions:
+
+L<< Project::Euler::Lib::MultipleCheck >>
+
+L<< Project::Euler::Lib::Types >>
 
 =head1 EXPORT
 
@@ -29,13 +60,8 @@ interface to interact with the solutions implemented so far
 
 =head1 FUNCTIONS
 
-=head2 show_solutions
+#  Todo:  implement interface functions
 
-=cut
-
-sub show_solutions {
-    print "There aren't any yet!\n";
-}
 
 
 =head1 AUTHOR
@@ -79,9 +105,6 @@ L<http://cpanratings.perl.org/d/Project-Euler>
 L<http://search.cpan.org/dist/Project-Euler/>
 
 =back
-
-
-=head1 ACKNOWLEDGEMENTS
 
 
 =head1 COPYRIGHT & LICENSE
