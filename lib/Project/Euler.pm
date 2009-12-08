@@ -5,15 +5,15 @@ use strict;
 
 =head1 NAME
 
-Project::Euler - Solutions for projecteuler.net
+Project::Euler - Solutions for L<< http://projecteuler.net >>
 
 =head1 VERSION
 
-Version 0.1.3
+Version 0.1.4
 
 =cut
 
-use version 0.77; our $VERSION = qv("v0.1.3");
+use version 0.77; our $VERSION = qv("v0.1.4");
 
 
 =head1 SYNOPSIS
