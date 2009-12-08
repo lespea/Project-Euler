@@ -21,10 +21,7 @@ diag( "Testing Project::Euler, Perl $], $^X" );
 
 
 use_ok( 'Project::Euler' );
-
-#  Using the template ensures that the base class compiles okay as well!
-use_ok( 'Project::Euler::Problem::problem_template' );
-
+use_ok( 'Project::Euler::Problem::Base' );
 
 #  Make sure all of the defined problems load okay
 for  my $problem  (@files) {
