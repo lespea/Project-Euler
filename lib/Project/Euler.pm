@@ -4,13 +4,6 @@ use Modern::Perl;
 use Carp;
 use Try::Tiny;
 
-use Exporter::Easy (
-    OK => qw/ get_problem    get_all_problems
-              solve_problem  solve_all_problems
-          /;
-);
-
-
 use constant PROBLEM_PATH => 'lib/Project/Euler/Problem/';
 use constant PROBLEM_BASE => 'Project::Euler::Problem::P';
 
@@ -33,7 +26,7 @@ for  my $module  (@modules) {
     catch {
         carp "Error loading $mod_name";
         next MODULE;
-    }
+    };
 
     try {
         $problem = $mod_name->new();
@@ -41,9 +34,9 @@ for  my $module  (@modules) {
     catch {
         carp "Error creating an instance of $mod_name";
         next MODULE;
-    }
+    };
 
-    my $mod_str = sprintf('%03d => %s', $problem->problem_number, $problem->problem_name);
+    my $mod_str = sprintf('%03d', $problem->problem_number, $problem->problem_name);
 
     $module_obj{$mod_str} = $problem;
 }
@@ -64,16 +57,40 @@ use version 0.77; our $VERSION = qv("v0.1.4");
 
 =head1 SYNOPSIS
 
+    use Project::Euler qw/ :all /
+
+=head1 DESCRIPTION
+
 This is the base class which will eventually be responsible for displaying the
 interface to interact with the solutions implemented so far
 
 =head1 EXPORT
 
-    get_problem
-    solve_problem
+    :all
+        :get
+        :solve
 
-    get_all_problems
-    solve_all_problems
+    :get
+        get_problem
+        get_all_problems
+
+    :solve
+        solve_problem
+        solve_all_problems
+
+=cut
+
+use Exporter::Easy (
+    OK => [qw/ get_problem    get_all_problems
+               solve_problem  solve_all_problems
+          /],
+    TAGS => [
+        get   => [qw/ get_problem    get_all_problems   /],
+        solve => [qw/ solve_problem  solve_all_problems /],
+
+        all   => [qw/ :get  :solve /],
+    ],
+);
 
 =head1 FUNCTIONS
 
@@ -138,9 +155,6 @@ L<http://cpanratings.perl.org/d/Project-Euler>
 L<http://search.cpan.org/dist/Project-Euler/>
 
 =back
-
-
-=head1 ACKNOWLEDGEMENTS
 
 
 =head1 COPYRIGHT & LICENSE
