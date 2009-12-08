@@ -18,33 +18,43 @@ my $multiple_check = Project::Euler::Lib::MultipleCheck->new(
 
 =head1 NAME
 
-Project::Euler::Problem::P001 - Solutions for problem 001 projecteuler.net
+Project::Euler::Problem::P001 - Solutions for problem 001
 
 =head1 VERSION
 
-Version 0.10
+Version 0.1.1
 
 =cut
 
-use version 0.77; our $VERSION = qv("v0.1.0");
+use version 0.77; our $VERSION = qv("v0.1.1");
 
 =head1 SYNOPSIS
 
-This module is used to solve problem #001 located on projecteuer.net
+L<< http://projecteuler.net/index.php?section=problems&id=1 >>
+
+    use Project::Euler::Problem::P001;
+    my $p1 = Project::Euler::Problem::P001->new;
+
+    my $default_answer = $p1->solve;
+
+=head1 DESCRIPTION
+
+This module is used to solve problem #001
 
 This simple problem simply needs to find the sum of all the numbers within a
 range which are multiples of a set of integers.  The range always starts at 1
-and continues B<upto> C<< $self->max_number >> I<(1000 by default)>.  The set of
-numbers is stored in C<< $self->multi_nums >>.
-
+and continues B<upto> the provided input I<(1000 by default)>.  The numbers are
+filtered using L<< Project::Euler::Lib::MultipleCheck >>.
 
 =head1 Problem Attributes
 
 =head2 Multiple Numbers
 
-An array of numbers that are used to filter out the integers to sum
+An array of positive integers that are used to filter out the number to sum
 
-    Default: 3 & 5
+This array is always kept sorted in order to optimize the solve function
+
+    [3, 5]
 
 =cut
 
@@ -104,7 +114,8 @@ sub _build_problem_date {
 
 =head2 Problem Desc
 
-If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
+If we list all the natural numbers below 10 that are multiples of 3 or 5, we
+get 3, 5, 6 and 9. The sum of these multiples is 23.
 
 Find the sum of all the multiples of 3 or 5 below 1000.
 
@@ -121,7 +132,9 @@ __END_DESC
 
 =head2 Default Input
 
-The maximum value: 1,000
+The maximum value
+
+    1,000
 
 =cut
 
@@ -132,12 +145,12 @@ sub _build_default_input {
 
 =head2 Default Answer
 
-    233168
+    233,168
 
 =cut
 
 sub _build_default_answer {
-    return '233168';
+    return '233_168';
 }
 
 
@@ -152,25 +165,27 @@ sub _build_default_answer {
 
 =head2 Help Message
 
-You can set max_number and multi_nums to alter the way the program will
-function.  Don't forget to specify the wanted_answer if you know it!
+You can change C<< multi_nums >> to alter the way the program will function.  If you
+are providing custom_input, don't forget to specify the wanted_answer if you
+know it!
 
 =cut
 
 sub _build_help_message {
     return <<'__END_HELP';
-You can set max_number and multi_nums to alter the way the program will
-function.  Don't forget to specify the wanted_answer if you know it!
+You can change multi_nums to alter the way the program will function.  If you
+are providing custom_input, don't forget to specify the wanted_answer if you
+know it!
 __END_HELP
 }
 
 
 
-=head1 FUNCTIONS
+=head1 INTERNAL FUNCTIONS
 
-=head2 Validate Input (internal function)
+=head2 Validate Input
 
-The input must must be formatted like this:
+The restrictions on custom_input
 
     A positve integer
 
@@ -186,12 +201,12 @@ sub _check_input {
 
 
 
-=head2 Solve the problem (internal function)
+=head2 Solving the problem
 
 Tell the multiple_check object what the current multi_nums is.  Then loop from
 the first multi_num to the max_number (- 1) and filter all numbers that retrun
 false.  Finally use the List::More util 'sum' to return the sum of the filtered
-numbers.  If nothing was found return 0 rather than undef!
+numbers.  If nothing was found return 0 rather than undef.
 
 =cut
 
@@ -234,8 +249,6 @@ automatically be notified of progress on your bug as I make changes.
 You can find documentation for this module with the perldoc command.
 
     perldoc Project::Euler::Problem::P001
-
-=head1 ACKNOWLEDGEMENTS
 
 
 =head1 COPYRIGHT & LICENSE
