@@ -7,11 +7,14 @@ version_from    'lib/Project/Euler.pm';
 author_from     'lib/Project/Euler.pm';
 
 
+no_index package Project::Euler::Problem::problem_template
+
+
 #  Basic perl features
-requires  'Modern::Perl' => '1.03';
-requires  'autodie'      => '1.999';
-requires  'Carp'         => '0.00';
-requires  'version'      => '0.77';
+requires  'autodie'         => '1.999';
+requires  'version'         => '0.77';
+requires  'Exporter::Easy'  => '0.16';
+requires  'Modern::Perl'    => '1.03';
 
 #  Moose features
 requires  'Moose'                        => '0.65';
@@ -36,5 +39,5 @@ test_requires  'Test::Exception' => '0.22';
 
 perl_version '5.010';
 
-auto_install;
+#auto_install;
 WriteAll;
