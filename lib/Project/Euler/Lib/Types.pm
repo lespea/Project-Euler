@@ -204,4 +204,4 @@ See http://dev.perl.org/licenses/ for more information.
 
 =cut
 
-1; # End of Project::Euler::Lib::Common
+1; # End of Project::Euler::Lib::Types
