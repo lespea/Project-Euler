@@ -6,22 +6,22 @@ use MooseX::Method::Signatures;
 
 use Carp;
 use Readonly;
-use List::MoreUtils qw/ any all /;
+use List::MoreUtils qw/ any  all /;
 
 use Project::Euler::Lib::Types qw/ PosInt  PosIntArray /;
 
 
 =head1 NAME
 
-Project::Euler::Lib::MultipleCheck
+Project::Euler::Lib::MultipleCheck - Determine if an integer is divisible by an array of numbers
 
 =head1 VERSION
 
-Version v0.1.0
+Version v0.1.1
 
 =cut
 
-use version 0.77; our $VERSION = qv("v0.1.0");
+use version 0.77; our $VERSION = qv("v0.1.1");
 
 
 =head1 SYNOPSIS
@@ -32,17 +32,32 @@ optionally all) numbers in an array
     use Project::Euler::Lib::MultipleCheck;
     my $multi_check = Project::Euler::Lib::MultipleCheck->new(
         multi_nums => [2, 3, 5],
-        check_all  => 0,  # could omit this if you wanted to
+        check_all  => 0,  # Default
     );
 
+    $is_divisible = $multi_check->check(15);
+
+
+=head1 DESCRIPTION
+
+It is often useful to determine if a number is divisible by a set of numbers.
+A basic example is to determine if an integer is even by testing it against the
+array C<< [2] >>.  A boolean is also used to determining if the number should
+be divisible by all of the integers in the array or if any will suffice.
+
+The array of integers is always sorted to maximize efficiency (lower numbers
+have a better chance of matching over higher ones)
 
 
 =head1 VARIABLES
 
-The variables that the library needs to solve the problem
+The numbers to test against
 
-    multi_nums (ArrayRef[PosInts]) # Numbers to modulo with
-    check_all  (Boolean)        # Ensure all numbers are divisible instead of just one
+    multi_nums ( ArrayRef[PosInts] )
+
+The check number must be divisible by all numbers in the array
+
+    check_all  ( Bool )
 
 =cut
 
@@ -72,18 +87,20 @@ Function that returns a Boolean if the given number passes the checks
         check_all  => 0,
     );
 
-    my $true  = $multi_check->check(9);
-    my $false = $multi_check->check(11);
+    OK      $multi_check->check(9);
+    NOT OK  $multi_check->check(11);
+
 
     $multi_check->check_all(1);
-    my $true  = $multi_check->check(15);
-    my $false = $multi_check->check(10);
+
+    OK      $multi_check->check(15);
+    NOT OK  $multi_check->check(10);
 
 
-    $dies = $multi_check->multi_nums([0, 1]);  # Multi_nums must all be positive
-    $dies = $multi_check->multi_nums((2, 9));  # Multi nums must be an array ref
+    DIES    $multi_check->multi_nums([0, 1]);  # Multi_nums must all be positive
+    DIES    $multi_check->multi_nums(2, 9);    # Multi nums must be an array ref
 
-    $dies = $multi_check->check('test');  # Can't check a num
+    DIES    $multi_check->check('two');        # Can't check a string!
 
 =cut
 
@@ -115,9 +132,6 @@ automatically be notified of progress on your bug as I make changes.
 You can find documentation for this module with the perldoc command.
 
     perldoc Project::Euler::Lib::MultipleCheck
-
-
-=head1 ACKNOWLEDGEMENTS
 
 
 =head1 COPYRIGHT & LICENSE
