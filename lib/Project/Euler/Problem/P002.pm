@@ -26,16 +26,25 @@ Project::Euler::Problem::P002
 
 =head1 VERSION
 
-Version v0.1.0
+Version v0.1.1
 
 =cut
 
-use version 0.77; our $VERSION = qv("v0.1.0");
+use version 0.77; our $VERSION = qv("v0.1.1");
 
 
 =head1 SYNOPSIS
 
-This module is used to solve problem #2 located on projecteuer.net
+L<< http://projecteuler.net/index.php?section=problems&id=2 >>
+
+    use Project::Euler::Problem::P002;
+    my $p2 = Project::Euler::Problem::P002->new;
+
+    my $default_answer = $p2->solve;
+
+=head1 DESCRIPTION
+
+This module is used to solve problem #002
 
 This is a simple problem which computes the fib numbers upto a certain maximum
 and sums all of them that are even (or as implemented here, divisible by every
@@ -45,9 +54,9 @@ multi_nums)
 
 =head2 Multiple Numbers
 
-An array of numbers that are used to filter out the fib numbers
+An array of positive numbers that are used to filter out the fib numbers
 
-    Default: 2
+    [2]
 
 =cut
 
@@ -130,7 +139,7 @@ __END_DESC
 
 =head2 Default Input
 
-    Max number to go up to: 4_000_000
+    Max number to go up to: 4,000,000
 
 =cut
 
@@ -141,12 +150,12 @@ sub _build_default_input {
 
 =head2 Default Answer
 
-    4613732
+    4,613,732
 
 =cut
 
 sub _build_default_answer {
-    return 4613732;
+    return 4_613_732;
 }
 
 
@@ -161,27 +170,30 @@ sub _build_default_answer {
 
 =head2 Help Message
 
-You can set max_number and multi_nums to alter the way the program will
-function.  Don't forget to specify the wanted_answer if you know it!
+You can change C<< multi_nums >> to alter the way the program will function.  If you
+are providing custom_input, don't forget to specify the wanted_answer if you
+know it!
 
 =cut
 
 sub _build_help_message {
     return <<'__END_HELP';
-You can set max_number and multi_nums to alter the way the program will
-function.  Don't forget to specify the wanted_answer if you know it!
+You can change multi_nums to alter the way the program will function.  If you
+are providing custom_input, don't forget to specify the wanted_answer if you
+know it!
 __END_HELP
+
 }
 
 
 
-=head1 FUNCTIONS
+=head1 INTERNAL FUNCTIONS
 
-=head2 Validate Input (internal function)
+=head2 Validate Input
 
-The input must must be formatted like this:
+The restrictions on custom_input
 
-    A positive digit
+    A positive integer
 
 =cut
 
@@ -195,9 +207,9 @@ sub _check_input {
 
 
 
-=head2 Solve the problem (internal function)
+=head2 Solving the problem
 
-Use Math::Big to find all of the fib numbers, filter them, then find the sum
+Use L<< Math::Big >> to find fib numbers upto $max, filter them, and find the sum
 
 =cut
 
@@ -213,6 +225,7 @@ sub _solve_problem {
     my $sum = 0;
     my $num = 1;
 
+    #  Turn the Math::BigInt object into an int
     my $ans = fibonacci($num++)->numify;
 
     while ($ans < $max) {
@@ -245,6 +258,7 @@ You can find documentation for this module with the perldoc command.
 
 =head1 ACKNOWLEDGEMENTS
 
+L<< Math::Big >>
 
 =head1 COPYRIGHT & LICENSE
 
@@ -263,4 +277,4 @@ See http://dev.perl.org/licenses/ for more information.
 #  Cleanup the Moose stuff
 no Moose;
 __PACKAGE__->meta->make_immutable;
-1; # End of Project::Euler
+1; # End of Project::Euler::Problem::P002
