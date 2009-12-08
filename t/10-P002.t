@@ -135,21 +135,8 @@ for  my $test  (@ok_tests) {
 
         #  Test the module by passing an argument
         my $answer = $problem->solve($in);
-        my $status = $problem->solved_status();
 
-        ok($status, sprintf('Arg: Status should be okay for input %s => %d -> %d',
-                $divs, $in, $out));
         is($answer, $answer, sprintf('Arg: Bad return answer for %s => %d -> %d',
-                $divs, $in, $out));
-
-
-        #  Test the module by using custom_input
-        $answer = $problem->solve();
-        $status = $problem->solved_status();
-
-        ok($status, sprintf('Cus_Input: Status should be okay for input %s => %d -> %d',
-                $divs, $in, $out));
-        is($answer, $out, sprintf('Cus_Input: Bad return answer for %s => %d -> %d',
                 $divs, $in, $out));
     }
 }
