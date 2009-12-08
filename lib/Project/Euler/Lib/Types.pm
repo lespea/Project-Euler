@@ -6,6 +6,7 @@ use Modern::Perl;
 #  Declare our types
 use MooseX::Types
     -declare => [qw/
+        ProblemLink ProblemName
         PosInt      PosIntArray
         NegInt      NegIntArray
         MyDateTime
@@ -40,6 +41,69 @@ from the global declarations.
 
 
 =head1 SUBTYPES
+
+Create the subtypes that we will use to validate the arguments defined by the
+extending classes
+
+    m_ \A \Qhttp://projecteuler.net/index.php?section=problems&id=\E \d+ \z _xms
+    Base::prob_name = str  &&  10 < len < 80
+
+We also tell Moose how to coerce a given string into a DateTime object
+
+=cut
+
+=head2 ProblemLink
+
+A url pointing to a problem setup on L<< http://projecteuler.net >>
+
+    as Str,
+    message { "$_ is not a a valid link" },
+    where { $_ =~ m{
+                \A
+                \Qhttp://projecteuler.net/index.php?section=problems&id=\E
+                \d+
+                \z
+            }xms
+    };
+
+=cut
+
+subtype ProblemLink,
+    as Str,
+    message { qq{'$_' is not a a valid link} },
+    where { $_ =~ m{
+                \A
+                \Qhttp://projecteuler.net/index.php?section=problems&id=\E
+                \d+
+                \z
+            }xms
+    };
+
+;
+
+
+=head2 ProblemName
+
+In an effort to limit text runoff, the problem name is limited to 80
+characters.  Similarly, the length must also be greater than 10 to ensure it is
+a usefull name.
+
+    as Str,
+    message { qq{'$_' must be a a string between 10 and 80 characters long} },
+    where {
+        length $_ > 10  and  length $_ < 80;
+    };
+
+=cut
+
+subtype ProblemName
+    as Str,
+    message { qq{'$_' must be a a string between 10 and 80 characters long} },
+    where {
+        length $_ > 10  and  length $_ < 80;
+    };
+;
+
 
 =head2 PosInt
 
@@ -108,6 +172,7 @@ use DateTime::Format::DateParse;
 class_type MyDateTime, { class => 'DateTime' };
 coerce MyDateTime,
     from Str,
+    message { sprintf(q{'%s' is not a valid date}, $_ // '#UNDEFINED#') },
     via {
         DateTime::Format::DateParse->parse_datetime( $_ );
     };
