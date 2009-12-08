@@ -36,5 +36,5 @@ test_requires  'Test::Exception' => '0.22';
 
 perl_version '5.010';
 
-auto_install;
+#auto_install;
 WriteAll;
