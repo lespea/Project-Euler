@@ -251,6 +251,11 @@ You can find documentation for this module with the perldoc command.
     perldoc Project::Euler::Problem::P001
 
 
+=head1 ACKNOWLEDGEMENTS
+
+L<< List::Util >>
+
+
 =head1 COPYRIGHT & LICENSE
 
 Copyright 2009 Adam Lesperance.
@@ -268,4 +273,4 @@ See http://dev.perl.org/licenses/ for more information.
 #  Cleanup the Moose stuff
 no Moose;
 __PACKAGE__->meta->make_immutable;
-1; # End of Project::Euler
+1; # End of Project::Eulerl::Problem::P001
