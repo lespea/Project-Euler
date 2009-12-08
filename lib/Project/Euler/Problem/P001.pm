@@ -150,7 +150,7 @@ sub _build_default_input {
 =cut
 
 sub _build_default_answer {
-    return '233_168';
+    return 233_168;
 }
 
 
