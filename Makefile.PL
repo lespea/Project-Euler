@@ -7,9 +7,6 @@ version_from    'lib/Project/Euler.pm';
 author_from     'lib/Project/Euler.pm';
 
 
-no_index package Project::Euler::Problem::problem_template
-
-
 #  Basic perl features
 requires  'autodie'         => '1.999';
 requires  'version'         => '0.77';
