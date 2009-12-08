@@ -6,9 +6,9 @@ use Modern::Perl;
 #  Declare our types
 use MooseX::Types
     -declare => [qw/
-        ProblemLink ProblemName
-        PosInt      PosIntArray
-        NegInt      NegIntArray
+        ProblemLink     ProblemName
+        PosInt          PosIntArray
+        NegInt          NegIntArray
         MyDateTime
 /];
 
@@ -70,16 +70,14 @@ A url pointing to a problem setup on L<< http://projecteuler.net >>
 
 subtype ProblemLink,
     as Str,
-    message { qq{'$_' is not a a valid link} },
+    message { sprintf(q{'%s' is not a valid link}, $_ // '#UNDEFINED#') },
     where { $_ =~ m{
                 \A
                 \Qhttp://projecteuler.net/index.php?section=problems&id=\E
                 \d+
                 \z
-            }xms
+            }xms;
     };
-
-;
 
 
 =head2 ProblemName
@@ -96,13 +94,12 @@ a usefull name.
 
 =cut
 
-subtype ProblemName
+subtype ProblemName,
     as Str,
-    message { qq{'$_' must be a a string between 10 and 80 characters long} },
+    message { sprintf(q{'%s' must be a string between 10 and 80 characters long}, $_ // '#UNDEFINED#') },
     where {
         length $_ > 10  and  length $_ < 80;
     };
-;
 
 
 =head2 PosInt
@@ -172,7 +169,6 @@ use DateTime::Format::DateParse;
 class_type MyDateTime, { class => 'DateTime' };
 coerce MyDateTime,
     from Str,
-    message { sprintf(q{'%s' is not a valid date}, $_ // '#UNDEFINED#') },
     via {
         DateTime::Format::DateParse->parse_datetime( $_ );
     };
@@ -208,5 +204,4 @@ See http://dev.perl.org/licenses/ for more information.
 
 =cut
 
-no Moose::Role;
 1; # End of Project::Euler::Lib::Common
