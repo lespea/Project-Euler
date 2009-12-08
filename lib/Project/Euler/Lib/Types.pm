@@ -3,7 +3,7 @@ package Project::Euler::Lib::Types;
 use Modern::Perl;
 
 
-# predeclare our own types
+#  Declare our types
 use MooseX::Types
     -declare => [qw/
         PosInt      PosIntArray
@@ -12,27 +12,31 @@ use MooseX::Types
 /];
 
 
-# import builtin types
+#  Import builtin types
 use MooseX::Types::Moose qw/ Str  Int  ArrayRef /;
 
 =head1 NAME
 
-Project::Euler::Lib::Types
+Project::Euler::Lib::Types - Type definitions for L<< Project::Euler >>
 
 =head1 VERSION
 
-Version v0.1.0
+Version v0.1.1
 
 =cut
 
-use version 0.77; our $VERSION = qv("v0.1.0");
+use version 0.77; our $VERSION = qv("v0.1.1");
 
 
 =head1 SYNOPSIS
 
-My custom types definitions
+    use Project::Euler::Lib::Types  qw/ (types to import) /;
 
-    with Project::Euler::Lib::Types  qw/ (types to import) /;
+=head1 DESCRIPTION
+
+(Most) all of the types that our modules use are defined here so that they can
+be reused and tested.  This also helps prevent all of the namespace pollution
+from the global declarations.
 
 
 =head1 SUBTYPES
@@ -87,20 +91,14 @@ subtype NegIntArray, as ArrayRef[NegInt];
 
 =head2 MyDateTime
 
-A L<< DateTime >> object parsed using L<< DateTime::Format::Natural >>
+A L<< DateTime >> object parsed using L<< DateTime::Format::DateParse >>
 
-    my $en_parser = DateTime::Format::Natural->new(
-        lang      => 'en',
-        time_zone => 'UTC',
-    );
     class_type MyDateTime, { class => 'DateTime' };
     coerce MyDateTime,
         from Str,
         via {
-            my $datetime = $en_parser->parse_datetime($_);
-            $en_parser->success  ?  $datetime  :  undef
+            DateTime::Format::DateParse->parse_datetime( $_ );
         };
-
 
 =cut
 
@@ -125,16 +123,11 @@ the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Project-Eu
 automatically be notified of progress on your bug as I make changes.
 
 
-
-
 =head1 SUPPORT
 
 You can find documentation for this module with the perldoc command.
 
     perldoc Project::Euler::Lib::Common
-
-
-=head1 ACKNOWLEDGEMENTS
 
 
 =head1 COPYRIGHT & LICENSE
