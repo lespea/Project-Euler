@@ -2,13 +2,10 @@ package Project::Euler::Problem::Base;
 
 use Modern::Perl;
 use Moose::Role;
-use Moose::Util::TypeConstraints;
 
 use Project::Euler::Lib::Types  qw/ ProblemLink  ProblemName  PosInt  MyDateTime /;
 
 use Carp;
-use DateTime;
-use DateTime::Format::Natural;
 use Readonly;
 
 Readonly::Scalar my $BASE_URL => q{http://projecteuler.net/index.php?section=problems&id=};
