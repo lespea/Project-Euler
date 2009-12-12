@@ -28,6 +28,7 @@ t/20-Problems/000-Correct_Defaults.t
 t/20-Problems/001-Sum_Filtered_Lists.t
 t/20-Problems/002-Sum_Filtered_Fib_Numbers.t
 xt/release/00-requires.t
+xt/release/01-consistent_perldoc.t
 xt/release/90-boilerplate.t
 xt/release/91-pod.t
 xt/release/92-pod-coverage.t
