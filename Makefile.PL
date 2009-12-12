@@ -44,5 +44,7 @@ test_requires  'Test::Most'      => '0.20';
 test_requires  'Test::Exception' => '0.22';
 
 
+sign 1;
+
 #auto_install;
 WriteAll;
