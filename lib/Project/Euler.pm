@@ -8,7 +8,7 @@ Project::Euler - Solutions for L<< http://projecteuler.net >>
 
 =head1 VERSION
 
-Version 0.1.5
+Version v0.1.5
 
 =cut
 

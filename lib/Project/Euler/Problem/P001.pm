@@ -22,7 +22,7 @@ Project::Euler::Problem::P001 - Solutions for problem 001
 
 =head1 VERSION
 
-Version 0.1.1
+Version v0.1.1
 
 =cut
 
@@ -273,4 +273,4 @@ See http://dev.perl.org/licenses/ for more information.
 #  Cleanup the Moose stuff
 no Moose;
 __PACKAGE__->meta->make_immutable;
-1; # End of Project::Eulerl::Problem::P001
+1; # End of Project::Euler::Problem::P001

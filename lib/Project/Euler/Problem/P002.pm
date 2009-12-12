@@ -22,7 +22,7 @@ my $multiple_check = Project::Euler::Lib::MultipleCheck->new(
 
 =head1 NAME
 
-Project::Euler::Problem::P002 - Solutions for problem 2
+Project::Euler::Problem::P002 - Solutions for problem 002
 
 =head1 VERSION
 

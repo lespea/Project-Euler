@@ -372,4 +372,4 @@ See http://dev.perl.org/licenses/ for more information.
 =cut
 
 no Moose::Role;
-1; # End of Project::Euler::Base
+1; # End of Project::Euler::Problem::Base
