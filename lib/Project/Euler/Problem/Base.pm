@@ -17,11 +17,11 @@ Project::Euler::Problem::Base - Abstract class that the problems will extend fro
 
 =head1 VERSION
 
-Version v0.2.1
+Version v0.2.2
 
 =cut
 
-use version 0.77; our $VERSION = qv("v0.2.1");
+use version 0.77; our $VERSION = qv("v0.2.2");
 
 
 =head1 SYNOPSIS
