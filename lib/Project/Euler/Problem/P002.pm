@@ -22,15 +22,15 @@ my $multiple_check = Project::Euler::Lib::MultipleCheck->new(
 
 =head1 NAME
 
-Project::Euler::Problem::P002
+Project::Euler::Problem::P002 - Solutions for problem 2
 
 =head1 VERSION
 
-Version v0.1.1
+Version v0.1.2
 
 =cut
 
-use version 0.77; our $VERSION = qv("v0.1.1");
+use version 0.77; our $VERSION = qv("v0.1.2");
 
 
 =head1 SYNOPSIS
