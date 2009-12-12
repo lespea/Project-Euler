@@ -5,6 +5,9 @@ Revision history for Project-Euler
     *   Moved maintainer tests to xt/release
     *   Added tests for Lib::MultipleCheck
 
+  # Problem::P002 (0.2.2)
+    *   Fix the name to accurately reflect the project number
+
   # Problem::Base (0.2.2)
     *   Removed unused modules
 
