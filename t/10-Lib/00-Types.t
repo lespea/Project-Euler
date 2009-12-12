@@ -69,6 +69,7 @@ for  my $check  (keys %tests) {
     }
 }
 plan tests => $sum;
+diag('Moose types checks');
 
 
 for  my $check  (keys %tests) {

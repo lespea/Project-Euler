@@ -90,7 +90,7 @@ Readonly::Scalar my $CUSTOM_ANSWER => $CUSTOM_INPUT / 2;
 
 
 plan tests => 7 + (7 * 2) + (3 * 6) + 2 + 5;
-diag( 'Base class is functioning correctly' );
+diag( 'Abstract class tests' );
 
 die_on_fail;
 

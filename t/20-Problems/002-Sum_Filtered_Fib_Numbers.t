@@ -100,10 +100,11 @@ for  my $test_array  (grep {scalar @$_ > 0} (\@ok_tests, \@nok_tests)) {
 }
 
 plan tests => 2 + $sum;
-diag( 'Checking specific P001 problems' );
 
 
 use_ok( MODULE );
+diag( 'Checking specific P002 problems' );
+
 my $problem    = new_ok( MODULE );
 my $def_multis = $problem->multi_nums();
 
