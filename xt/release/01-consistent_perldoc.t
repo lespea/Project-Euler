@@ -40,7 +40,7 @@ my $get_mod_info = qr{
     ;
     \s*
     \z
-}xmsio;
+}xmso;
 
 my $same_version = qr{
     ^
