@@ -64,6 +64,7 @@ The check number must be divisible by all numbers in the array
 has 'multi_nums' => (
     is          => 'rw',
     isa         => PosIntArray,
+    lazy_build  => 1,
     required    => 1,
 );
 
