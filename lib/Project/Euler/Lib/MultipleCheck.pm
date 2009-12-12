@@ -4,8 +4,6 @@ use Modern::Perl;
 use Moose;
 use MooseX::Method::Signatures;
 
-use Carp;
-use Readonly;
 use List::MoreUtils qw/ any  all /;
 
 use Project::Euler::Lib::Types qw/ PosInt  PosIntArray /;
