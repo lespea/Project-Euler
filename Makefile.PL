@@ -1,4 +1,14 @@
+use strict;
+use warnings;
+
 use inc::Module::Install;
+
+
+perl_version '5.010';
+
+extra_tests();
+tests_recursive();
+
 
 name            'Project-Euler';
 abstract_from   'lib/Project/Euler.pm';
@@ -33,8 +43,6 @@ test_requires  'Test::More'      => '0.42';
 test_requires  'Test::Most'      => '0.20';
 test_requires  'Test::Exception' => '0.22';
 
-
-perl_version '5.010';
 
 #auto_install;
 WriteAll;
