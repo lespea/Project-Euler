@@ -1,7 +1,6 @@
 package Project::Euler;
 
-use warnings;
-use strict;
+use Modern::Perl;
 
 =head1 NAME
 
