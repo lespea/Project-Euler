@@ -1,5 +1,14 @@
 Revision history for Project-Euler
 
+0.1.5
+    *   Completely re-ordered tests using sub-directories for logical seperation
+    *   Moved maintainer tests to xt/release
+    *   Added tests for Lib::MultipleCheck
+
+  # Problem::Base (0.2.2)
+    *   Removed unused modules
+
+
 0.1.4   12/08/2009 01:36:22 AM (CST)
     *   Updated POD documentation of the main class
     *   Removed template file from P:E:P
