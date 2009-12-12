@@ -1,7 +1,9 @@
+.Changes.swp
 Changes
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
+inc/Module/Install/ExtraTests.pm
 inc/Module/Install/Fetch.pm
 inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
@@ -17,12 +19,16 @@ Makefile.PL
 MANIFEST			This list of files
 META.yml
 README
-t/00-load.t
-t/01-base.t
-t/02-problems.t
-t/03-types.t
-t/10-P001.t
-t/10-P002.t
-t/97-boilerplate.t
-t/98-pod.t
-t/99-pod-coverage.t
+t/00-Base/00-load.t
+t/00-Base/01-base.t
+t/10-Lib/00-Types.t
+t/10-Lib/01-Multiple_Check.t
+t/20-Problems/.000-Correct_Defaults.t.swp
+t/20-Problems/.10-P001.t.swp
+t/20-Problems/.10-P002.t.swp
+t/20-Problems/000-Correct_Defaults.t
+t/20-Problems/001-Sum_Filtered_Lists.t
+t/20-Problems/002-Sum_Filtered_Fib_Numbers.t
+xt/release/00-boilerplate.t
+xt/release/01-pod.t
+xt/release/02-pod-coverage.t
