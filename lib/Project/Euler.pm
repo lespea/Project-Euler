@@ -38,9 +38,13 @@ While not the most elegant solution, it will have to do for now.
 
 These problems are fully implemented so far:
 
-L<< Project::Euler::Problem::P001 >>
+=over 4
 
-L<< Project::Euler::Problem::P002 >>
+=item * L<< Project::Euler::Problem::P001 >>
+
+=item * L<< Project::Euler::Problem::P002 >>
+
+=back
 
 using the base class:  L<< Project::Euler::Problem::Base >>
 
@@ -49,9 +53,13 @@ using the base class:  L<< Project::Euler::Problem::Base >>
 
 These libraries are used by the problem_solutions:
 
-L<< Project::Euler::Lib::MultipleCheck >>
+=over 4
 
-L<< Project::Euler::Lib::Types >>
+=item * L<< Project::Euler::Lib::MultipleCheck >>
+
+=item * L<< Project::Euler::Lib::Types >>
+
+=back
 
 =head1 EXPORT
 
@@ -82,8 +90,15 @@ You can find documentation for this module with the perldoc command.
 
     perldoc Project::Euler
 
+Also, you can follow the development of this module on L<< http://www.github.com >>
 
-You can also look for information at:
+=over 4
+
+=item * L<< http://www.github.com/lespea/Project--Euler/ >>
+
+=back
+
+You can look for further information at:
 
 =over 4
 
