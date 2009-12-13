@@ -20,6 +20,7 @@ MANIFEST			This list of files
 MANIFEST.SKIP
 META.yml
 README
+scripts/create_problem.pl
 t/00-Base/00-load.t
 t/00-Base/01-base.t
 t/10-Lib/00-Types.t
