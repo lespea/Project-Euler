@@ -4,6 +4,12 @@ Revision history for Project-Euler
     *   Completely re-ordered tests using sub-directories for logical seperation
     *   Moved maintainer tests to xt/release
     *   Added tests for Lib::MultipleCheck
+    *   Added test to ensure consistent naming schemes
+    *   Added test to make sure no required module was left out
+    *   Created template script to auto-generate a problem
+
+  # Problem::P001 (0.2.2)
+    *   Cleaned up version info
 
   # Problem::P002 (0.2.2)
     *   Fix the name to accurately reflect the project number
