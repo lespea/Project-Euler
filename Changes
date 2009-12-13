@@ -1,6 +1,6 @@
 Revision history for Project-Euler
 
-0.1.5
+0.1.5  12/12/2009 06:49:29 PM (CST)
     *   Completely re-ordered tests using sub-directories for logical seperation
     *   Moved maintainer tests to xt/release
     *   Added tests for Lib::MultipleCheck
