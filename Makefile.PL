@@ -39,6 +39,11 @@ requires  'Math::Big'                   => '1.12';
 requires  'Readonly'                    => '0.00';
 
 
+#  Recommended
+recommends  'HTML::TreeBuilder::XPath';
+recommends  'WWW::Mechanize';
+
+
 #  Test modules
 test_requires  'autodie'         => '1.999';
 test_requires  'Test::More'      => '0.42';
