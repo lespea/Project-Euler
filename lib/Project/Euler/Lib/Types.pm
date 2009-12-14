@@ -22,11 +22,11 @@ Project::Euler::Lib::Types - Type definitions for L<< Project::Euler >>
 
 =head1 VERSION
 
-Version v0.1.1
+Version v0.1.2
 
 =cut
 
-use version 0.77; our $VERSION = qv("v0.1.1");
+use version 0.77; our $VERSION = qv("v0.1.2");
 
 
 =head1 SYNOPSIS
@@ -44,13 +44,6 @@ from the global declarations.
 
 Create the subtypes that we will use to validate the arguments defined by the
 extending classes
-
-    m_ \A \Qhttp://projecteuler.net/index.php?section=problems&id=\E \d+ \z _xms
-    Base::prob_name = str  &&  10 < len < 80
-
-We also tell Moose how to coerce a given string into a DateTime object
-
-=cut
 
 =head2 ProblemLink
 
@@ -188,7 +181,7 @@ automatically be notified of progress on your bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Project::Euler::Lib::Common
+    perldoc Project::Euler::Lib::Types
 
 
 =head1 COPYRIGHT & LICENSE
