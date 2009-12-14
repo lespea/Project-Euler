@@ -4,8 +4,8 @@ use Carp;
 use Modern::Perl;
 use Moose;
 
+use Math::BigInt qw/ blcm /;
 with 'Project::Euler::Problem::Base';
-use Project::Euler::Lib::Types  qw/ /;  ### TEMPLATE ###
 
 
 =head1 NAME
@@ -33,14 +33,7 @@ L<< http://projecteuler.net/index.php?section=problems&id=5 >>
 
 This module is used to solve problem #005
 
-### TEMPLATE ###
-
-=head1 Problem Attributes
-
-### TEMPLATE ###
-
-=cut
-
+Use Math::BigInt to calculate the least common multiple between numbers
 
 =head1 SETUP
 
@@ -58,12 +51,12 @@ sub _build_problem_number {
 
 =head2 Problem Name
 
-    ### TEMPLATE ###
+    Smallest all_div number
 
 =cut
 
 sub _build_problem_name {
-    return q{};### TEMPLATE ###
+    return q{Smallest all_div number};
 }
 
 
@@ -80,14 +73,18 @@ sub _build_problem_date {
 
 =head2 Problem Desc
 
-2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.What is the smallest number that is evenly divisible by all of the numbers from 1 to 20?
+2520 is the smallest number that can be divided by each of the numbers from 1
+to 10 without any remainder.What is the smallest number that is evenly
+divisible by all of the numbers from 1 to 20?
 
 =cut
 
 sub _build_problem_desc {
     return <<'__END_DESC';
 
-2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.What is the smallest number that is evenly divisible by all of the numbers from 1 to 20?
+2520 is the smallest number that can be divided by each of the numbers from 1
+to 10 without any remainder.What is the smallest number that is evenly
+divisible by all of the numbers from 1 to 20?
 
 __END_DESC
 }
@@ -95,12 +92,12 @@ __END_DESC
 
 =head2 Default Input
 
-### TEMPLATE ###
+20
 
 =cut
 
 sub _build_default_input {
-    return ;### TEMPLATE ###
+    return 20;
 }
 
 
@@ -117,7 +114,7 @@ sub _build_default_answer {
 
 =head2 Has Input?
 
-    ### TEMPLATE ###
+    Yes
 
 =cut
 ### TEMPLATE ###
@@ -126,7 +123,8 @@ sub _build_default_answer {
 
 =head2 Help Message
 
-### TEMPLATE ###
+The input controls the cap on of the range of numbers to find the least common
+multiple of.
 
 =cut
 
@@ -134,7 +132,8 @@ sub _build_help_message {
 
     return <<'__END_HELP';
 
-### TEMPLATE ###
+The input controls the cap on of the range of numbers to find the least common
+multiple of.
 
 __END_HELP
 
@@ -146,27 +145,35 @@ __END_HELP
 
 =head2 Validate Input
 
-### TEMPLATE ###
+The restrictions on custom_input
+
+    A positve integer
 
 =cut
 
 sub _check_input {
-### TEMPLATE ###
+      my ( $self, $input, $old_input ) = @_;
+
+      if ($input !~ /\D/ or $input < 1) {
+          croak sprintf(q{Your input, '%s', must be all digits and >= 1}, $input);
+      }
 }
 
 
 
 =head2 Solving the problem
 
-### TEMPLATE ###
+This is just goes from the largest multi_num until multiple_check returns true
+and returns that number.
 
 =cut
 
 sub _solve_problem {
-    my ($self, $input) = @_;
+    my ($self, $max) = @_;
 
-    $input //= $self->default_input;
-    ### TEMPLATE ###
+    $max //= $self->default_input;
+
+    return blcm(1..$max)->numify;
 }
 
 
@@ -192,6 +199,7 @@ You can find documentation for this module with the perldoc command.
 
 =head1 ACKNOWLEDGEMENTS
 
+L<< Math::BigInt >>
 
 
 =head1 COPYRIGHT & LICENSE
