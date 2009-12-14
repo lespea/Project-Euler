@@ -14,6 +14,8 @@ lib/Project/Euler/Lib/Types.pm
 lib/Project/Euler/Problem/Base.pm
 lib/Project/Euler/Problem/P001.pm
 lib/Project/Euler/Problem/P002.pm
+lib/Project/Euler/Problem/P003.pm
+lib/Project/Euler/Problem/P004.pm
 Makefile
 Makefile.PL
 MANIFEST			This list of files
