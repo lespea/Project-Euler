@@ -8,11 +8,11 @@ Project::Euler - Solutions for L<< http://projecteuler.net >>
 
 =head1 VERSION
 
-Version v0.1.5
+Version v0.1.6
 
 =cut
 
-use version 0.77; our $VERSION = qv("v0.1.5");
+use version 0.77; our $VERSION = qv("v0.1.6");
 
 
 =head1 SYNOPSIS
