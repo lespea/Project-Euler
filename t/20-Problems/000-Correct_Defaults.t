@@ -36,7 +36,7 @@ for  my $problem  (@files) {
     ok ( $problem->help_message  , 'Help_message is set correctly'   );
 
     # TESTS -> 3
-    ok ( $problem->solve         , "$mod ran without errors"         );
-    ok ( $problem->solved_status , "$mod solved correctly"           );
-	is ( $problem->solved_wanted, $problem->solved_answer, "$mod gave the incorrect answer");
+    ok ( $problem->solve        , "$mod ran without errors"         );
+    ok ( $problem->solved_status, "$mod solved correctly"           );
+	is ( $problem->solved_answer, $problem->solved_wanted, "$mod gave the incorrect answer");
 }
