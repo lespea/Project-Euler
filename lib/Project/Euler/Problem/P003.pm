@@ -15,11 +15,11 @@ Project::Euler::Problem::P003 - Solutions for problem 003
 
 =head1 VERSION
 
-Version v0.1.0
+Version v0.1.1
 
 =cut
 
-use version 0.77; our $VERSION = qv("v0.1.0");
+use version 0.77; our $VERSION = qv("v0.1.1");
 
 =head1 SYNOPSIS
 
@@ -131,7 +131,7 @@ sub _build_default_answer {
 =head2 Help Message
 
 There is little to no customization for this problem, simply tell it what you
-want to facor with custom_input
+want to factor with custom_input
 
 =cut
 
@@ -140,7 +140,7 @@ sub _build_help_message {
     return <<'__END_HELP';
 
 There is little to no customization for this problem, simply tell it what you
-want to facor with custom_input
+want to factor with custom_input
 
 __END_HELP
 
@@ -185,8 +185,14 @@ sub _solve_problem {
     $max //= $self->default_input;
 
     my $wheel_size  = length $max < 10  ?  6  :  7;
+
+    #  Cheat a little bit since we know the default input works fine with
+    #  a wheel size of 5 so use that since it's crazy fast.
+    $wheel_size = 5  if  $self->default_input;
+
     my @factors = factors_wheel($max, $wheel_size);
 
+    $self->_set_more_info(sprintf('The factors were %s', join q{, }, @factors));
     return $factors[-1]->numify;
 }
 
