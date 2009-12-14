@@ -1,3 +1,5 @@
+#!/usr/bin/env perl
+
 use Modern::Perl;
 use HTML::TreeBuilder::XPath;
 use WWW::Mechanize;
@@ -60,7 +62,8 @@ This module is used to solve problem #%03d
 =cut
 
 sub _build_problem_number {
-    ### TEMPLATE ###
+    #  Must be an int > 0
+    return %d;
 }
 
 
@@ -71,7 +74,7 @@ sub _build_problem_number {
 =cut
 
 sub _build_problem_name {
-    ### TEMPLATE ###
+    return q{};### TEMPLATE ###
 }
 
 
@@ -108,13 +111,13 @@ __END_DESC
 =cut
 
 sub _build_default_input {
-    ### TEMPLATE ###
+    return ;### TEMPLATE ###
 }
 
 
 =head2 Default Answer
 
-%s
+    %s
 
 =cut
 
@@ -125,7 +128,7 @@ sub _build_default_answer {
 
 =head2 Has Input?
 
-### TEMPLATE ###
+    ### TEMPLATE ###
 
 =cut
 ### TEMPLATE ###
@@ -173,6 +176,7 @@ sub _check_input {
 sub _solve_problem {
     my ($self, $input) = @_;
 
+    $input //= $self->default_input;
     ### TEMPLATE ###
 }
 
@@ -242,7 +246,7 @@ die "no desc\n" unless  defined $desc;
 
 
 printf( $BASE_CODE,
-        ($num) x 10,
+        ($num) x 11,
         ($date) x 2,
         ($desc) x 2,
         $answer,
