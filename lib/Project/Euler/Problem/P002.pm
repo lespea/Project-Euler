@@ -26,11 +26,11 @@ Project::Euler::Problem::P002 - Solutions for problem 002
 
 =head1 VERSION
 
-Version v0.1.2
+Version v0.1.3
 
 =cut
 
-use version 0.77; our $VERSION = qv("v0.1.2");
+use version 0.77; our $VERSION = qv("v0.1.3");
 
 
 =head1 SYNOPSIS
