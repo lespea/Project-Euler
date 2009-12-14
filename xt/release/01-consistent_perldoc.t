@@ -94,9 +94,14 @@ my $same_name = qr{
         \S+
     )
     .+
+    =head1 \s SUPPORT
+    .+
+    \s{4}
+    perldoc \s
+    \k{name}
+    .+
     ^ 1; \s+ \# \s+ End \s of \s \k{name} \Z
 }xmso;
-
 
 sub process_file {
     my $file = shift;
