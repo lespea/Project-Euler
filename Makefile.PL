@@ -9,6 +9,8 @@ perl_version '5.010';
 extra_tests();
 tests_recursive();
 
+no_index directory => 'scripts';
+
 
 name            'Project-Euler';
 abstract_from   'lib/Project/Euler.pm';
@@ -36,12 +38,15 @@ requires  'DateTime::Format::DateParse' => '0.00';
 requires  'List::MoreUtils'             => '0.13';
 requires  'List::Util'                  => '1.20';
 requires  'Math::Big'                   => '1.12';
+requires  'Math::Big::Factors'          => '0.00';
 requires  'Readonly'                    => '0.00';
+requires  'String::Palindrome'          => '0.00';
 
 
 #  Recommended
 recommends  'HTML::TreeBuilder::XPath';
 recommends  'WWW::Mechanize';
+recommends  'Meth::BigInt::GMP';
 
 
 #  Test modules
