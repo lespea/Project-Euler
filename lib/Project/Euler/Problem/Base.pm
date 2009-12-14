@@ -17,11 +17,11 @@ Project::Euler::Problem::Base - Abstract class that the problems will extend fro
 
 =head1 VERSION
 
-Version v0.2.2
+Version v0.2.4
 
 =cut
 
-use version 0.77; our $VERSION = qv("v0.2.2");
+use version 0.77; our $VERSION = qv("v0.2.4");
 
 
 =head1 SYNOPSIS
@@ -58,8 +58,11 @@ so nobody creating an instance of the problem can over-write the values.
     custom_input   ( str         )  # User provided input to the problem
     custom_answer  ( str         )  # User provided answer to the problem
 
-    solve_status   ( boolean     )  # True means it was valid
-    solve_answer   ( str         )  # Last answer provided
+    solved_status  ( boolean     )  # True means it was valid
+    solved_answer  ( str         )  # Last answer provided
+    solved_wanted  ( str         )  # Last wanted answer
+
+    more_info      ( str         )  # Any additional info solve() provided
 
 =cut
 
@@ -188,6 +191,7 @@ has 'solved_status'  => (
     isa        => 'Maybe[Bool]',
     writer     => '_set_solved_status',
     required   => 0,
+    init_arg   => undef,
 );
 
 has 'solved_answer'  => (
@@ -195,6 +199,7 @@ has 'solved_answer'  => (
     isa        => 'Maybe[Str]',
     writer     => '_set_solved_answer',
     required   => 0,
+    init_arg   => undef,
 );
 
 has 'solved_wanted'  => (
@@ -202,6 +207,16 @@ has 'solved_wanted'  => (
     isa        => 'Maybe[Str]',
     writer     => '_set_solved_wanted',
     required   => 0,
+    init_arg   => undef,
+);
+
+has 'more_info' => (
+    is         => 'ro',
+    isa        => 'Maybe[Str]',
+    lazy_build => 1,
+    writer     => '_set_more_info',
+    required   => 0,
+    init_arg   => undef,
 );
 
 
@@ -239,8 +254,8 @@ and expected answer.
     my $def_answer = $problem_1->solve;
 
     $problem_1->custom_input  => (42);
-    $problem_1->custom_answer => (42);
-    $problem_1->use_defaults  => (1);
+    $problem_1->custom_answer => (24);
+    $problem_1->use_defaults  => (0);
 
     my $custom_answer = $problem_1->solve;
 
@@ -315,6 +330,7 @@ outcome of the last run of the module.
 
 sub status {
     my ($self) = @_;
+    my $out;
 
     #  Extract the status and solved and expected answer
     my ($answer, $wanted, $status) =
@@ -322,15 +338,22 @@ sub status {
 
     #  If the status isn't even defined then the problem wasn't even run
     if (!defined $status) {
-        return q{It appears that the problem has yet to be solved once.};
+        $out = q{It appears that the problem has yet to be solved once.};
     }
 
     #  Otherwise print a message if it failed or not
     else {
-        return sprintf(q{The last run was%s succesfull!  The answer expected was '%s' %s the answer returned was '%s'},
+        $out = sprintf(q{The last run was%s succesfull!  The answer expected was '%s' %s the answer returned was '%s'},
             $status ? q{} : ' not', $wanted, $status ? 'and' : 'but', $answer
         );
     }
+
+    if ($self->has_more_info) {
+        $out .= sprintf(qq{\n%s}, $self->more_info);
+    }
+
+
+    return $out;
 }
 
 
@@ -352,7 +375,7 @@ automatically be notified of progress on your bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Project::Euler::Base
+    perldoc Project::Euler::Problem::Base
 
 
 =head1 ACKNOWLEDGEMENTS
