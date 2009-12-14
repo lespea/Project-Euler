@@ -224,15 +224,21 @@ sub _solve_problem {
 
     my $sum = 0;
     my $num = 1;
+    my @fibs;
 
     #  Turn the Math::BigInt object into an int
     my $ans = fibonacci($num++)->numify;
 
     while ($ans < $max) {
-        $sum += $ans  if  $multiple_check->check($ans);
+        if  ($multiple_check->check($ans)) {
+            $sum += $ans;
+            push @fibs, $ans;
+        }
+
         $ans = fibonacci($num++)->numify;
     }
 
+    $self->_set_more_info(sprintf('The fibs were %s', join q{, }, @fibs));
     return $sum;
 }
 
