@@ -10,3 +10,4 @@ Project-Euler-*
 cover_db
 \.bak$
 \.git.*
+create_problem.pl

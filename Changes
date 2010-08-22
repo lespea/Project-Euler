@@ -1,5 +1,10 @@
 Revision history for Project-Euler
 
+
+1.00        
+    *   Move to Dist::Zilla
+
+
 0.1.6
     *   Don't index the scripts directory
     *   Have name_test also validate perldoc statement is correct
