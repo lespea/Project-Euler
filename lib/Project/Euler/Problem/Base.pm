@@ -1,8 +1,11 @@
+use strict;
+use warnings;
 package Project::Euler::Problem::Base;
 
 use Modern::Perl;
-use Moose::Role;
+use namespace::autoclean -also => qr/^_/;
 
+use Moose::Role;
 use Project::Euler::Lib::Types  qw/ ProblemLink  ProblemName  PosInt  MyDateTime /;
 
 use Carp;
@@ -11,23 +14,15 @@ use Readonly;
 Readonly::Scalar my $BASE_URL => q{http://projecteuler.net/index.php?section=problems&id=};
 
 
-=head1 NAME
-
-Project::Euler::Problem::Base - Abstract class that the problems will extend from
-
-=head1 VERSION
-
-Version v0.2.4
-
-=cut
-
-use version 0.77; our $VERSION = qv("v0.2.4");
+#ABSTRACT: Abstract class that the problems will extend from
 
 
 =head1 SYNOPSIS
 
+    package Project::Euler::Problem::P999;
     use Moose;
-    with Project::Euler::Problem::Base;
+    with 'Project::Euler::Problem::Base';
+
 
 =head1 DESCRIPTION
 
@@ -36,33 +31,15 @@ class will define the basic subroutines and variables that every object must
 implement.
 
 
-=head1 VARIABLES
+=attr problem_number
 
-These are the base variables that every module should have.  Because each
-extending module will be changing these values, we will force them to create
-functions which will set the attributes.  We also declare the init_arg as undef
-so nobody creating an instance of the problem can over-write the values.
+Problem number on the problem's website
 
-    problem_number ( PosInt      )  # Problem number on projecteuler.net
-    problem_name   ( ProblemName )  # Short name given by the module author
-    problem_date   ( MyDateTime  )  # Date posted on projecteuler.net
-    problem_desc   ( str         )  # Description posted on projecteuler.net
-    problem_link   ( ProblemLink )  # URL to the problem's homepage
-
-    default_input  ( str         )  # Default input posted on projecteuler.net
-    default_answer ( str         )  # Default answer to the default input
-
-    has_input      ( boolean     )  # Some problems may not have use for input
-    use_defaults   ( boolean     )  # Use the default inputs
-
-    custom_input   ( str         )  # User provided input to the problem
-    custom_answer  ( str         )  # User provided answer to the problem
-
-    solved_status  ( boolean     )  # True means it was valid
-    solved_answer  ( str         )  # Last answer provided
-    solved_wanted  ( str         )  # Last wanted answer
-
-    more_info      ( str         )  # Any additional info solve() provided
+=for :list
+= Isa
+PosInt
+= Requires
+_build_problem_number
 
 =cut
 
@@ -75,6 +52,19 @@ has 'problem_number' => (
 );
 requires '_build_problem_number';
 
+
+=attr problem_name
+
+Short name for the problem designated by the module author
+
+=for :list
+= Isa
+ProblemName
+= Requires
+_build_problem_name
+
+=cut
+
 has 'problem_name' => (
     is         => 'ro',
     isa        => ProblemName,
@@ -83,6 +73,19 @@ has 'problem_name' => (
     init_arg   => undef,
 );
 requires '_build_problem_name';
+
+
+=attr problem_date
+
+Date the problem was posted on the problem's website
+
+=for :list
+= Isa
+MyDateTime
+= Requires
+_build_problem_date
+
+=cut
 
 has 'problem_date' => (
     is         => 'ro',
@@ -94,6 +97,19 @@ has 'problem_date' => (
 );
 requires '_build_problem_date';
 
+
+=attr problem_desc
+
+Description posted on the problem's website
+
+=for :list
+= Isa
+Str
+= Requires
+_build_problem_desc
+
+=cut
+
 has 'problem_desc' => (
     is         => 'ro',
     isa        => 'Str',
@@ -103,6 +119,19 @@ has 'problem_desc' => (
 );
 requires '_build_problem_desc';
 
+
+=attr problem_link_base
+
+The base url for the problems on L<< www.projecteuler.net >>
+
+=for :list
+= Isa
+Str
+= Default
+http://projecteuler.net/index.php?section=problems&id=
+
+=cut
+
 has 'problem_link_base' => (
     is         => 'ro',
     isa        => 'Str',
@@ -111,6 +140,19 @@ has 'problem_link_base' => (
     init_arg   => undef,
     default    => $BASE_URL,
 );
+
+
+=attr problem_link
+
+URL to the problem's homepage
+
+=for :list
+= Isa
+ProblemLink
+= Default
+$self->problem_link_base . $self->problem_number
+
+=cut
 
 has 'problem_link' => (
     is         => 'ro',
@@ -124,6 +166,19 @@ sub _build_problem_link {
     return $BASE_URL . $self->problem_number;
 }
 
+
+=attr default_input
+
+Default input posted on the problem's website
+
+=for :list
+= Isa
+Str
+= Requires
+_build_default_input
+
+=cut
+
 has 'default_input' => (
     is         => 'ro',
     isa        => 'Str',
@@ -132,6 +187,19 @@ has 'default_input' => (
     init_arg   => undef,
 );
 requires '_build_default_input';
+
+
+=attr default_answer
+
+Default answer for the default input
+
+=for :list
+= Isa
+Str
+= Requires
+_build_default_answer
+
+=cut
 
 has 'default_answer' => (
     is         => 'ro',
@@ -143,6 +211,16 @@ has 'default_answer' => (
 requires '_build_default_answer';
 
 
+=attr has_input
+
+Indicates if the problem takes an input from the user
+
+=for :list
+= Isa
+Bool
+
+=cut
+
 has 'has_input' => (
     is       => 'ro',
     isa      => 'Bool',
@@ -151,6 +229,17 @@ has 'has_input' => (
     init_arg => undef,
 );
 
+
+=attr use_defaults
+
+Whether the problem should use the default input/answer strings
+
+=for :list
+= Isa
+Bool
+
+=cut
+
 has 'use_defaults' => (
     is       => 'rw',
     isa      => 'Bool',
@@ -158,6 +247,19 @@ has 'use_defaults' => (
     default  => 1,
 );
 
+
+
+=attr help_message
+
+A message to assist the user in using the specific problem
+
+=for :list
+= Isa
+Str
+= Requires
+_build_help_message
+
+=cut
 
 has 'help_message' => (
     is         => 'ro',
@@ -169,6 +271,16 @@ has 'help_message' => (
 requires '_build_help_message';
 
 
+=attr custom_input
+
+The user provided input to the problem
+
+=for :list
+= Isa
+Str
+
+=cut
+
 has 'custom_input'  => (
     is         => 'rw',
     isa        => 'Str',
@@ -179,12 +291,34 @@ sub _check_input_stub {
     $_[0]->_check_input(@_);
 }
 
+
+=attr custom_answer
+
+THe user provided answer to the problem
+
+=for :list
+= Isa
+Str
+
+=cut
+
 has 'custom_answer'  => (
     is         => 'rw',
     isa        => 'Str',
     required   => 0,
 );
 
+
+
+=attr solved_status
+
+Flag to indicate if the last run was succesfull
+
+=for :list
+= Isa
+Maybe[Bool
+
+=cut
 
 has 'solved_status'  => (
     is         => 'ro',
@@ -194,6 +328,17 @@ has 'solved_status'  => (
     init_arg   => undef,
 );
 
+
+=attr solved_answer
+
+The solved answer from the previous run
+
+=for :list
+= Isa
+Maybe[Str]
+
+=cut
+
 has 'solved_answer'  => (
     is         => 'ro',
     isa        => 'Maybe[Str]',
@@ -202,6 +347,17 @@ has 'solved_answer'  => (
     init_arg   => undef,
 );
 
+
+=attr solved_wanted
+
+The wanted asnwer from the previous run
+
+=for :list
+= Isa
+Maybe[Str]
+
+=cut
+
 has 'solved_wanted'  => (
     is         => 'ro',
     isa        => 'Maybe[Str]',
@@ -209,6 +365,18 @@ has 'solved_wanted'  => (
     required   => 0,
     init_arg   => undef,
 );
+
+
+=attr more_info
+
+Any additional information the last run provided
+
+=for :list
+= Isa
+Maybe[Str]
+
+=cut
+
 
 has 'more_info' => (
     is         => 'ro',
@@ -224,7 +392,7 @@ has 'more_info' => (
 
 =head1 ABSTRACT FUNCTIONS
 
-These two functions must also be overridden by the extending class
+These two functions must be overridden by the extending class
 
 =head2 _check_input
 
@@ -240,41 +408,63 @@ requires '_check_input';
 requires '_solve_problem';
 
 
+
 =head1 PROVIDED FUNCTIONS
 
 =head2 solve
 
 This function will point to the internal function that actually solves the
-problem..  Depending on the object attributes that are set, it uses either the
+problem.  Depending on the object attributes that are set, it uses either the
 default or provided inputs (if they are required) and returns the answer as a
 string in scalar context, or an array containing the status, calculated answer,
-and expected answer.
+and expected answer.  If values are passed to the function, then they are taken
+as the custom_input and custom_answer respectively.  This also turns off
+use_defaults temporarily.
+
+=head3 Example
 
     my $problem_1  = Project::Euler::Problem::P001->new();
-    my $def_answer = $problem_1->solve;
+    my $p1_def_answer = $problem_1->solve;
 
     $problem_1->custom_input  => (42);
     $problem_1->custom_answer => (24);
     $problem_1->use_defaults  => (0);
 
-    my $custom_answer = $problem_1->solve;
+    my $p1_custom_answer = $problem_1->solve;
 
-    my ($status, $answer, $expected) = $problem_1->solve;
+    my ($p1_status, $p1_answer, $p1_expected) = $problem_1->solve;
+
+
+    #  OR  #
+
+
+    my $problem_2 = Project::Euler::Problem::P002->new();
+    my $p2_def_answer = $problem_2->solve;
+
+    #  Providing input automatically stops using the defaults
+    my $p2_custom_answer = $problem_2->solve( 1, 4 );  # Provide custom input & answer
+
+    my ($p2_status, $p2_answer, $p2_expected) = $problem_2->solve;
 
 =cut
 
 sub solve {
-    my ($self, $cust_input) = @_;
+    my ($self, $cust_input, $cust_answer) = @_;
     my $answer;
+
+    #  If the user provided some input, then we'll turn don't use the defaults
+    my $defaults  =  defined $cust_input  ?  0  :  $self->use_defaults;
 
     #  If no input was given as an arg, try to get it from the current object.
     #  This may still return an undef but that's alright
-    $cust_input //= $self->custom_input;
+    $cust_input  //= $self->custom_input;
+    $cust_answer //= $self->custom_answer;
+
 
     #  If there problem takes input, determine the appropriate course of action
     if ( $self->has_input ) {
         #  The user wants to use the defaults so don't pass anything
-        if ( $self->use_defaults ) {
+        if ( $defaults ) {
             $answer = $self->_solve_problem;
         }
         #  Pass the user input to the subroutine (if it's defined!)
@@ -284,7 +474,7 @@ sub solve {
         #  The user tried to use a cutsom input string to
         #  solve the problem but hasn't defined it yet!
         else {
-            croak q{You tried to use custom inputs to solve the problem, but it has not been set yet}
+            confess q{You tried to use custom inputs to solve the problem, but it has not been set yet}
         }
     }
 
@@ -296,7 +486,7 @@ sub solve {
 
     # Determine what the expected answer should be, depending on whether the
     # defaults were used or not.
-    my $wanted = $self->use_defaults  ?  $self->default_answer  :  $self->custom_answer;
+    my $wanted = $defaults  ?  $self->default_answer  :  $cust_answer;
 
     #  Determine if the given answer was correct.
     #  Use a blank string rather than undef for the given and expected answer
@@ -310,6 +500,7 @@ sub solve {
     $self->_set_solved_wanted($wanted);
     $self->_set_solved_status($status);
 
+
     #  Return either the status, answer, and wanted or, if the user just
     #  expects a scalar, the found answer
     return  wantarray  ?  ($status, $answer, $wanted)  :  $answer;
@@ -321,6 +512,8 @@ sub solve {
 
 This function simply returns a nice, readable status message that tells you the
 outcome of the last run of the module.
+
+=head3 Example
 
     my $problem_1  = Project::Euler::Problem::P001->new();
     $problem_1->solve;
@@ -358,41 +551,4 @@ sub status {
 
 
 
-=head1 AUTHOR
-
-Adam Lesperance, C<< <lespea at cpan.org> >>
-
-=head1 BUGS
-
-Please report any bugs or feature requests to C<bug-project-euler at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Project-Euler>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
-
-
-
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Project::Euler::Problem::Base
-
-
-=head1 ACKNOWLEDGEMENTS
-
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2009 Adam Lesperance.
-
-This program is free software; you can redistribute it and/or modify it
-under the terms of either: the GNU General Public License as published
-by the Free Software Foundation; or the Artistic License.
-
-See http://dev.perl.org/licenses/ for more information.
-
-
-=cut
-
-no Moose::Role;
 1; # End of Project::Euler::Problem::Base

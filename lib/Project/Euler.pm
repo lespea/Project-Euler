@@ -4,7 +4,7 @@ package Project::Euler;
 
 use Modern::Perl;
 
-#ABSTRACT: Solutions for L<< http://projecteuler.net >>
+#ABSTRACT: Solutions for L<< www.projecteuler.net >>
 
 
 =head1 SYNOPSIS
@@ -35,7 +35,7 @@ _hese libraries are used by the problem solutions:
 
 =head1 PROBLEMS
 
-These problems are fully implemented so far (extending the base class L<< Project::Euler::Problem::Base>>)
+These problems are fully implemented so far (extending the base class L<< Project::Euler::Problem::Base >>)
 
 =for :list
 1. L<< Project::Euler::Problem::P001 >>

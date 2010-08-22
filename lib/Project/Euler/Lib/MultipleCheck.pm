@@ -12,7 +12,7 @@ use List::MoreUtils qw/ any  all /;
 use Project::Euler::Lib::Types qw/ PosInt  PosIntArray /;
 
 
-#ABSTACT: Determine if an integer is divisible by an array of numbers
+#ABSTRACT: Determine if an integer is divisible by an array of numbers
 
 
 =head1 SYNOPSIS
@@ -23,7 +23,7 @@ use Project::Euler::Lib::Types qw/ PosInt  PosIntArray /;
         check_all  => 0,  # Default
     );
 
-    $is_divisible = $multi_check->check(15);
+    my $is_divisible = $multi_check->check(15);
 
 
 =head1 DESCRIPTION
