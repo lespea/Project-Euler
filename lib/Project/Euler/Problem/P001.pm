@@ -43,7 +43,7 @@ L<< http://projecteuler.net/index.php?section=problems&id=1 >>
     $p1->solve(25, 84);  #  4, 8, 12, 16, 20, 24  ==  84
 
     #  Overrode the default answer with the right one so the status is true
-    $p1->status == 1;
+    $p1->status;  # 1
 
 
 =head1 DESCRIPTION
@@ -52,7 +52,7 @@ This module is used to solve problem #001
 
 This simple problem simply needs to find the sum of all the numbers within a
 range which are multiples of a set of integers.  The range always starts at 1
-and continues B<upto> the provided input I<(1000 by default)>.  The numbers are
+and continues B<up to> the provided input I<(1000 by default)>.  The numbers are
 filtered using L<< Project::Euler::Lib::MultipleCheck >>.
 
 

@@ -3,6 +3,7 @@ use warnings;
 package Project::Euler;
 
 use Modern::Perl;
+use 5.010;  # So Dist::Zilla picks it up
 
 #ABSTRACT: Solutions for L<< http://projecteuler.net >>
 

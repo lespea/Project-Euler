@@ -11,21 +11,14 @@ use Math::Big::Factors qw/ factors_wheel /;
 with 'Project::Euler::Problem::Base';
 
 
-=head1 NAME
+#ABSTRACT: Solutions for problem 003 - Max prime factor
 
-Project::Euler::Problem::P003 - Solutions for problem 003
 
-=head1 VERSION
-
-Version v0.1.1
-
-=cut
-
-use version 0.77; our $VERSION = qv("v0.1.1");
-
-=head1 SYNOPSIS
+=head1 HOMEPAGE
 
 L<< http://projecteuler.net/index.php?section=problems&id=3 >>
+
+=head1 SYNOPSIS
 
     use Project::Euler::Problem::P003;
     my $p3 = Project::Euler::Problem::P003->new;

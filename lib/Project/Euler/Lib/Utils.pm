@@ -81,18 +81,18 @@ sub fib_generator {
 =func n_fibs
 
 The returns either the first n fibs or the nth fib if called in scalar context.
-If only the nth fib is used, then no memory is ued to store the previous fibs
-and it should run very fast.  For now this does some very primative caching but
+If only the nth fib is used, then no memory is used to store the previous fibs
+and it should run very fast.  For now this does some very primitive caching but
 will have to be improved in the future.
 
 This also does not currently use Math::BigInt so if a large # is requested it
 may not be 100% accurate.  This will be fixed once I decide upon a caching
 solution.
 
-=head3 Paramaters
+=head3 Parameters
 
 =for :list
-1. Fib number (or list upto number) that you would like returned
+1. Fib number (or list up to number) that you would like returned
 
 =head3 Example
 
@@ -161,7 +161,7 @@ sub n_fibs {
 
 Check to see if a number is evenly divisible by one or all of a range of numbers.
 
-=head3 Paramaters
+=head3 Parameters
 
 =for :list
 1. Number to check divisibility on             (I<must be greater than 0>)

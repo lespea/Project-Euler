@@ -36,7 +36,7 @@ L<< http://projecteuler.net/index.php?section=problems&id=2 >>
 
 This module is used to solve problem #002
 
-This is a simple problem which computes the fib numbers upto a certain maximum
+This is a simple problem which computes the fib numbers up to a certain maximum
 and sums all of them that are even (or as implemented here, divisible by every
 multi_nums)
 
@@ -206,7 +206,7 @@ sub _check_input {
 
 =head2 Solving the problem
 
-Generate all of the fib numbers upto $max, filter them by the multi_nums
+Generate all of the fib numbers up to $max, filter them by the multi_nums
 attribute, and find the sum
 
 =cut

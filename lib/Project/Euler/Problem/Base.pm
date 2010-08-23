@@ -122,7 +122,7 @@ requires '_build_problem_desc';
 
 =attr problem_link_base
 
-The base url for the problems on L<< http://projecteuler.net >>
+The base URL for the problems on L<< http://projecteuler.net >>
 
 =for :list
 = Isa
@@ -294,7 +294,7 @@ sub _check_input_stub {
 
 =attr custom_answer
 
-THe user provided answer to the problem
+The user provided answer to the problem
 
 =for :list
 = Isa
@@ -312,7 +312,7 @@ has 'custom_answer'  => (
 
 =attr solved_status
 
-Flag to indicate if the last run was succesfull
+Flag to indicate if the last run was successful
 
 =for :list
 = Isa
@@ -350,7 +350,7 @@ has 'solved_answer'  => (
 
 =attr solved_wanted
 
-The wanted asnwer from the previous run
+The wanted answer from the previous run
 
 =for :list
 = Isa
@@ -536,7 +536,7 @@ sub status {
 
     #  Otherwise print a message if it failed or not
     else {
-        $out = sprintf(q{The last run was%s succesfull!  The answer expected was '%s' %s the answer returned was '%s'},
+        $out = sprintf(q{The last run was%s successful!  The answer expected was '%s' %s the answer returned was '%s'},
             $status ? q{} : ' not', $wanted, $status ? 'and' : 'but', $answer
         );
     }

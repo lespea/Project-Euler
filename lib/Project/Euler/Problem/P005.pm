@@ -10,21 +10,15 @@ use Math::BigInt qw/ blcm /;
 with 'Project::Euler::Problem::Base';
 
 
-=head1 NAME
+#ABSTRACT: Solutions for problem 005 - Least common multiple
 
-Project::Euler::Problem::P005 - Solutions for problem 005
 
-=head1 VERSION
-
-Version v0.1.0
-
-=cut
-
-use version 0.77; our $VERSION = qv("v0.1.0");
-
-=head1 SYNOPSIS
+=head1 HOMEPAGE
 
 L<< http://projecteuler.net/index.php?section=problems&id=5 >>
+
+
+=head1 SYNOPSIS
 
     use Project::Euler::Problem::P005;
     my $p5 = Project::Euler::Problem::P005->new;
@@ -53,7 +47,7 @@ sub _build_problem_number {
 
 =head2 Problem Name
 
-    Smallest all_div number
+    Least common multiple
 
 =cut
 

@@ -42,7 +42,7 @@ extending classes.
 
 =head2 ProblemLink
 
-A url pointing to a problem definition on L<< http://projecteuler.net >>.
+A URL pointing to a problem definition on L<< http://projecteuler.net >>.
 
 =head3 Definition
 
@@ -75,7 +75,7 @@ subtype ProblemLink,
 
 In an effort to limit text runoff, the problem name is limited to 80 characters.
 Similarly, the length must also be greater than 10 to ensure it is something
-usefull.  Also, only characters, numbers, spaces, and some punctation (!@#$%^&*(){}[]<>,.\\/?;:'") are
+useful.  Also, only characters, numbers, spaces, and some punctuation (!@#$%^&*(){}[]<>,.\\/?;:'") are
 allowed
 
 =head3 Definition

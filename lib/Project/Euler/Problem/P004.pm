@@ -12,21 +12,14 @@ with 'Project::Euler::Problem::Base';
 use Project::Euler::Lib::Types  qw/ PosInt /;
 
 
-=head1 NAME
+#ABSTRACT: Solutions for problem 004 - Largest palindrome from prods
 
-Project::Euler::Problem::P004 - Solutions for problem 004
 
-=head1 VERSION
-
-Version v0.1.0
-
-=cut
-
-use version 0.77; our $VERSION = qv("v0.1.0");
-
-=head1 SYNOPSIS
+=head1 HOMEPAGE
 
 L<< http://projecteuler.net/index.php?section=problems&id=4 >>
+
+=head1 SYNOPSIS
 
     use Project::Euler::Problem::P004;
     my $p4 = Project::Euler::Problem::P004->new;
