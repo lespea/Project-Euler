@@ -4,7 +4,7 @@ package Project::Euler;
 
 use Modern::Perl;
 
-#ABSTRACT: Solutions for L<< www.projecteuler.net >>
+#ABSTRACT: Solutions for L<< http://projecteuler.net >>
 
 
 =head1 SYNOPSIS
@@ -26,7 +26,7 @@ For now, you will have to manually import the problem_solutions and solve them m
 
 =head1 LIBRARIES
 
-_hese libraries are used by the problem solutions:
+These libraries are used by the problem solutions:
 
 =for :list
 1. L<< Project::Euler::Lib::MultipleCheck >>
