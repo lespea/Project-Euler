@@ -122,7 +122,7 @@ requires '_build_problem_desc';
 
 =attr problem_link_base
 
-The base url for the problems on L<< www.projecteuler.net >>
+The base url for the problems on L<< http://projecteuler.net >>
 
 =for :list
 = Isa
@@ -381,7 +381,6 @@ Maybe[Str]
 has 'more_info' => (
     is         => 'ro',
     isa        => 'Maybe[Str]',
-    lazy_build => 1,
     writer     => '_set_more_info',
     required   => 0,
     init_arg   => undef,

@@ -1,46 +1,36 @@
+use strict;
+use warnings;
 package Project::Euler::Problem::P002;
 
-use Carp;
 use Modern::Perl;
+use namespace::autoclean;
+
 use Moose;
+use Carp;
 
 with 'Project::Euler::Problem::Base';
+
 use Project::Euler::Lib::Types  qw/ PosInt  PosIntArray /;
+use Project::Euler::Lib::Utils  qw/ multiple_check  fib_generator /;
 
-use Math::Big 1.12  qw/ fibonacci /;
-use Project::Euler::Lib::MultipleCheck;
-
-
-use List::Util qw/ sum /;
-
-my $multiple_check = Project::Euler::Lib::MultipleCheck->new(
-    multi_nums => [2],
-    check_all  => 1,
-);
+use List::Util  qw/ sum /;
 
 
+#ABSTRACT: Solutions for problem 002 - Sum filtered fib numbers
 
-=head1 NAME
 
-Project::Euler::Problem::P002 - Solutions for problem 002
+=head1 HOMEPAGE
 
-=head1 VERSION
-
-Version v0.1.3
-
-=cut
-
-use version 0.77; our $VERSION = qv("v0.1.3");
+L<< http://projecteuler.net/index.php?section=problems&id=2 >>
 
 
 =head1 SYNOPSIS
-
-L<< http://projecteuler.net/index.php?section=problems&id=2 >>
 
     use Project::Euler::Problem::P002;
     my $p2 = Project::Euler::Problem::P002->new;
 
     my $default_answer = $p2->solve;
+
 
 =head1 DESCRIPTION
 
@@ -50,13 +40,16 @@ This is a simple problem which computes the fib numbers upto a certain maximum
 and sums all of them that are even (or as implemented here, divisible by every
 multi_nums)
 
-=head1 Problem Attributes
 
-=head2 Multiple Numbers
+=attr multi_nums
 
 An array of positive numbers that are used to filter out the fib numbers
 
-    [2]
+=for :list
+= Isa
+PosIntArray
+= Default
+C<[2]>
 
 =cut
 
@@ -76,6 +69,8 @@ around 'multi_nums' => sub {
         $self->$func();
     }
 };
+
+
 
 =head1 SETUP
 
@@ -139,7 +134,9 @@ __END_DESC
 
 =head2 Default Input
 
-    Max number to go up to: 4,000,000
+=for :list
+= Max number to go up to
+C<4,000,000>
 
 =cut
 
@@ -165,7 +162,7 @@ sub _build_default_answer {
 
 =cut
 
-#has '+has_input' => (default => 0);
+has '+has_input' => (default => 1);
 
 
 =head2 Help Message
@@ -209,7 +206,8 @@ sub _check_input {
 
 =head2 Solving the problem
 
-Use L<< Math::Big >> to find fib numbers upto $max, filter them, and find the sum
+Generate all of the fib numbers upto $max, filter them by the multi_nums
+attribute, and find the sum
 
 =cut
 
@@ -219,23 +217,21 @@ sub _solve_problem {
     #  If the user didn't give us a max, then use the default_input
     $max //= $self->default_input;
 
-    #  Tell the checker object the numbers to filter on
-    $multiple_check->multi_nums($self->multi_nums);
+    #  Pull the multi_nums out of the object
+    my $multi_nums = $self->multi_nums;
 
+    #  Initialize the sum and fib tracker
     my $sum = 0;
-    my $num = 1;
     my @fibs;
 
-    #  Turn the Math::BigInt object into an int
-    my $ans = fibonacci($num++)->numify;
+    #  Create a new Fibonacci generator
+    my $fib_gen = fib_generator;
 
-    while ($ans < $max) {
-        if  ($multiple_check->check($ans)) {
-            $sum += $ans;
-            push @fibs, $ans;
+    while ((my $fib = $fib_gen->()) < $max) {
+        if  (multiple_check($fib, $multi_nums)) {
+            $sum += $fib;
+            push @fibs, $fib;
         }
-
-        $ans = fibonacci($num++)->numify;
     }
 
     $self->_set_more_info(sprintf('The fibs were %s', join q{, }, @fibs));
@@ -243,44 +239,14 @@ sub _solve_problem {
 }
 
 
-=head1 AUTHOR
-
-Adam Lesperance, C<< <lespea at cpan.org> >>
-
-=head1 BUGS
-
-Please report any bugs or feature requests to C<bug-project-euler at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Project-Euler>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
-
-
-
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Project::Euler::Problem::P002
 
 =head1 ACKNOWLEDGEMENTS
 
-L<< Math::Big >>
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2009 Adam Lesperance.
-
-This program is free software; you can redistribute it and/or modify it
-under the terms of either: the GNU General Public License as published
-by the Free Software Foundation; or the Artistic License.
-
-See http://dev.perl.org/licenses/ for more information.
-
+=for :list
+* L<< List::Util >>
+* L<< Project::Euler::Lib::Utils >>
 
 =cut
 
-
-#  Cleanup the Moose stuff
-no Moose;
 __PACKAGE__->meta->make_immutable;
 1; # End of Project::Euler::Problem::P002

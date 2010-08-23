@@ -1,41 +1,50 @@
+use strict;
+use warnings;
 package Project::Euler::Problem::P001;
 
-use Carp;
 use Modern::Perl;
+use namespace::autoclean;
+
 use Moose;
+use Carp;
 
 with 'Project::Euler::Problem::Base';
+
 use Project::Euler::Lib::Types  qw/ PosInt  PosIntArray /;
-use Project::Euler::Lib::MultipleCheck;
+use Project::Euler::Lib::Utils  qw/ multiple_check /;
 
-use List::Util qw/ sum /;
-
-my $multiple_check = Project::Euler::Lib::MultipleCheck->new(
-    multi_nums => [3, 5],
-    check_all  => 0,
-);
+use List::Util  qw/ sum /;
 
 
-=head1 NAME
+#ABSTRACT: Solutions for problem 001 - Sum filtered range
 
-Project::Euler::Problem::P001 - Solutions for problem 001
 
-=head1 VERSION
-
-Version v0.1.2
-
-=cut
-
-use version 0.77; our $VERSION = qv("v0.1.2");
-
-=head1 SYNOPSIS
+=head1 HOMEPAGE
 
 L<< http://projecteuler.net/index.php?section=problems&id=1 >>
+
+
+=head1 SYNOPSIS
 
     use Project::Euler::Problem::P001;
     my $p1 = Project::Euler::Problem::P001->new;
 
     my $default_answer = $p1->solve;
+
+    #  Use the default filter list of '3, 5'
+    $p1->solve(11);  #  3 + 5 + 9 + 10  ==  27
+
+    #  Didn't override the default answer so status is false!
+    $p1->status == 0;
+
+
+    #  Change the filter list
+    $p1->multi_nums( [4] );
+    $p1->solve(25, 84);  #  4, 8, 12, 16, 20, 24  ==  84
+
+    #  Overrode the default answer with the right one so the status is true
+    $p1->status == 1;
+
 
 =head1 DESCRIPTION
 
@@ -46,15 +55,18 @@ range which are multiples of a set of integers.  The range always starts at 1
 and continues B<upto> the provided input I<(1000 by default)>.  The numbers are
 filtered using L<< Project::Euler::Lib::MultipleCheck >>.
 
-=head1 Problem Attributes
 
-=head2 Multiple Numbers
+=attr multi_nums
 
 An array of positive integers that are used to filter out the number to sum
 
 This array is always kept sorted in order to optimize the solve function
 
-    [3, 5]
+=for :list
+= Isa
+PosIntArry
+= Default
+C<[3, 5]>
 
 =cut
 
@@ -74,6 +86,8 @@ around 'multi_nums' => sub {
         $self->$func();
     }
 };
+
+
 
 =head1 SETUP
 
@@ -97,7 +111,7 @@ sub _build_problem_number {
 
 sub _build_problem_name {
     #  Must be a string whose length is between 10 and 80
-    return q{Sum filtered list};
+    return q{Sum filtered range};
 }
 
 
@@ -132,9 +146,9 @@ __END_DESC
 
 =head2 Default Input
 
-The maximum value
-
-    1,000
+=for :list
+= The maximum value
+C<1,000>
 
 =cut
 
@@ -160,7 +174,7 @@ sub _build_default_answer {
 
 =cut
 
-#has '+has_input' => (default => 0);
+has '+has_input' => (default => 1);
 
 
 =head2 Help Message
@@ -194,7 +208,7 @@ The restrictions on custom_input
 sub _check_input {
       my ( $self, $input, $old_input ) = @_;
 
-      if ($input !~ /\D/ or $input < 1) {
+      if ($input !~ /\D/  or  $input < 1) {
           croak sprintf(q{Your input, '%s', must be all digits and >= 1}, $input);
       }
 }
@@ -203,9 +217,9 @@ sub _check_input {
 
 =head2 Solving the problem
 
-Tell the multiple_check object what the current multi_nums is.  Then loop from
-the first multi_num to the max_number (- 1) and filter all numbers that retrun
-false.  Finally use the List::More util 'sum' to return the sum of the filtered
+Tell the multiple_check object what the current multi_nums are..  Then loop from
+the first multi_num up to the max_number and filter all numbers that return
+false.  Finally, use the List::More util 'sum' to return the sum of the filtered
 numbers.  If nothing was found return 0 rather than undef.
 
 =cut
@@ -216,61 +230,26 @@ sub _solve_problem {
     #  If the user didn't give us a max, then use the default_input
     $max //= $self->default_input;
 
-    #  Decrement the max since it's an 'upto' limit
-    $max--;
-
     #  Tell the checker object the numbers to filter on
-    $multiple_check->multi_nums($self->multi_nums);
+    my $multi_nums = $self->multi_nums;
 
     #  Sum the filtered numbers.  Since we know the list is sorted, we start at
     #  the first multi_num since anything less than that cannot possible return
     #  true.
-    return sum(grep {$multiple_check->check($_)}
-               $self->multi_nums->[0] .. $max
+    return sum(
+                grep {multiple_check( $_, $multi_nums )}
+                     $self->multi_nums->[0] .. ($max-1)
            )  //  0;
 }
 
 
-=head1 AUTHOR
-
-Adam Lesperance, C<< <lespea at cpan.org> >>
-
-=head1 BUGS
-
-Please report any bugs or feature requests to C<bug-project-euler at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Project-Euler>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
-
-
-
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Project::Euler::Problem::P001
-
-
 =head1 ACKNOWLEDGEMENTS
 
-L<< List::Util >>
-
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2009 Adam Lesperance.
-
-This program is free software; you can redistribute it and/or modify it
-under the terms of either: the GNU General Public License as published
-by the Free Software Foundation; or the Artistic License.
-
-See http://dev.perl.org/licenses/ for more information.
-
+=for :list
+* L<< List::Util >>
+* L<< Project::Euler::Lib::Utils >>
 
 =cut
 
-
-#  Cleanup the Moose stuff
-no Moose;
 __PACKAGE__->meta->make_immutable;
-1; # End of Project::Euler::Problem::P001
+1;  # End of Project::Euler::Problem::P001

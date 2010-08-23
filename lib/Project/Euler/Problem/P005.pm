@@ -1,3 +1,5 @@
+use strict;
+use warnings;
 package Project::Euler::Problem::P005;
 
 use Carp;
@@ -177,46 +179,13 @@ sub _solve_problem {
 }
 
 
-=head1 AUTHOR
-
-Adam Lesperance, C<< <lespea at cpan.org> >>
-
-=head1 BUGS
-
-Please report any bugs or feature requests to C<bug-project-euler at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Project-Euler>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
-
-
-
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Project::Euler::Problem::P005
-
 
 =head1 ACKNOWLEDGEMENTS
 
-L<< Math::BigInt >>
-
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2009 Adam Lesperance.
-
-This program is free software; you can redistribute it and/or modify it
-under the terms of either: the GNU General Public License as published
-by the Free Software Foundation; or the Artistic License.
-
-See http://dev.perl.org/licenses/ for more information.
-
+=for :list
+* L<< Math::BigInt >>
 
 =cut
 
-
-#  Cleanup the Moose stuff
-no Moose;
 __PACKAGE__->meta->make_immutable;
 1; # End of Project::Euler::Problem::P005
