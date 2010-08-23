@@ -161,7 +161,7 @@ The restrictions on custom_input
 =cut
 
 sub _check_input {
-    my ( $self, $input, $old_input ) = @_;
+    my ( $self, $input, ) = @_;
 
     if ($input !~ /\D/ or $input < 1) {
         croak sprintf(q{Your input, '%s', must be all digits and >= 1}, $input);
