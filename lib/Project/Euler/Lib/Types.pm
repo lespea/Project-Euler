@@ -73,9 +73,10 @@ subtype ProblemLink,
 
 =head2 ProblemName
 
-In an effort to limit text runoff, the problem name is limited to 80
-characters.  Similarly, the length must also be greater than 10 to ensure it is
-something usefull.
+In an effort to limit text runoff, the problem name is limited to 80 characters.
+Similarly, the length must also be greater than 10 to ensure it is something
+usefull.  Also, only characters, numbers, spaces, and some punctation (!@#$%^&*(){}[]<>,.\\/?;:'") are
+allowed
 
 =head3 Definition
 
@@ -91,7 +92,7 @@ subtype ProblemName,
     as Str,
     message { sprintf(q{'%s' must be a string between 10 and 80 characters long}, $_ // '#UNDEFINED#') },
     where {
-        length $_ > 10  and  length $_ < 80;
+        length $_ >= 10  and  length $_ <= 80  and  $_ =~ /\A[\w\d \-_!@#\$%^&*(){}[\]<>,.\\\/?;:'"]+\z/;
     };
 
 
