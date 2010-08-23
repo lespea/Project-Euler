@@ -114,13 +114,12 @@ sub n_fibs {
 
     #  If a number > 0 was not passed, then confess with an error
     confess "You must provide an integer > 0 to n_fibs.  You provided: '$num'"
-        unless  $num !~ /\D/  and  $num > 0;
-
+        unless  $num =~ /\A\d+\z/  and  $num > 0;
 
     #  If the we've already calculated the fib the user wants, then simply
     #  return that value now
     if  (scalar @fibs >= $num) {
-        #  Don't get tripped up by the fencepost problem!
+        #  User is using 1-base not 0-base
         $num--;
 
         #  If the user wants an array, then take a slice, otherwise just grab that element.
@@ -133,9 +132,11 @@ sub n_fibs {
     #  do some logic around the # requested but I'm going to postpone that for
     #  now until I have an all-around bettter cachine solution.
     elsif  (wantarray) {
-        #  Increase the size of the array until it's the size we want.  Do the
-        #  decrement at the start to compensate for the fencepost issue.
-        push @fibs, $fibs[-2] + $fibs[-1]  while  --$num;
+        #  Calculate how many values we already have
+        $num -= @fibs;
+
+        #  Increase the size of the array until it's the size we want.
+        push @fibs, $fibs[-2] + $fibs[-1]  while  $num--;
 
         return @fibs;
     }
@@ -143,10 +144,12 @@ sub n_fibs {
     #  Otherwise we'll just start with the last 2 known fibs and go from there
     #  till we get to the # we want.
     else {
-        #  Calculate the fibs until we find the one we want.  Do the decrement
-        #  at the start to compensate for the fencepost issue.
+        #  User is using 1-base not 0-base
+        $num--;
+
+        #  Calculate the fibs until we find the one we want.
         my ($a, $b) = @fibs[-2, -1];
-        ($a, $b) = ($b, $a+$b)  while  --$num;
+        ($a, $b) = ($b, $a+$b)  while  $num--;
 
         return $a;
     }
@@ -208,7 +211,11 @@ sub multiple_check {
 
     #  If the user wanted to check all of the numbers, then return "false" if
     #  any number got filtered out
-    return  if  scalar @ranges != scalar @$ranges;
+    return 0  if  ($all  and  scalar @ranges != scalar @$ranges);
+
+    #  If there are no (remaining) numbers to filter on, then we'll return
+    #  failure
+    return 0  unless  scalar @ranges;
 
 
     #  If the user wants the values that matched (and isn't filtering on all of
@@ -235,7 +242,7 @@ sub multiple_check {
         return  $status  ?  @ranges  :  ();
     }
     else {
-        return $status;
+        return  $status  ?  1  :  0;
     }
 }
 
