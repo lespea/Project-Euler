@@ -119,7 +119,7 @@ sub _build_default_answer {
     Yes
 
 =cut
-### TEMPLATE ###
+
 #has '+has_input' => (default => 0);
 
 
