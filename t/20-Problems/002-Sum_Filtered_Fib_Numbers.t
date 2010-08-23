@@ -104,7 +104,6 @@ plan tests => 2 + $sum;
 
 
 use_ok( MODULE );
-diag( 'Checking specific P002 problems' );
 
 my $problem    = new_ok( MODULE );
 my $def_multis = $problem->multi_nums();
