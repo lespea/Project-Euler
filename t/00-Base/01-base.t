@@ -1,3 +1,7 @@
+use strict;
+use warnings;
+
+
 package base_test_input;
 use Moose;
 use Carp;
