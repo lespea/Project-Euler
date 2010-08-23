@@ -22,7 +22,7 @@ plan tests => (scalar @files * (2 + 7 + 3));
 #  Make sure all of the defined problems load okay
 for  my $problem  (@files) {
     my $mod = sprintf('Project::Euler::Problem::%s', $problem);
-    diag( "Testing $mod" );
+    #diag( "Testing $problem" );
 
     # TESTS -> 2
     use_ok( $mod );
