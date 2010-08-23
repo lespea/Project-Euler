@@ -382,7 +382,8 @@ has 'more_info' => (
     is         => 'ro',
     isa        => 'Maybe[Str]',
     writer     => '_set_more_info',
-    required   => 0,
+    lazy       => 1,
+    default    => q{},
     init_arg   => undef,
 );
 
