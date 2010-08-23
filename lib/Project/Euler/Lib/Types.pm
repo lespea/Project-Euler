@@ -154,7 +154,7 @@ subtype NegIntArray, as ArrayRef[NegInt];
 
 =head2 MyDateTime
 
-A L<< DateTime >> object coerced using L<< DateTime::Format::DateParse >>
+A L<< DateTime:: >> object coerced using L<< DateTime::Format::DateParse >>
 
 =head3 Definition
 
@@ -177,5 +177,14 @@ coerce MyDateTime,
         DateTime::Format::DateParse->parse_datetime( $_ );
     };
 
+
+
+
+=head1 ACKNOWLEDGEMENTS
+
+=for :list
+* L<< MooseX::Types >>
+
+=cut
 
 1; # End of Project::Euler::Lib::Types
