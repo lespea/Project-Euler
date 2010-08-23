@@ -2,10 +2,12 @@
 
 use strict;
 use warnings;
+
 use autodie;
 use Test::More;
+use File::Spec;
 
-use constant PROBLEM_PATH => 'lib/Project/Euler/Problem/';
+use constant PROBLEM_PATH => File::Spec->catdir(qw/ lib  Project  Euler  Problem /);
 
 
 my @files;
@@ -14,7 +16,7 @@ while (( my $filename = readdir($dir) )) {
     push @files, $1  if  $filename =~ / \A (p \d+) \.pm \z /xmsi;
 }
 
-plan tests => (scalar @files * (2 + 7 + 3));
+plan tests => (scalar @files * (2 + 7 + 4));
 
 
 #  Make sure all of the defined problems load okay
@@ -35,8 +37,9 @@ for  my $problem  (@files) {
     ok ( $problem->default_answer, 'Default_answer is set correctly' );
     ok ( $problem->help_message  , 'Help_message is set correctly'   );
 
-    # TESTS -> 3
+    # TESTS -> 4
     ok ( $problem->solve        , "$mod ran without errors"         );
     ok ( $problem->solved_status, "$mod solved correctly"           );
-	is ( $problem->solved_answer, $problem->solved_wanted, "$mod gave the incorrect answer");
+    is ( $problem->solved_answer, $problem->solved_wanted, "$mod gave the incorrect answer");
+    ok ( $problem->more_info    , "$mod gave more info correctly" );
 }
