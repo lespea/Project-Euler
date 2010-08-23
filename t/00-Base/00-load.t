@@ -18,12 +18,13 @@ while (( my $filename = readdir($dir) )) {
     push @files, $1  if  $filename =~ / \A (p \d+) \.pm \z /xmsi;
 }
 
-plan tests => (scalar @files * 2) + 2;
+plan tests => (scalar @files * 2) + 3;
 diag( "Testing Project::Euler, Perl $], $^X" );
 
 
 use_ok( 'Project::Euler' );
 use_ok( 'Project::Euler::Problem::Base' );
+use_ok( 'Project::Euler::Lib::Utils', ':all' );
 
 #  Make sure all of the defined problems load okay
 for  my $problem  (@files) {
