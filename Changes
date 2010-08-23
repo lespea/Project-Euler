@@ -3,6 +3,11 @@ Revision history for Project-Euler
 
 1.00        
     *   Move to Dist::Zilla
+    *   Massive cleanup of documentation
+    *   Removed Lib/MultipleCheck
+    *   Added Lib/Utils to hold common utility functions
+    *   Added / fixed many of the tests
+    *   Removed tests duplicated by Dist::Zilla
 
 
 0.1.6
