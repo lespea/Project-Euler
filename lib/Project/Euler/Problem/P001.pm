@@ -35,7 +35,7 @@ L<< http://projecteuler.net/index.php?section=problems&id=1 >>
     $p1->solve(11);  #  3 + 5 + 9 + 10  ==  27
 
     #  Didn't override the default answer so status is false!
-    $p1->status == 0;
+    $p1->status;  # 0
 
 
     #  Change the filter list
