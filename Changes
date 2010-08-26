@@ -1,7 +1,7 @@
 Revision history for Project-Euler
 
 
-1.00        
+0.20        08/26/2010 12:32:23 AM (CDT)
     *   Move to Dist::Zilla
     *   Massive cleanup of documentation
     *   Removed Lib/MultipleCheck

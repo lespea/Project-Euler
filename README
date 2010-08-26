@@ -2,7 +2,7 @@ NAME
     Project::Euler - Solutions for <http://projecteuler.net>
 
 VERSION
-    version 1.00
+    version 0.20
 
 SYNOPSIS
         use Project::Euler::Problem::P001;
@@ -22,7 +22,7 @@ DESCRIPTION
 LIBRARIES
     These libraries are used by the problem solutions:
 
-    1   Project::Euler::Lib::MultipleCheck
+    1   Project::Euler::Lib::Utils
 
     2   Project::Euler::Lib::Types
 
@@ -33,6 +33,12 @@ PROBLEMS
     1   Project::Euler::Problem::P001
 
     2   Project::Euler::Problem::P002
+
+    3   Project::Euler::Problem::P003
+
+    4   Project::Euler::Problem::P004
+
+    5   Project::Euler::Problem::P005
 
 AUTHOR
     Adam Lesperance <lespea@gmail.com>
