@@ -77,7 +77,7 @@ requires '_build_problem_name';
 
 =attr problem_date
 
-Date the problem was posted on the problem's website
+Date the problem was posted on the website
 
 =for :list
 = Isa
@@ -149,7 +149,7 @@ URL to the problem's homepage
 =for :list
 = Isa
 ProblemLink
-= Default
+= Is
 $self->problem_link_base . $self->problem_number
 
 =cut
@@ -191,7 +191,7 @@ requires '_build_default_input';
 
 =attr default_answer
 
-Default answer for the default input
+Answer for the default input
 
 =for :list
 = Isa
@@ -213,7 +213,7 @@ requires '_build_default_answer';
 
 =attr has_input
 
-Indicates if the problem takes an input from the user
+Indicates if the problem takes any input from the user
 
 =for :list
 = Isa
@@ -273,7 +273,7 @@ requires '_build_help_message';
 
 =attr custom_input
 
-The user provided input to the problem
+The user-provided input to the problem
 
 =for :list
 = Isa
@@ -294,7 +294,7 @@ sub _check_input_stub {
 
 =attr custom_answer
 
-The user provided answer to the problem
+The user-provided answer to the problem
 
 =for :list
 = Isa
@@ -400,7 +400,7 @@ Ensure the input provided by the user is compliant
 
 =head2 _solve_problem
 
-This the main function which will return the status/answer for a problem
+This is the main function which will return the status/answer for a problem
 
 =cut
 
@@ -415,7 +415,7 @@ requires '_solve_problem';
 
 This function will point to the internal function that actually solves the
 problem.  Depending on the object attributes that are set, it uses either the
-default or provided inputs (if they are required) and returns the answer as a
+default or provided inputs (if they are required).  It returns the answer as a
 string in scalar context, or an array containing the status, calculated answer,
 and expected answer.  If values are passed to the function, then they are taken
 as the custom_input and custom_answer respectively.  This also turns off
@@ -452,7 +452,7 @@ sub solve {
     my ($self, $cust_input, $cust_answer) = @_;
     my $answer;
 
-    #  If the user provided some input, then we'll turn don't use the defaults
+    #  If the user provided some input, then we'll won't use the defaults
     my $defaults  =  defined $cust_input  ?  0  :  $self->use_defaults;
 
     #  If no input was given as an arg, try to get it from the current object.
@@ -461,7 +461,7 @@ sub solve {
     $cust_answer //= $self->custom_answer;
 
 
-    #  If there problem takes input, determine the appropriate course of action
+    #  If the problem takes input, determine the appropriate course of action
     if ( $self->has_input ) {
         #  The user wants to use the defaults so don't pass anything
         if ( $defaults ) {
@@ -501,7 +501,7 @@ sub solve {
     $self->_set_solved_status($status);
 
 
-    #  Return either the status, answer, and wanted or, if the user just
+    #  Return either the status, answer, and wanted or if the user just
     #  expects a scalar, the found answer
     return  wantarray  ?  ($status, $answer, $wanted)  :  $answer;
 }
@@ -529,7 +529,7 @@ sub status {
     my ($answer, $wanted, $status) =
         @{$self}{qw/ solved_answer  solved_wanted  solved_status /};
 
-    #  If the status isn't even defined then the problem wasn't even run
+    #  If the status isn't even defined then the problem wasn't ever run
     if (!defined $status) {
         $out = q{It appears that the problem has yet to be solved once.};
     }

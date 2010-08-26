@@ -30,7 +30,7 @@ For now, you will have to manually import the problem_solutions and solve them m
 These libraries are used by the problem solutions:
 
 =for :list
-1. L<< Project::Euler::Lib::MultipleCheck >>
+1. L<< Project::Euler::Lib::Utils >>
 2. L<< Project::Euler::Lib::Types >>
 
 
@@ -41,6 +41,9 @@ These problems are fully implemented so far (extending the base class L<< Projec
 =for :list
 1. L<< Project::Euler::Problem::P001 >>
 2. L<< Project::Euler::Problem::P002 >>
+2. L<< Project::Euler::Problem::P003 >>
+2. L<< Project::Euler::Problem::P004 >>
+2. L<< Project::Euler::Problem::P005 >>
 
 
 =cut

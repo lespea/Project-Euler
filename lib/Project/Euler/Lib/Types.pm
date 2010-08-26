@@ -75,8 +75,8 @@ subtype ProblemLink,
 
 In an effort to limit text runoff, the problem name is limited to 80 characters.
 Similarly, the length must also be greater than 10 to ensure it is something
-useful.  Also, only characters, numbers, spaces, and some punctuation (!@#$%^&*(){}[]<>,.\\/?;:'") are
-allowed
+useful.  Also, only characters, numbers, spaces, and some punctuation
+(!@#$%^&*(){}[]<>,.\\/?;:'") are allowed
 
 =head3 Definition
 

@@ -32,7 +32,7 @@ L<< http://projecteuler.net/index.php?section=problems&id=1 >>
     my $default_answer = $p1->solve;
 
     #  Use the default filter list of '3, 5'
-    $p1->solve(11);  #  3 + 5 + 9 + 10  ==  27
+    $p1->solve(11);  #  3 + 5 + 6 + 9 + 10  ==  33
 
     #  Didn't override the default answer so status is false!
     $p1->status;  # 0
@@ -50,15 +50,15 @@ L<< http://projecteuler.net/index.php?section=problems&id=1 >>
 
 This module is used to solve problem #001
 
-This simple problem simply needs to find the sum of all the numbers within a
-range which are multiples of a set of integers.  The range always starts at 1
-and continues B<up to> the provided input I<(1000 by default)>.  The numbers are
-filtered using L<< Project::Euler::Lib::MultipleCheck >>.
+This problem simply needs to find the sum of all the numbers within a range
+which are multiples of a set of integers.  The range always starts at 1 and
+continues B<up to> the provided input I<(1000 by default)>.  The numbers are
+filtered using L<< Project::Euler::Lib::Utils >>.
 
 
 =attr multi_nums
 
-An array of positive integers that are used to filter out the number to sum
+An array of positive integers that are used to filter out the number to sum.
 
 This array is always kept sorted in order to optimize the solve function
 
@@ -217,10 +217,10 @@ sub _check_input {
 
 =head2 Solving the problem
 
-Tell the multiple_check object what the current multi_nums are..  Then loop from
-the first multi_num up to the max_number and filter all numbers that return
-false.  Finally, use the List::More util 'sum' to return the sum of the filtered
-numbers.  If nothing was found return 0 rather than undef.
+Loop from the first multi_num up to the max_number and filter all numbers that
+are not multiples of one/all of the multi_nums.  Then use the List::More util
+'sum' to return the sum of the filtered numbers.  If nothing was found return 0
+rather than undef.
 
 =cut
 

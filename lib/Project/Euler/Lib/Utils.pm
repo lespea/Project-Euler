@@ -47,13 +47,14 @@ my @fibs = (1, 1);
 
 =for :list
 * :fibs
+* :list
 
 =cut
 
 
 =func fib_generator
 
-This returns a clojure that return the next successive fib number with each call
+This returns a clojure that returns the next successive fib number with each call
 
 =head3 Example
 
@@ -80,10 +81,10 @@ sub fib_generator {
 
 =func n_fibs
 
-The returns either the first n fibs or the nth fib if called in scalar context.
-If only the nth fib is used, then no memory is used to store the previous fibs
-and it should run very fast.  For now this does some very primitive caching but
-will have to be improved in the future.
+The returns either the first 'n' fibs or the nth fib if called in scalar
+context.  If only the nth fib is used, then no memory is used to store the
+previous fibs and it should run very fast.  For now this does some very
+primitive caching but will have to be improved in the future.
 
 This also does not currently use Math::BigInt so if a large # is requested it
 may not be 100% accurate.  This will be fixed once I decide upon a caching
@@ -92,7 +93,7 @@ solution.
 =head3 Parameters
 
 =for :list
-1. Fib number (or list up to number) that you would like returned
+1. Fib number (or list up to a number) that you would like returned.
 
 =head3 Example
 
@@ -116,8 +117,9 @@ sub n_fibs {
     confess "You must provide an integer > 0 to n_fibs.  You provided: '$num'"
         unless  $num =~ /\A\d+\z/  and  $num > 0;
 
-    #  If the we've already calculated the fib the user wants, then simply
-    #  return that value now
+    #  If we've already calculated the fib the user wants, then simply return
+    #  that value now
+
     if  (scalar @fibs >= $num) {
         #  User is using 1-base not 0-base
         $num--;
@@ -127,10 +129,10 @@ sub n_fibs {
     }
 
     #  If not, then we'll take a different course of action depending on whether
-    #  the user wans an array or not.  I don't just fill out the cache because
+    #  the user wants an array or not.  I don't just fill out the cache because
     #  if the user wanted a huge value, then that would be impractical.  I could
     #  do some logic around the # requested but I'm going to postpone that for
-    #  now until I have an all-around bettter cachine solution.
+    #  now until I have an all-around bettter caching solution.
     elsif  (wantarray) {
         #  Calculate how many values we already have
         $num -= @fibs;

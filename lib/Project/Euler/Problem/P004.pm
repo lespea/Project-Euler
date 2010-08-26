@@ -162,7 +162,7 @@ sub _check_input {
 =head2 Solving the problem
 
 First we will calculate the int that we will be using to loop on.  Then we will
-iterate backwards from that number to the smallest int with that many numbers
+iterate backwards from that number to the smallest int the same number of digits
 (ie 999 down to 100).  The inner loop will always start with the current outer
 loop so no duplicate products are tested.
 
@@ -177,18 +177,24 @@ sub _solve_problem {
 
     $length //= $self->default_input;
 
-    my $max = 0;
-    my $high = 10 ** $length - 1;
-    my $low  = 10 ** ($length - 1);
-
+    my $max  = 0;
     my @nums;
 
+    #  Calculate the numbers to iterate from
+    my $high = (10 ** $length) - 1;
+    my $low  =  10 ** ($length - 1);
+
     OUTER:
+    #  Now start a loop, starting from the top
     for  (my $i = $high;  $i >= $low;  $i--) {
+        #  If the current number squared is less than the max, then no greater
+        #  number will ever be calculated so exit the loop
         last OUTER  if  ($i ** 2) < $max;
 
+        #  Otherwise loop through all of the sub-digits, looking for a new max
         for  (my $j = $i;  $j >= $low;  $j--) {
             my $prod = $i * $j;
+            #  If a new max is found, then store it and numbers that made it
             if ($prod > $max  and  is_palindrome($prod)) {
                 $max = $prod;
                 @nums = ($i, $j);
@@ -196,6 +202,7 @@ sub _solve_problem {
         }
     }
 
+    #  Store the numbers used to generate the max in more info
     $self->_set_more_info(sprintf('The numbers were %d and %d', $nums[0], $nums[1]));
     return $max;
 }

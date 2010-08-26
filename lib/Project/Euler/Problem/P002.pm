@@ -38,7 +38,7 @@ This module is used to solve problem #002
 
 This is a simple problem which computes the fib numbers up to a certain maximum
 and sums all of them that are even (or as implemented here, divisible by every
-multi_nums)
+integer in multi_nums)
 
 
 =attr multi_nums
@@ -206,7 +206,7 @@ sub _check_input {
 
 =head2 Solving the problem
 
-Generate all of the fib numbers up to $max, filter them by the multi_nums
+Generate all of the fib numbers up to $max, filtering them by the multi_nums
 attribute, and find the sum
 
 =cut
@@ -227,13 +227,18 @@ sub _solve_problem {
     #  Create a new Fibonacci generator
     my $fib_gen = fib_generator;
 
+
+    #  Now loop through the fib numbers until you find one greater than $max
     while ((my $fib = $fib_gen->()) < $max) {
+        #  If the found fib is a multiple of all the multi_nums,
+        #  then add it to the sum and push it to the list of fibs
         if  (multiple_check($fib, $multi_nums)) {
             $sum += $fib;
             push @fibs, $fib;
         }
     }
 
+    #  Save the list of fibs used in 'more info'
     $self->_set_more_info(sprintf('The fibs were %s', join q{, }, @fibs));
     return $sum;
 }

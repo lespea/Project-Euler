@@ -119,7 +119,7 @@ sub _build_default_answer {
 
 =head2 Help Message
 
-The input controls the cap on of the range of numbers to find the least common
+The input controls the cap of the range of numbers to find the least common
 multiple of.
 
 =cut
@@ -161,6 +161,9 @@ sub _check_input {
 
 This is just goes from the largest multi_num until multiple_check returns true
 and returns that number.
+
+This is like P3 in that it's definitely cheating and will have to be re-written
+with custom logic (even though it will almost certainly be much slower)
 
 =cut
 
