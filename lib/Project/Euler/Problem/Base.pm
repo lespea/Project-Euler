@@ -3,7 +3,7 @@ use warnings;
 package Project::Euler::Problem::Base;
 
 use Modern::Perl;
-use namespace::autoclean -also => qr/^_/;
+use namespace::autoclean;
 
 use Moose::Role;
 use Project::Euler::Lib::Types  qw/ ProblemLink  ProblemName  PosInt  MyDateTime /;
