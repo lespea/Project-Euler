@@ -32,7 +32,9 @@ my @ok_tests = (
         [qw/ 4     3      /],
         [qw/ 5     3      /],
         [qw/ 6     8      /],
-        [qw/ 10    23     /],  # Example given
+        [qw/ 10    23     /],
+
+        [qw/ 11    33     /],
         [qw/ 1000  233168 /],  # Final solution
 
         [15, qc([3, 5], 15)],
@@ -53,6 +55,10 @@ my @ok_tests = (
         [qw/ 3 0 /],
         [qw/ 4 3 /],
         [qw/ 7 9 /],
+    ],
+    [
+        [4],
+        [qw/ 25 84 /],  # Example given #2
     ],
     [
         [2..5],
