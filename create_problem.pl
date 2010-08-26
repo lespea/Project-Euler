@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+die "This is not working right now!\n";
 
 use Modern::Perl;
 use HTML::TreeBuilder::XPath;
