@@ -203,7 +203,7 @@ sub multiple_check {
 
     #  If a number > 0 was not passed as the num range, then confess with an error
     confess "You must provide an integer > 0 to filter_ranges for the first arg.  You provided: '$num'"
-        if  $num !~ /\D/xms  or  $num <= 0;
+        if  $num !~ /\A\d+\z/xms  or  $num <= 0;
 
     confess 'You must provide an array ref of integers as the second arg to filter_ranges!'
         if       (!defined $ranges)         #  Makes sure ranges is defined
