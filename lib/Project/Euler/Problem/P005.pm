@@ -1,6 +1,10 @@
 use strict;
 use warnings;
+use utf8;
+
 package Project::Euler::Problem::P005;
+
+## no critic 'Subroutines::ProhibitUnusedPrivateSubroutines'
 
 use Carp;
 use Modern::Perl;
@@ -13,9 +17,11 @@ with 'Project::Euler::Problem::Base';
 #ABSTRACT: Solutions for problem 005 - Least common multiple
 
 
+=encoding utf8
+
 =head1 HOMEPAGE
 
-L<< http://projecteuler.net/index.php?section=problems&id=5 >>
+L<http://projecteuler.net/index.php?section=problems&id=5|http://projecteuler.net/index.php?section=problems&id=5>
 
 
 =head1 SYNOPSIS
@@ -104,7 +110,7 @@ sub _build_default_input {
 =cut
 
 sub _build_default_answer {
-    return 232792560;
+    return 232_792_560;
 }
 
 
@@ -150,8 +156,8 @@ The restrictions on custom_input
 sub _check_input {
       my ( $self, $input, ) = @_;
 
-      if ($input !~ /\D/ or $input < 1) {
-          croak sprintf(q{Your input, '%s', must be all digits and >= 1}, $input);
+      if ($input !~ /\D/xms or $input < 1) {
+          croak sprintf q{Your input, '%s', must be all digits and >= 1}, $input;
       }
 }
 
@@ -177,10 +183,9 @@ sub _solve_problem {
 
 
 
-=head1 ACKNOWLEDGEMENTS
+=head1 SEE ALSO
 
-=for :list
-* L<< Math::BigInt >>
+Math::BigInt
 
 =cut
 

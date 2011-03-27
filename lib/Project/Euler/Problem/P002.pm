@@ -1,6 +1,10 @@
 use strict;
 use warnings;
+use utf8;
+
 package Project::Euler::Problem::P002;
+
+## no critic 'Subroutines::ProhibitUnusedPrivateSubroutines'
 
 use Modern::Perl;
 use namespace::autoclean;
@@ -19,9 +23,11 @@ use List::Util  qw/ sum /;
 #ABSTRACT: Solutions for problem 002 - Sum filtered fib numbers
 
 
+=encoding utf8
+
 =head1 HOMEPAGE
 
-L<< http://projecteuler.net/index.php?section=problems&id=2 >>
+L<http://projecteuler.net/index.php?section=problems&id=2|http://projecteuler.net/index.php?section=problems&id=2>
 
 
 =head1 SYNOPSIS
@@ -197,8 +203,8 @@ The restrictions on custom_input
 sub _check_input {
       my ( $self, $input, ) = @_;
 
-      if ($input !~ /\D/ or $input < 1) {
-          croak sprintf(q{Your input, '%s', must be all digits and >= 1}, $input);
+      if ($input !~ /\D/xms or $input < 1) {
+          croak sprintf q{Your input, '%s', must be all digits and >= 1}, $input;
       }
 }
 
@@ -239,17 +245,15 @@ sub _solve_problem {
     }
 
     #  Save the list of fibs used in 'more info'
-    $self->_set_more_info(sprintf('The fibs were %s', join q{, }, @fibs));
+    $self->_set_more_info(sprintf 'The fibs were %s', join q{, }, @fibs);
     return $sum;
 }
 
 
 
-=head1 ACKNOWLEDGEMENTS
-
-=for :list
-* L<< List::Util >>
-* L<< Project::Euler::Lib::Utils >>
+=head1 SEE ALSO
+List::Util
+Project::Euler::Lib::Utils
 
 =cut
 

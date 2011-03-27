@@ -1,23 +1,32 @@
 use strict;
 use warnings;
+use utf8;
+
 package Project::Euler::Problem::P004;
+
+## no critic 'Subroutines::ProhibitUnusedPrivateSubroutines'
 
 use Carp;
 use Modern::Perl;
 use Moose;
 
 use String::Palindrome qw/ is_palindrome /;
+use Const::Fast;
 
 with 'Project::Euler::Problem::Base';
 use Project::Euler::Lib::Types  qw/ PosInt /;
+
+const  my $BASE_TEN => 10;
 
 
 #ABSTRACT: Solutions for problem 004 - Largest palindrome from prods
 
 
+=encoding utf8
+
 =head1 HOMEPAGE
 
-L<< http://projecteuler.net/index.php?section=problems&id=4 >>
+L<http://projecteuler.net/index.php?section=problems&id=4|http://projecteuler.net/index.php?section=problems&id=4>
 
 =head1 SYNOPSIS
 
@@ -107,7 +116,7 @@ sub _build_default_input {
 =cut
 
 sub _build_default_answer {
-    return 906609;
+    return 906_609;
 }
 
 
@@ -152,8 +161,8 @@ The restrictions on custom_input
 sub _check_input {
     my ( $self, $input, ) = @_;
 
-    if ($input !~ /\D/ or $input < 1) {
-        croak sprintf(q{Your input, '%s', must be all digits and >= 1}, $input);
+    if ($input !~ /\D/xms or $input < 1) {
+        croak sprintf q{Your input, '%s', must be all digits and >= 1}, $input;
     }
 }
 
@@ -181,17 +190,19 @@ sub _solve_problem {
     my @nums;
 
     #  Calculate the numbers to iterate from
-    my $high = (10 ** $length) - 1;
-    my $low  =  10 ** ($length - 1);
+    my $high = ($BASE_TEN ** $length) - 1;
+    my $low  =  $BASE_TEN ** ($length - 1);
 
     OUTER:
     #  Now start a loop, starting from the top
+    ## no critic 'ControlStructures::ProhibitCStyleForLoops'
     for  (my $i = $high;  $i >= $low;  $i--) {
         #  If the current number squared is less than the max, then no greater
         #  number will ever be calculated so exit the loop
         last OUTER  if  ($i ** 2) < $max;
 
         #  Otherwise loop through all of the sub-digits, looking for a new max
+        ## no critic 'ControlStructures::ProhibitCStyleForLoops'
         for  (my $j = $i;  $j >= $low;  $j--) {
             my $prod = $i * $j;
             #  If a new max is found, then store it and numbers that made it
@@ -203,7 +214,7 @@ sub _solve_problem {
     }
 
     #  Store the numbers used to generate the max in more info
-    $self->_set_more_info(sprintf('The numbers were %d and %d', $nums[0], $nums[1]));
+    $self->_set_more_info(sprintf 'The numbers were %d and %d', $nums[0], $nums[1]);
     return $max;
 }
 
