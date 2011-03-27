@@ -1,5 +1,7 @@
 use strict;
 use warnings;
+use utf8;
+
 package Project::Euler::Lib::Types;
 
 use Modern::Perl;
@@ -23,6 +25,8 @@ use MooseX::Types::Moose qw/ Str  Int  ArrayRef /;
 
 
 
+=encoding utf8
+
 =head1 SYNOPSIS
 
     use Project::Euler::Lib::Types  qw/ ProblemLink  PosInt /;
@@ -42,7 +46,7 @@ extending classes.
 
 =head2 ProblemLink
 
-A URL pointing to a problem definition on L<< http://projecteuler.net >>.
+A URL pointing to a problem definition on L<http://projecteuler.net|http://projecteuler.net>.
 
 =head3 Definition
 
