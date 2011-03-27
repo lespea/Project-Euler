@@ -1,7 +1,12 @@
-Revision history for Project-Euler
+Revision history for {{$dist->name}}
+
+{{$NEXT}}
+    [Enhancement]
+    *   Move to personal dzil config bundle
+    *   Update Changes/Manifest.skip/dist.ini/Readme to match modern specs
 
 
-0.20        08/26/2010 12:32:23 AM (CDT)
+0.20  2010-08-26 00:32:23 America/Chicago
     *   Move to Dist::Zilla
     *   Massive cleanup of documentation
     *   Removed Lib/MultipleCheck
@@ -10,31 +15,29 @@ Revision history for Project-Euler
     *   Removed tests duplicated by Dist::Zilla
 
 
-0.1.6
+0.1.6  2010-08-26 00:32:23 America/Chicago
     *   Don't index the scripts directory
     *   Have name_test also validate perldoc statement is correct
 
-  # Lib::Types (0.1.2)
-    *   Cleaned up POD
+    *   Lib::Types (0.1.2)
+      -   Cleaned up POD
 
-  # Problem::Base (0.2.3)
-    *   Added 'more_info' attribute
-            Used if a problem wants to give some additional information
-            about a solved problem
-    *   Cleaned up POD
+    *   Problem::Base (0.2.3)
+      -   Added 'more_info' attribute
+            Used if a problem wants to give some additional information about a solved problem
+      -   Cleaned up POD
 
-  # Problem::P002 (0.1.3)
-    *   Set more_info to the list of fib numbers used in the sum
+    *   Problem::P002 (0.1.3)
+      -   Set more_info to the list of fib numbers used in the sum
 
-  # Problem::P003 (0.1.1)
-    *   Set more_info to the list of prime factors for the number
+    *   Problem::P003 (0.1.1)
+      -   Set more_info to the list of prime factors for the number
 
-  # Problem::P004 (0.1.0)
-    *   Created problem 4 which finds the highest palindrome created by the
-            product of 2 x-digit numbers
+    *   Problem::P004 (0.1.0)
+      -   Created problem 4 which finds the highest palindrome created by the product of 2 x-digit numbers
 
 
-0.1.5  12/12/2009 06:49:29 PM (CST)
+0.1.5  2009-12-12 18:49:29 America/Chicago
     *   Completely re-ordered tests using sub-directories for logical seperation
     *   Moved maintainer tests to xt/release
     *   Added tests for Lib::MultipleCheck
@@ -52,17 +55,16 @@ Revision history for Project-Euler
     *   Removed unused modules
 
 
-0.1.4   12/08/2009 01:36:22 AM (CST)
+0.1.4   2009-12-08 01:36:22 America/Chicago
     *   Updated POD documentation of the main class
     *   Removed template file from P:E:P
     *   Replaced template file with base file in load_test
-    *   Removed many of the duplicate problem tests which were covered in the
-            base_test
+    *   Removed many of the duplicate problem tests which were covered in the base_test
 
-  # Problem::P001 (0.1.1)
-  # Problem::P002 (0.1.1)
-  # Lib::MultipleCheck (0.1.1)
-    *   Updated POD documentation to better reflect module implementation
+    *   Problem::P001 (0.1.1)
+    *   Problem::P002 (0.1.1)
+    *   Lib::MultipleCheck (0.1.1)
+      -   Updated POD documentation to better reflect module implementation
 
   # Problem::Base (0.2.1)
     *   Moved type definitions to P:E:L:Types
@@ -72,21 +74,21 @@ Revision history for Project-Euler
     *   Updated POD documentation to better reflect module implementation
 
 
-0.1.3   2009-12-07
-        Second problem is complete
+0.1.3   2009-12-07 02:04:49 America/Chicago
+    *   Second problem is complete
 
 
-0.1.2   2009-12-06
-        Use custom types definitions now
+0.1.2   2009-12-06 19:51:34 America/Chicago
+    *   Use custom types definitions now
 
 
-0.1.1   2009-12-06
-        First problem is complete (with all the tests done as well)
+0.1.1   2009-12-06 01:22:15 America/Chicago
+    *   First problem is complete (with all the tests done as well)
 
 
-0.1.0   2009-11-23
-        Got the base class functionality down
+0.1.0   2009-11-23 03:59:43 America/Chicago
+    *   Got the base class functionality down
 
 
-0.0.1   2009-11-22
-        First version, released on an unsuspecting world.
+0.0.1   2009-11-22 21:43:56 America/Chicago
+    *   First version, released on an unsuspecting world.
