@@ -1,18 +1,24 @@
-use warnings;
 use strict;
+use warnings;
+use utf8;
+
 package Project::Euler::Lib::Utils;
 
 use Modern::Perl;
 use Carp;
 
 use List::MoreUtils qw/ any  all /;
+use Const::Fast;
+
+#  We won't build the cache if the user wants a fib number grater than this
+const  my $MAX_FIB_CACHE_REQUEST => 100_000;
 
 #  Export our functions with tags
 use Exporter::Easy (
     TAGS => [
         fibs => [qw/ fib_generator  n_fibs /],
         list => [qw/ multiple_check /],
-        all  => [qw/ :fibs /],
+        all  => [qw/ :fibs  :list /],
     ],
     #OK => [qw( some other stuff )],
 );
@@ -24,6 +30,8 @@ my @fibs = (1, 1);
 
 #ABSTRACT: Collection of helper utilities for project euler problems
 
+
+=encoding utf8
 
 =head1 SYNOPSIS
 
@@ -67,14 +75,14 @@ This returns a clojure that returns the next successive fib number with each cal
 =cut
 
 sub fib_generator {
-    my ($a, $b) = 0..1;
+    my ($fib_first, $fib_second) = (0, 1);
     return sub {
         #  Swap the 2 numbers
-        ($a, $b) = ($b, $a+$b);
+        ($fib_first, $fib_second) = ($fib_second, $fib_first + $fib_second);
 
         #  And return the newly generated first one
-        $a;
-    }
+        return $fib_first;
+    };
 }
 
 
@@ -115,7 +123,7 @@ sub n_fibs {
 
     #  If a number > 0 was not passed, then confess with an error
     confess "You must provide an integer > 0 to n_fibs.  You provided: '$num'"
-        unless  $num =~ /\A\d+\z/  and  $num > 0;
+        if  $num !~ /\A\d+\z/xms  or  $num <= 0;
 
     #  If we've already calculated the fib the user wants, then simply return
     #  that value now
@@ -133,14 +141,14 @@ sub n_fibs {
     #  if the user wanted a huge value, then that would be impractical.  I could
     #  do some logic around the # requested but I'm going to postpone that for
     #  now until I have an all-around bettter caching solution.
-    elsif  (wantarray) {
+    elsif  (wantarray  or  $num <= $MAX_FIB_CACHE_REQUEST) {
         #  Calculate how many values we already have
         $num -= @fibs;
 
         #  Increase the size of the array until it's the size we want.
-        push @fibs, $fibs[-2] + $fibs[-1]  while  $num--;
+        push @fibs, $fibs[-2] + $fibs[-1]  while  $num--;  ## no critic 'ValuesAndExpressions::ProhibitMagicNumbers'
 
-        return @fibs;
+        return  wantarray  ?  @fibs  :  $fibs[-1];
     }
 
     #  Otherwise we'll just start with the last 2 known fibs and go from there
@@ -150,10 +158,10 @@ sub n_fibs {
         $num--;
 
         #  Calculate the fibs until we find the one we want.
-        my ($a, $b) = @fibs[-2, -1];
-        ($a, $b) = ($b, $a+$b)  while  $num--;
+        my ($fib_first, $fib_second) = @fibs[-2, -1];  ## no critic 'ValuesAndExpressions::ProhibitMagicNumbers'
+        ($fib_first, $fib_second) = ($fib_second, $fib_first+$fib_second)  while  $num--;
 
-        return $a;
+        return $fib_first;
     }
 }
 
@@ -195,15 +203,16 @@ sub multiple_check {
 
     #  If a number > 0 was not passed as the num range, then confess with an error
     confess "You must provide an integer > 0 to filter_ranges for the first arg.  You provided: '$num'"
-        unless  $num !~ /\D/  and  $num > 0;
+        if  $num !~ /\D/xms  or  $num <= 0;
 
-    confess "You must provide an array ref of integers as the second arg to filter_ranges!"
-        unless   defined $ranges            #  Makes sure ranges is defined
-            and  ref $ranges eq 'ARRAY'     #  Makes sure ranges is an array_ref
-            and  ((grep  {     !$_          #  Ensure none of the values are either undef or 0
-                           or  $_ =~ /\D/   #    or ontains something that isn't a digit
-                        }
-                        @$ranges)  ==  0);
+    confess 'You must provide an array ref of integers as the second arg to filter_ranges!'
+        if       (!defined $ranges)         #  Makes sure ranges is defined
+            or   ref $ranges ne 'ARRAY'     #  Makes sure ranges is an array_ref
+            or   ((grep  {
+                          (!$_)             #  Ensure none of the values are either undef or 0
+                      or  $_ =~ /\D/xms     #    or ontains something that isn't a digit
+                    }
+                    @$ranges) > 0);
 
 
     #  We only want need to check the values that are > than the number to
@@ -223,7 +232,7 @@ sub multiple_check {
     #  If the user wants the values that matched (and isn't filtering on all of
     #  them) then we need to keep track of which ones matched so we have to use
     #  a slower native-perl version
-    if  (wantarray  and  !$all) {
+    if  (wantarray  and  (!$all)) {
         my @return_range;
         for  my $mult  (@ranges) {
             push @return_range, $mult  if  $num % $mult == 0;
