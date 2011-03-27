@@ -1,5 +1,7 @@
 use strict;
 use warnings;
+use utf8;
+
 package Project::Euler::Problem::Base;
 
 use Modern::Perl;
@@ -9,13 +11,16 @@ use Moose::Role;
 use Project::Euler::Lib::Types  qw/ ProblemLink  ProblemName  PosInt  MyDateTime /;
 
 use Carp;
-use Readonly;
+use Const::Fast;
 
-Readonly::Scalar my $BASE_URL => q{http://projecteuler.net/index.php?section=problems&id=};
+const  my $BASE_URL => q{http://projecteuler.net/index.php?section=problems&id=};
 
 
 #ABSTRACT: Abstract class that the problems will extend from
 
+## no critic 'Subroutines::ProhibitUnusedPrivateSubroutines'
+
+=encoding utf8
 
 =head1 SYNOPSIS
 
@@ -288,7 +293,7 @@ has 'custom_input'  => (
     trigger    => \&_check_input_stub,
 );
 sub _check_input_stub {
-    $_[0]->_check_input(@_);
+    return $_[0]->_check_input(@_);
 }
 
 
@@ -536,13 +541,13 @@ sub status {
 
     #  Otherwise print a message if it failed or not
     else {
-        $out = sprintf(q{The last run was%s successful!  The answer expected was '%s' %s the answer returned was '%s'},
+        $out = sprintf q{The last run was%s successful!  The answer expected was '%s' %s the answer returned was '%s'},
             $status ? q{} : ' not', $wanted, $status ? 'and' : 'but', $answer
-        );
+;
     }
 
     if ($self->has_more_info) {
-        $out .= sprintf(qq{\n%s}, $self->more_info);
+        $out .= sprintf qq{\n%s}, $self->more_info;
     }
 
 
