@@ -14,3 +14,4 @@ Project-Euler-*
 cover_db
 META.yml
 *.bak
+cover/
