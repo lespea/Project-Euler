@@ -13,7 +13,7 @@ const  my $MIN_STR_LEN => 10;
 const  my $MAX_STR_LEN => 80;
 const  my $ALLOWED_CHARS_REGEX => qr/\A[\w\d \-_!@#\$%^&*(){}[\]<>,.\\\/?;:'"]+\z/xmsi;
 
-#ABSTRACT: Type definitions for L<< Project::Euler >>
+#ABSTRACT: Type definitions for modules
 
 
 #  Declare our types
