@@ -7,6 +7,12 @@ package Project::Euler::Lib::Types;
 use Modern::Perl;
 use namespace::autoclean;
 
+use Const::Fast;
+
+const  my $MIN_STR_LEN => 10;
+const  my $MAX_STR_LEN => 80;
+const  my $ALLOWED_CHARS_REGEX => qr/\A[\w\d \-_!@#\$%^&*(){}[\]<>,.\\\/?;:'"]+\z/xmsi;
+
 #ABSTRACT: Type definitions for L<< Project::Euler >>
 
 
@@ -51,7 +57,7 @@ A URL pointing to a problem definition on L<http://projecteuler.net|http://proje
 =head3 Definition
 
     as Str,
-    message { sprintf(q{'%s' is not a valid link}, $_ // '#UNDEFINED#') },
+    message { sprintf q{'%s' is not a valid link}, $_ // '#UNDEFINED#' },
     where { $_ =~ m{
                 \A
                 \Qhttp://projecteuler.net/index.php?section=problems&id=\E
@@ -64,7 +70,8 @@ A URL pointing to a problem definition on L<http://projecteuler.net|http://proje
 
 subtype ProblemLink,
     as Str,
-    message { sprintf(q{'%s' is not a valid link}, $_ // '#UNDEFINED#') },
+    message { sprintf q{'%s' is not a valid link}, $_ // '#UNDEFINED#' },
+    ## no critic 'RegularExpressions::ProhibitComplexRegexes'
     where { $_ =~ m{
                 \A
                 \Qhttp://projecteuler.net/index.php?section=problems&id=\E
@@ -85,7 +92,7 @@ useful.  Also, only characters, numbers, spaces, and some punctuation
 =head3 Definition
 
     as Str,
-    message { sprintf(q{'%s' must be a string between 10 and 80 characters long}, $_ // '#UNDEFINED#') },
+    message { sprintf q{'%s' must be a string between 10 and 80 characters long}, $_ // '#UNDEFINED#' },
     where {
         length $_ > 10  and  length $_ < 80;
     };
@@ -94,9 +101,10 @@ useful.  Also, only characters, numbers, spaces, and some punctuation
 
 subtype ProblemName,
     as Str,
-    message { sprintf(q{'%s' must be a string between 10 and 80 characters long}, $_ // '#UNDEFINED#') },
+    message { sprintf q{'%s' must be a string between 10 and 80 characters long}, $_ // '#UNDEFINED#' },
     where {
-        length $_ >= 10  and  length $_ <= 80  and  $_ =~ /\A[\w\d \-_!@#\$%^&*(){}[\]<>,.\\\/?;:'"]+\z/;
+        ## no critic 'RegularExpressions::RequireDotMatchAnything RegularExpressions::RequireExtendedFormatting RegularExpressions::RequireLineBoundaryMatching'
+        length $_ >= $MIN_STR_LEN  and  length $_ <= $MAX_STR_LEN  and  $_ =~ /$ALLOWED_CHARS_REGEX/o
     };
 
 
@@ -108,7 +116,7 @@ An integer greater than 0.
 =head3 Definition
 
     as Int,
-    message { sprintf(q{'%s' is not greater than 0}, $_ // '#UNDEFINED#') },
+    message { sprintf q{'%s' is not greater than 0}, $_ // '#UNDEFINED#' },
     where {
         $_ > 0
     }
@@ -121,7 +129,7 @@ An array of PosInts.
 
 subtype PosInt,
     as Int,
-    message { sprintf(q{'%s' is not greater than 0}, $_ // '#UNDEFINED#') },
+    message { sprintf q{'%s' is not greater than 0}, $_ // '#UNDEFINED#' },
     where {
         $_ > 0;
     };
@@ -136,7 +144,7 @@ An integer less than 0.
 =head3 Definition
 
     as Int,
-    message { sprintf(q{'%s' is not less than 0}, $_ // '#UNDEFINED#') },
+    message { sprintf q{'%s' is not less than 0}, $_ // '#UNDEFINED#' },
     where {
         $_ < 0
     }
@@ -149,7 +157,7 @@ An array of NegInts.
 
 subtype NegInt,
     as Int,
-    message { sprintf(q{'%s' is not less than 0}, $_ // '#UNDEFINED#') },
+    message { sprintf q{'%s' is not less than 0}, $_ // '#UNDEFINED#' },
     where {
         $_ < 0;
     };
@@ -159,7 +167,7 @@ subtype NegIntArray, as ArrayRef[NegInt];
 
 =head2 MyDateTime
 
-A L<< DateTime:: >> object coerced using L<< DateTime::Format::DateParse >>
+A L<DateTime|DateTime::>> object coerced using L<DateTime::Format::DateParse|DateTime::Format::DateParse>>
 
 =head3 Definition
 
@@ -185,10 +193,8 @@ coerce MyDateTime,
 
 
 
-=head1 ACKNOWLEDGEMENTS
-
-=for :list
-* L<< MooseX::Types >>
+=head1 SEE ALSO
+MooseX::Types
 
 =cut
 
