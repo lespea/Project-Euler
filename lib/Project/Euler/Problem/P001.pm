@@ -1,6 +1,10 @@
 use strict;
 use warnings;
+use utf8;
+
 package Project::Euler::Problem::P001;
+
+## no critic 'Subroutines::ProhibitUnusedPrivateSubroutines'
 
 use Modern::Perl;
 use namespace::autoclean;
@@ -18,10 +22,11 @@ use List::Util  qw/ sum /;
 
 #ABSTRACT: Solutions for problem 001 - Sum filtered range
 
+=encoding utf8
 
 =head1 HOMEPAGE
 
-L<< http://projecteuler.net/index.php?section=problems&id=1 >>
+L<http://projecteuler.net/index.php?section=problems&id=1|http://projecteuler.net/index.php?section=problems&id=1>
 
 
 =head1 SYNOPSIS
@@ -53,7 +58,7 @@ This module is used to solve problem #001
 This problem simply needs to find the sum of all the numbers within a range
 which are multiples of a set of integers.  The range always starts at 1 and
 continues B<up to> the provided input I<(1000 by default)>.  The numbers are
-filtered using L<< Project::Euler::Lib::Utils >>.
+filtered using L<Utils|Project::Euler::Lib::Utils>.
 
 
 =attr multi_nums
@@ -74,7 +79,7 @@ has 'multi_nums' => (
     is       => 'rw',
     isa      => PosIntArray,
     required => 1,
-    default  => sub { return [3, 5] },
+    default  => sub { return [3, 5] },  ## no critic 'ValuesAndExpressions::ProhibitMagicNumbers'
 );
 around 'multi_nums' => sub {
     my ($func, $self, $args) = @_;
@@ -208,8 +213,8 @@ The restrictions on custom_input
 sub _check_input {
       my ( $self, $input, ) = @_;
 
-      if ($input !~ /\D/  or  $input < 1) {
-          croak sprintf(q{Your input, '%s', must be all digits and >= 1}, $input);
+      if ($input !~ /\D/xms  or  $input < 1) {
+          croak sprintf q{Your input, '%s', must be all digits and >= 1}, $input;
       }
 }
 
@@ -236,18 +241,15 @@ sub _solve_problem {
     #  Sum the filtered numbers.  Since we know the list is sorted, we start at
     #  the first multi_num since anything less than that cannot possible return
     #  true.
-    return sum(
-                grep {multiple_check( $_, $multi_nums )}
+    return  sum(grep {multiple_check( $_, $multi_nums )}
                      $self->multi_nums->[0] .. ($max-1)
-           )  //  0;
+            )  //  0;
 }
 
 
-=head1 ACKNOWLEDGEMENTS
-
-=for :list
-* L<< List::Util >>
-* L<< Project::Euler::Lib::Utils >>
+=head1 SEE ALSO
+List::Util
+Project::Euler::Lib::Utils
 
 =cut
 
