@@ -1,12 +1,15 @@
 use strict;
 use warnings;
+use utf8;
+
 package Project::Euler;
 
 use Modern::Perl;
 use 5.010;  # So Dist::Zilla picks it up
 
-#ABSTRACT: Solutions for L<< http://projecteuler.net >>
+#ABSTRACT: Solutions for Project Euler
 
+=encoding utf8
 
 =head1 SYNOPSIS
 
@@ -30,20 +33,20 @@ For now, you will have to manually import the problem_solutions and solve them m
 These libraries are used by the problem solutions:
 
 =for :list
-1. L<< Project::Euler::Lib::Utils >>
-2. L<< Project::Euler::Lib::Types >>
+1. L<Utils|Project::Euler::Lib::Utils>
+2. L<Types|Project::Euler::Lib::Types>
 
 
 =head1 PROBLEMS
 
-These problems are fully implemented so far (extending the base class L<< Project::Euler::Problem::Base >>)
+These problems are fully implemented so far (extending the base class L<Project::Euler::Problem::Base|Project::Euler::Problem::Base>)
 
 =for :list
-1. L<< Project::Euler::Problem::P001 >>
-2. L<< Project::Euler::Problem::P002 >>
-2. L<< Project::Euler::Problem::P003 >>
-2. L<< Project::Euler::Problem::P004 >>
-2. L<< Project::Euler::Problem::P005 >>
+1. L<Problem 1|Project::Euler::Problem::P001>
+2. L<Problem 2|Project::Euler::Problem::P002>
+2. L<Problem 3|Project::Euler::Problem::P003>
+2. L<Problem 4|Project::Euler::Problem::P004>
+2. L<Problem 5|Project::Euler::Problem::P005>
 
 
 =cut
