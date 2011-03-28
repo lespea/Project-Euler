@@ -88,9 +88,11 @@ my @ok_tests = (
 
 my @nok_tests = (
 );
+my @dies_tests = (
+);
 
 
-my $sum;
+my $sum = scalar @dies_tests;
 for  my $test_array  (grep {scalar @$_ > 0} (\@ok_tests, \@nok_tests)) {
     ($sum += (scalar @$_ - 1) * 1)  for  @$test_array;
 }
