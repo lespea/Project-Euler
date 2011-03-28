@@ -66,7 +66,7 @@ my @all_return_checks = (1,
     [15, [2, 3, 5], []],
     [30, [2, 3, 5], [2, 3, 5]],
 );
-
+my @dies = (undef, 'a', ' 1', '1 ', '', 0, -1);
 
 plan tests =>
     @ok_some
@@ -75,6 +75,8 @@ plan tests =>
   + @nok_all
   + @some_return_checks
   + @all_return_checks
+  + @dies * 8
+  + 4      # Remaining dies checks
   - (4*2)  # Minus the type-ints in the arrays
   - (2*1)  # Minus the type-ints in the arrays
 ;
@@ -113,3 +115,20 @@ for  my $test_ref (\@some_return_checks, \@all_return_checks) {
         cmp_deeply( \@filtered_by, $answer_ref, $str );
     }
 }
+
+for  my $die_val  (@dies) {
+    dies_ok { my $scalar = multiple_check( $die_val, [1, 2, 3], 0 ) } sprintf("The value '%s' should cause multiple_check to die", $die_val || '#UNDEFINED#');
+    dies_ok { my $scalar = multiple_check( $die_val, [1, 2, 3], 1 ) } sprintf("The value '%s' should cause multiple_check to die", $die_val || '#UNDEFINED#');
+    dies_ok { my @array  = multiple_check( $die_val, [1, 2, 3], 1 ) } sprintf("The value '%s' should cause multiple_check to die", $die_val || '#UNDEFINED#');
+    dies_ok { my @array  = multiple_check( $die_val, [1, 2, 3], 1 ) } sprintf("The value '%s' should cause multiple_check to die", $die_val || '#UNDEFINED#');
+
+    dies_ok { my $scalar = multiple_check( 1, [$die_val, 2, 3], 0 ) } sprintf("The value '%s' should cause multiple_check to die", $die_val || '#UNDEFINED#');
+    dies_ok { my $scalar = multiple_check( 1, [$die_val, 2, 3], 1 ) } sprintf("The value '%s' should cause multiple_check to die", $die_val || '#UNDEFINED#');
+    dies_ok { my @array  = multiple_check( 1, [$die_val, 2, 3], 0 ) } sprintf("The value '%s' should cause multiple_check to die", $die_val || '#UNDEFINED#');
+    dies_ok { my @array  = multiple_check( 1, [$die_val, 2, 3], 1 ) } sprintf("The value '%s' should cause multiple_check to die", $die_val || '#UNDEFINED#');
+}
+
+dies_ok { my $scalar = multiple_check( 1, {a => 1}, 1 ) } 'Should have died when trying to use a hash instead of an array ref';
+dies_ok { my @array  = multiple_check( 1, {a => 1}, 1 ) } 'Should have died withhen trying to use a hash instead of an array ref';
+dies_ok { my $scalar = multiple_check( 1, undef,    1 ) } 'Should have died when using an undefined list of filter_refs';
+dies_ok { my @array  = multiple_check( 1, undef,    1 ) } 'Should have died when using an undefined list of filter_refs';

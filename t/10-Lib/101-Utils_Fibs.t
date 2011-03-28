@@ -19,16 +19,16 @@ push @gen_fibs, $fib_gen->()  for  0..$#fibs;
 cmp_deeply( \@fibs, \@gen_fibs, 'Fib generator produces the correct values' );
 
 
-my $last_fib  = n_fibs( scalar @fibs );
-my @n_fibs1   = n_fibs( scalar @fibs );
-my @n_fibs2   = n_fibs( scalar @fibs );
-my $fifth_fib = n_fibs( 5            );
+my $last_fib    = n_fibs( scalar @fibs );
+my @n_fibs1     = n_fibs( scalar @fibs );
+my @n_fibs2     = n_fibs( scalar @fibs );
+my $fifth_fib   = n_fibs( 5            );
 
 cmp_deeply( \@fibs, \@n_fibs1, 'n_fibs1 produces the correct values' );
 cmp_deeply( \@fibs, \@n_fibs2, 'n_fibs2 produces the correct values' );
 
-is( $last_fib , $fibs[-1], 'n_fibs produces the last value in scalar context' );
-is( $fifth_fib, 5        , 'n_fibs produces the correct value using the cache' );
+is( $last_fib ,   $fibs[-1], 'n_fibs produces the last value in scalar context' );
+is( $fifth_fib,   5        , 'n_fibs produces the correct value using the cache' );
 
 
 for  my $die_val  (@dies) {
