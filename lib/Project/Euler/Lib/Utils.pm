@@ -8,10 +8,6 @@ use Modern::Perl;
 use Carp;
 
 use List::MoreUtils qw/ any  all /;
-use Const::Fast;
-
-#  We won't build the cache if the user wants a fib number grater than this
-const  my $MAX_FIB_CACHE_REQUEST => 100_000;
 
 #  Export our functions with tags
 use Exporter::Easy (
@@ -141,14 +137,14 @@ sub n_fibs {
     #  if the user wanted a huge value, then that would be impractical.  I could
     #  do some logic around the # requested but I'm going to postpone that for
     #  now until I have an all-around bettter caching solution.
-    elsif  (wantarray  or  $num <= $MAX_FIB_CACHE_REQUEST) {
+    elsif  (wantarray) {
         #  Calculate how many values we already have
         $num -= @fibs;
 
         #  Increase the size of the array until it's the size we want.
         push @fibs, $fibs[-2] + $fibs[-1]  while  $num--;  ## no critic 'ValuesAndExpressions::ProhibitMagicNumbers'
 
-        return  wantarray  ?  @fibs  :  $fibs[-1];
+        return @fibs;
     }
 
     #  Otherwise we'll just start with the last 2 known fibs and go from there
