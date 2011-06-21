@@ -79,7 +79,7 @@ has 'multi_nums' => (
     is       => 'rw',
     isa      => PosIntArray,
     required => 1,
-    default  => sub { return [3, 5] },  ## no critic 'ValuesAndExpressions::ProhibitMagicNumbers'
+    default  => sub { return [3, 5] },  ## no critic 'ValuesAndExpressions::ProhibitMagicNumbers',
 );
 around 'multi_nums' => sub {
     my ($func, $self, $args) = @_;
@@ -242,8 +242,7 @@ sub _solve_problem {
     #  the first multi_num since anything less than that cannot possible return
     #  true.
     return  sum(grep {multiple_check( $_, $multi_nums )}
-                     $self->multi_nums->[0] .. ($max-1)
-            )  //  0;
+                     $self->multi_nums->[0] .. ($max-1))  //  0;
 }
 
 

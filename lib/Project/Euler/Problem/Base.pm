@@ -321,7 +321,7 @@ Flag to indicate if the last run was successful
 
 =for :list
 = Isa
-Maybe[Bool
+Maybe[Bool]
 
 =cut
 
